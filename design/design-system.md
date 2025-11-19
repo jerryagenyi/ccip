@@ -5,9 +5,11 @@ Design system for RCAP platform, optimized for low-bandwidth contexts and public
 ## Color Palette
 
 ### Primary Colors
-- **Primary**: `#1976D2` (Blue) - Main brand, buttons, links
+- **Primary**: `#7B2CBF` (Purple) - Main brand, buttons, links (Current Implementation)
+  - Alternative: `#1976D2` (Blue) - Original spec, can be used if rebranding
 - **Secondary**: `#26A69A` (Teal) - Secondary actions
 - **Accent**: `#FF6B35` (Orange) - Highlights, urgent alerts
+- **Note**: Current UI implementation uses purple (#7B2CBF) as primary. Design system updated to reflect this.
 
 ### Semantic Colors
 - **Success**: `#4CAF50` (Green) - Success states, positive actions

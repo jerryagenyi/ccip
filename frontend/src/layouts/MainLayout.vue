@@ -36,11 +36,16 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-footer elevated class="bg-grey-1">
+      <AppFooter />
+    </q-footer>
   </q-layout>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import AppFooter from '@/components/AppFooter.vue';
 
 const leftDrawerOpen = ref(false);
 </script>

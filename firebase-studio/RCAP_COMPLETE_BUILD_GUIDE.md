@@ -1,19 +1,51 @@
 # RCAP Complete Build Guide for Firebase Studio
-**Step-by-Step Instructions to Build All Pages Layer by Layer**
+**Updated: 2025-01-19 - Incorporates Current Prototype Status and Required Improvements**
+
+**Current Status**: 85% complete prototype at https://9000-firebase-studio-1763236692080.cluster-ikslh4rdsnbqsvu5nw3v4dqjj2.cloudworkstations.dev
+**Next Step**: Execute implementation prompts from docs/FIREBASE_AI_IMPLEMENTATION_PROMPTS.md
+
+---
+
+## 🚀 Immediate Action Plan
+
+### Phase 1: Critical Fixes (Week 1-2)
+Execute these prompts from `docs/FIREBASE_AI_IMPLEMENTATION_PROMPTS.md`:
+1. **Prompt 1**: Fix footer branding (remove "Powered by")
+2. **Prompt 2**: Fix organisation data model (separate category from hierarchy)
+3. **Prompt 3**: Create functional registration page
+
+### Phase 2: Required Features (Week 3-4)
+4. **Prompt 4**: Create announcements page (distinguish platform vs government announcements)
+5. **Prompt 5**: Create pricing page (free tier up to 100 members, AI features "Coming Soon")
+6. **Prompt 6**: Implement mobile bottom navigation
+7. **Prompt 7**: Enhance desktop navigation menu
+
+### Phase 3: Enhanced Features (Week 5-8)
+8. **Prompt 8**: Add organisation management features (linking, transfer)
+9. **Prompt 9**: Complete activity creation form
+10. **Prompt 10**: Create internal messaging system
+
+### Phase 4: Polish & Accessibility (Week 9-10)
+11. **Prompt 11**: Fix mobile navigation accessibility
+12. **Prompt 12**: Add comprehensive error handling
 
 ---
 
 ## 📋 How to Use This Guide
 
-This document is organized into **sections** that you can copy and paste into Firebase Studio **one after another**. Each section builds upon the previous one, creating the app layer by layer.
+This document provides **layer-by-layer build instructions** for RCAP. Given that 85% of the prototype is already complete, this guide now focuses on:
+
+1. **Executing critical fixes** using the implementation prompts
+2. **Building missing pages** (Announcements, Pricing)
+3. **Enhancing existing components** with missing functionality
+4. **Adding required navigation** (mobile bottom nav)
 
 **Workflow**:
-1. Copy **Section 1** → Paste into Firebase Studio → Build
-2. Copy **Section 2** → Paste into Firebase Studio → Build
-3. Continue sequentially through all sections
-4. Each section assumes the previous sections are complete
+1. First, execute all prompts from `docs/FIREBASE_AI_IMPLEMENTATION_PROMPTS.md`
+2. Use this guide for detailed component specifications as needed
+3. Each section assumes the prototype foundation is already in place
 
-**Important**: Follow the sections in order. Don't skip ahead.
+**Important**: Execute the implementation prompts first before building new components from this guide.
 
 ---
 

@@ -138,6 +138,67 @@ RCAP follows **SpecKit-driven development**:
 - Share best practices and resources
 - Document impact for funding reports
 
+### Nonprofit Organizations
+- Small CSOs can start movements that get adopted by larger organisations
+- Easy linking and integration when smaller organisations join larger networks
+- Transfer of super admin rights when organisations merge or adopt movements
+- Coordinate grassroots initiatives with established nonprofit structures
+
+### Civil Service Organizations
+- Multi-level coordination across government departments
+- Hierarchical management of public service initiatives
+- Cross-departmental collaboration on public health campaigns
+- Evidence-based reporting for government oversight
+
+## 🔐 Roles and Access Levels
+
+RCAP implements a hierarchical role-based access control system to ensure appropriate permissions across organisational structures:
+
+### Role Hierarchy
+
+1. **Super Admin**
+   - Full system access across all organisations
+   - Can create, modify, and delete organisations
+   - Can transfer ownership and admin rights between organisations
+   - Can link organisations (e.g., when a federal organisation needs to connect with an existing state organisation)
+   - Can assign any role to any user
+   - Access to all data and analytics across the entire platform
+
+2. **Admin**
+   - Full access within their assigned organisation and all child organisations
+   - Can create and manage sub-organisations
+   - Can assign roles (Sub-admin and User) within their organisation hierarchy
+   - Can manage users within their organisation scope
+   - Access to organisation-level dashboards and reports
+   - Cannot transfer ownership or link organisations (requires Super Admin)
+
+3. **Sub-admin**
+   - Limited administrative access within their assigned organisation
+   - Can manage users (assign User role only)
+   - Can view and edit activities within their organisation
+   - Can generate reports for their organisation
+   - Cannot create organisations or assign admin roles
+
+4. **User**
+   - Standard access to create and manage their own activities
+   - Can view organisation activities (based on organisation-level permissions)
+   - Can upload evidence and documentation
+   - Can participate in internal messaging
+   - Cannot manage other users or organisations
+
+### Shared Access with Different Role Levels
+
+- Users can belong to multiple organisations with different roles in each
+- Role permissions are scoped to the organisation level
+- Higher-level roles inherit permissions from lower-level roles
+- Organisation hierarchy determines data visibility (users see data from their organisation and all child organisations)
+
+### Organisation Linking and Ownership Transfer
+
+- **Linking Organisations**: When a state organisation starts before a federal organisation, the federal organisation can connect and link up, placing the state under the federal in the hierarchy
+- **Ownership Transfer**: Super admins can transfer ownership and admin rights between organisations, enabling smooth transitions when organisations merge or adopt movements
+- **Easy Integration**: Small CSOs can start movements that get adopted by larger organisations with seamless linking and super admin rights transfer
+
 ## 🌍 Designed For
 
 - **Low-bandwidth environments** - Progressive Web App technology
