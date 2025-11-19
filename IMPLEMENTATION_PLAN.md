@@ -1,5 +1,16 @@
 # RCAP Implementation Plan
 
+## ⚠️ Current Status Notice
+
+**This document describes the full development plan.**
+
+**Current Phase**: UI/UX Prototype (85% complete at Firebase Studio)
+**Next Step**: Complete prototype improvements using [Firebase AI Implementation Prompts](./docs/FIREBASE_AI_IMPLEMENTATION_PROMPTS.md)
+
+See [Implementation Readiness Summary](./docs/IMPLEMENTATION_READINESS_SUMMARY.md) for current prototype status and immediate next steps.
+
+---
+
 ## Overview
 This document outlines the complete implementation plan for RCAP MVP, following spec-driven development methodology.
 
