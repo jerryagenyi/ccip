@@ -1,4 +1,4 @@
-# RCAP Product Requirements Document (PRD)
+# CCIP Product Requirements Document (PRD)
 
 Version: 2.1
 
@@ -6,15 +6,17 @@ Date: December 1, 2025
 
 Status: Updated with Research Validation
 
-Platform Name: RCAP – Crisis Communication Intelligence Platform
+Platform Name: CCIP – Crisis Communication Intelligence Platform
+
+**Tagline:** Predictive Intelligence for Culturally-Resonant Crisis Communication
 
 
 
 ## Executive Summary
 
-**What is RCAP?**
+**What is CCIP?**
 
-RCAP (Risk Communication Activity Platform) is a **Crisis Communication Intelligence Platform** that combines organizational coordination infrastructure with **AI-powered semiotic analysis** to prevent communication failures during health crises.
+CCIP (Crisis Communication Intelligence Platform) is a **Crisis Communication Intelligence Platform** that combines organizational coordination infrastructure with **AI-powered semiotic analysis** to prevent communication failures during health crises.
 
 
 
@@ -50,7 +52,7 @@ Our **Moat:** Irreplicable semiotic pattern database that grows with every deplo
 - **Everbridge:** Crisis alerting & notifications—delivers messages quickly but doesn't analyze whether messages will be understood/acted upon
 - **Noggin:** Resilience & incident management—integrated workspace with ISO templates and collaboration tools, but logistics focus with no meaning-making capability or cross-cultural learning
 - **DHIS2:** Health data management—tracks outcomes but not causes, no communication analysis or predictive capability
-- **RCAP:** Predictive semiotic assessment + organizational coordination + systematic cross-contextual learning
+- **CCIP:** Predictive semiotic assessment + organizational coordination + systematic cross-contextual learning
 
 
 
@@ -58,13 +60,13 @@ Our **Moat:** Irreplicable semiotic pattern database that grows with every deplo
 
 ### 2.1 Primary Personas
 
-1.  **State Health Coordinator (Admin):** Focus on planning, approval, and coordination. **RCAP Help:** Semiotic risk assessment before launching campaigns, coordination across local departments.
+1.  **State Health Coordinator (Admin):** Focus on planning, approval, and coordination. **CCIP Help:** Semiotic risk assessment before launching campaigns, coordination across local departments.
 
-2.  **Field Health Officer (User):** Focus on execution, local adaptation, and structured reporting. **RCAP Help:** Culturally-adapted message recommendations, offline-capable reporting, contributions feed system learning.
+2.  **Field Health Officer (User):** Focus on execution, local adaptation, and structured reporting. **CCIP Help:** Culturally-adapted message recommendations, offline-capable reporting, contributions feed system learning.
 
-3.  **Federal Public Health Official (Super Admin):** Focus on national oversight, policy, and equitable outcomes. **RCAP Help:** National dashboard, cross-regional learning, evidence base for policy decisions.
+3.  **Federal Public Health Official (Super Admin):** Focus on national oversight, policy, and equitable outcomes. **CCIP Help:** National dashboard, cross-regional learning, evidence base for policy decisions.
 
-4.  **Research Epidemiologist (Analyst):** Focus on academic study and policy advice. **RCAP Help:** Access to anonymized effectiveness data and semiotic pattern database.
+4.  **Research Epidemiologist (Analyst):** Focus on academic study and policy advice. **CCIP Help:** Access to anonymized effectiveness data and semiotic pattern database.
 
 ### 2.2 Role-Based Access Control
 

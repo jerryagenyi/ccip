@@ -1,6 +1,8 @@
-# RCAP Documentation Set
+# CCIP Documentation Set
 
-This directory contains the complete documentation for the **Crisis Communication Intelligence Platform (RCAP)**.
+This directory contains the complete documentation for **CCIP (Crisis Communication Intelligence Platform)**.
+
+**Tagline:** Predictive Intelligence for Culturally-Resonant Crisis Communication
 
 ## Document Overview
 

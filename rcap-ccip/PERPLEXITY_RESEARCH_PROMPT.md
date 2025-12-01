@@ -2,7 +2,7 @@
 
 **[DO NOT DELETE] - This prompt document is maintained for future research validation and reference.**
 
-**Context for Perplexity:** You previously analyzed RCAP as a health communication coordination platform (Firebase prototype with organizational hierarchy, activity management, dashboards). The project has since evolved to integrate **computational disaster semiotics** as its core innovation. This prompt asks you to validate the new theoretical foundation and research approach.
+**Context for Perplexity:** You previously analyzed CCIP as a health communication coordination platform (Firebase prototype with organizational hierarchy, activity management, dashboards). The project has since evolved to integrate **computational disaster semiotics** as its core innovation. This prompt asks you to validate the new theoretical foundation and research approach.
 
 ---
 
@@ -10,10 +10,10 @@
 
 ### Background Context
 
-RCAP (Risk Communication Activity Platform) is being repositioned as a **Crisis Communication Intelligence Platform** that applies computational disaster semiotics to predict and prevent communication failures during health crises. The core hypothesis is that communication failures are caused by **semiotic breakdown**—the collapse of shared meaning-making systems across cultural and linguistic contexts—rather than simple translation or logistics issues.
+CCIP (Crisis Communication Intelligence Platform) is a **Crisis Communication Intelligence Platform** that applies computational disaster semiotics to predict and prevent communication failures during health crises. The core hypothesis is that communication failures are caused by **semiotic breakdown**—the collapse of shared meaning-making systems across cultural and linguistic contexts—rather than simple translation or logistics issues.
 
 **Previous Analysis Context:**
-- You analyzed RCAP as an organizational coordination platform
+- You analyzed CCIP as an organizational coordination platform
 - Firebase prototype with Next.js + React
 - Features: Activity management, hierarchical org structure, role-based dashboards
 - Focus: Operational efficiency and coordination

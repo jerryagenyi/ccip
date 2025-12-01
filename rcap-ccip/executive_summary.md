@@ -1,4 +1,6 @@
-# Crisis Communication Intelligence Platform
+# CCIP: Crisis Communication Intelligence Platform
+
+**Tagline:** Predictive Intelligence for Culturally-Resonant Crisis Communication
 
 ## Executive Summary
 
@@ -20,7 +22,7 @@ The root cause isn't translation—it's **semiotic breakdown**: the collapse of 
 
 ## Our Solution: Computational Disaster Semiotics
 
-We're building the world's first **Crisis Communication Intelligence Platform**—a system that combines AI-powered semiotic analysis with organizational coordination infrastructure to **predict and prevent meaning breakdown** before messages are deployed.
+We're building **CCIP (Crisis Communication Intelligence Platform)**—the world's first system that combines AI-powered semiotic analysis with organizational coordination infrastructure to **predict and prevent meaning breakdown** before messages are deployed.
 
 
 
@@ -122,7 +124,7 @@ The platform addresses failures in public health, social cohesion (e.g., UK riot
 
 * **Why This:** The root problem of communication failure is universal and costly; no existing solution is predictive or semiotic.
 
-* **Why Now:** Post-COVID urgency, UK focus on misinformation (2024 riots), AI/ML maturity, global health equity demands. WHO/Europe 2025 research confirms AI can support tailoring messages to specific populations and enhance reach to multilingual/multicultural settings—but calls for strong ethical principles to protect public trust. RCAP addresses this with ethics-by-design architecture.
+* **Why Now:** Post-COVID urgency, UK focus on misinformation (2024 riots), AI/ML maturity, global health equity demands. WHO/Europe 2025 research confirms AI can support tailoring messages to specific populations and enhance reach to multilingual/multicultural settings—but calls for strong ethical principles to protect public trust. CCIP addresses this with ethics-by-design architecture.
 
 * **Why Us:** **Domain credibility** (NCDC field experience), **Theoretical foundation** (Disaster Semiotics), **Strategic positioning** (UK base, CIVALABS, academic pathway).
 

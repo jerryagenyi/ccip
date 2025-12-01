@@ -1,4 +1,4 @@
-# RCAP Technical Specification Document
+# CCIP Technical Specification Document
 
 Version: 2.1
 
@@ -6,13 +6,15 @@ Date: December 1, 2025
 
 Status: Updated with Research Validation
 
-Platform: Crisis Communication Intelligence Platform (RCAP)
+Platform: CCIP (Crisis Communication Intelligence Platform)
+
+**Tagline:** Predictive Intelligence for Culturally-Resonant Crisis Communication
 
 
 
 ## Executive Summary
 
-This document specifies the technical architecture, design patterns, and implementation details for RCAP.
+This document specifies the technical architecture, design patterns, and implementation details for CCIP.
 
 * **Key Technical Decisions:** Federated Learning Architecture, Flexible Data Tier System (Client/Platform/Hybrid), Security-First Design, Vue/Quasar/Laravel/PostgreSQL/Python stack.
 

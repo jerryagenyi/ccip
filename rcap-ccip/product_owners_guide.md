@@ -1,4 +1,6 @@
-# Product Owner's Guide: Crisis Communication Intelligence Platform
+# Product Owner's Guide: CCIP (Crisis Communication Intelligence Platform)
+
+**Tagline:** Predictive Intelligence for Culturally-Resonant Crisis Communication
 
 **Version:** 1.1  
 **Date:** December 1, 2025  
@@ -8,6 +10,9 @@
 ---
 
 ## Document Purpose
+
+**Platform:** CCIP (Crisis Communication Intelligence Platform)  
+**Tagline:** Predictive Intelligence for Culturally-Resonant Crisis Communication
 
 This guide synthesises all strategic, theoretical, and technical decisions made during the foundational planning phase. It serves as:
 
@@ -100,7 +105,7 @@ Your differentiation is based on the combination of coordination and intelligenc
 
 1. **Predictive Capability:** You predict failure *before* messages are sent (competitors only do post-mortems).
 2. **Semiotic Pattern Database:** An irreplicable dataset of communication successes and failures, built via federated learning. This is your **defensible moat**.
-3. **Coordination + Intelligence:** Combines organizational workflow (your original RCAP prototype) *with* the semiotic intelligence layer.
+3. **Coordination + Intelligence:** Combines organizational workflow (your original CCIP prototype) *with* the semiotic intelligence layer.
 
 **Competitive Landscape:**
 

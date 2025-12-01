@@ -1,6 +1,8 @@
-# Concept Note: Crisis Communication Intelligence Platform
+# Concept Note: CCIP (Crisis Communication Intelligence Platform)
 
 ## Computational Disaster Semiotics
+
+**Tagline:** Predictive Intelligence for Culturally-Resonant Crisis Communication
 
 Version: 1.1
 

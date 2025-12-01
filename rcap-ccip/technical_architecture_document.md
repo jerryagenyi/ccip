@@ -1,6 +1,8 @@
 # Technical Architecture Document
 
-## Crisis Communication Intelligence Platform
+## CCIP: Crisis Communication Intelligence Platform
+
+**Tagline:** Predictive Intelligence for Culturally-Resonant Crisis Communication
 
 Version: 1.1
 

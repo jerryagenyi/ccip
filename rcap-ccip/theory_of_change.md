@@ -1,4 +1,6 @@
-# Theory of Change: Crisis Communication Intelligence Platform
+# Theory of Change: CCIP (Crisis Communication Intelligence Platform)
+
+**Tagline:** Predictive Intelligence for Culturally-Resonant Crisis Communication
 
 Version: 1.1
 Date: December 1, 2025
@@ -96,7 +98,7 @@ WHO/Europe research (2025) confirms that AI can support tailoring messages to sp
 
 **The Infodemic Challenge:** During crises, information overload combined with semiotic misalignment creates fertile ground for misinformation. When official messages fail to make meaning within local cultural frameworks, information vacuums emerge that rumors and false information quickly fill.
 
-**RCAP's Role:** By predicting and preventing semiotic breakdown before messages are deployed, RCAP addresses the root cause of infodemics—ambiguous or culturally misaligned official communication. Clear, resonant messages that respect local meaning-making systems are the strongest counter to misinformation, positioning RCAP as both a communication intelligence tool and an infodemic management platform.
+**CCIP's Role:** By predicting and preventing semiotic breakdown before messages are deployed, CCIP addresses the root cause of infodemics—ambiguous or culturally misaligned official communication. Clear, resonant messages that respect local meaning-making systems are the strongest counter to misinformation, positioning CCIP as both a communication intelligence tool and an infodemic management platform.
 
 
 ## 2. Vision & Ultimate Goal
