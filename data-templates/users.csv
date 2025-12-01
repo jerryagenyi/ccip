@@ -1,0 +1,42 @@
+id,name,email,role,organisation_id,status
+user_001,Dr. Amina Yusuf,amina.yusuf@fmolh.gov.ng,super_admin,org_gov_fed_01,Active
+user_002,Dr. Olumide Adebayo,olumide.adebayo@fmolh.gov.ng,admin,org_gov_fed_01,Active
+user_003,Bolanle Adebayo,bolanle.adebayo@lagosmoh.gov.ng,admin,org_gov_state_01,Active
+user_004,Chinedu Okoro,chinedu.okoro@ikejalga.gov.ng,sub_admin,org_gov_lga_01,Active
+user_005,Fatima Bello,fatima.bello@fmolh.gov.ng,user,org_gov_fed_01,Active
+user_006,Musa Ibrahim,musa.ibrahim@fmolh.gov.ng,user,org_gov_fed_01,Active
+user_007,Funke Ogunleye,funke.ogunleye@lagosmoh.gov.ng,sub_admin,org_gov_state_01,Active
+user_008,Tunde Williams,tunde.williams@lagosmoh.gov.ng,user,org_gov_state_01,Active
+user_009,Adunni Okafor,adunni.okafor@lagosmoh.gov.ng,user,org_gov_state_01,Active
+user_010,Emeka Nwosu,emeka.nwosu@ikejalga.gov.ng,user,org_gov_lga_01,Active
+user_011,Hauwa Mohammed,hauwa.mohammed@ikejalga.gov.ng,user,org_gov_lga_01,Active
+user_012,Yusuf Abdullahi,yusuf.abdullahi@ikejalga.gov.ng,user,org_gov_lga_01,Active
+user_013,Ngozi Eze,ngozi.eze@healthforall.org,admin,org_ngo_fed_01,Active
+user_014,David Akpan,david.akpan@healthforall.org,sub_admin,org_ngo_fed_01,Active
+user_015,Amara Chukwu,amara.chukwu@healthforall.org,user,org_ngo_fed_01,Active
+user_016,Hassan Bello,hassan.bello@healthforall-kano.org,sub_admin,org_ngo_state_01,Active
+user_017,Aisha Musa,aisha.musa@healthforall-kano.org,user,org_ngo_state_01,Active
+user_018,Ibrahim Sani,ibrahim.sani@healthforall-kano.org,user,org_ngo_state_01,Active
+user_019,Patience Okoro,patience.okoro@cah-rivers.org,admin,org_cso_state_01,Active
+user_020,Victor Briggs,victor.briggs@cah-rivers.org,sub_admin,org_cso_state_01,Active
+user_021,Grace Okafor,grace.okafor@cah-rivers.org,user,org_cso_state_01,Active
+user_022,Michael Thompson,michael.thompson@cah-rivers.org,user,org_cso_state_01,Invited
+user_023,Dr. Sarah Mitchell,sarah.mitchell@ghi.org,super_admin,org_intl_global_01,Active
+user_024,James Anderson,james.anderson@ghi.org,admin,org_intl_global_01,Active
+user_025,Dr. Priya Sharma,priya.sharma@ghi.org,sub_admin,org_intl_global_01,Active
+user_026,Dr. Kwame Asante,kwame.asante@ghi-africa.org,admin,org_intl_africa_01,Active
+user_027,Amina Diallo,amina.diallo@ghi-africa.org,sub_admin,org_intl_africa_01,Active
+user_028,Thabo Mbeki,thabo.mbeki@ghi-africa.org,user,org_intl_africa_01,Active
+user_029,Dr. Li Wei,li.wei@ghi-asia.org,admin,org_intl_asia_01,Active
+user_030,Raj Patel,raj.patel@ghi-asia.org,user,org_intl_asia_01,Active
+user_031,Dr. Emma Wilson,emma.wilson@ukhealth.gov.uk,admin,org_uk_nat_01,Active
+user_032,David Brown,david.brown@ukhealth.gov.uk,sub_admin,org_uk_nat_01,Active
+user_033,Sophie Taylor,sophie.taylor@ukhealth.gov.uk,user,org_uk_nat_01,Active
+user_034,Michael Johnson,michael.johnson@ukhealth.gov.uk,user,org_uk_nat_01,Active
+user_035,Charlotte Williams,charlotte.williams@ukhealth.gov.uk,user,org_uk_nat_01,Active
+user_036,Dr. Wanjiku Kamau,wanjiku.kamau@health.go.ke,admin,org_kenya_nat_01,Active
+user_037,Peter Ochieng,peter.ochieng@health.go.ke,sub_admin,org_kenya_nat_01,Active
+user_038,Faith Mwangi,faith.mwangi@health.go.ke,user,org_kenya_nat_01,Active
+user_039,Joseph Kipchoge,joseph.kipchoge@health.go.ke,user,org_kenya_nat_01,Active
+user_040,Mercy Chebet,mercy.chebet@health.go.ke,user,org_kenya_nat_01,Active
+

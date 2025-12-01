@@ -1,0 +1,77 @@
+id,name,email,role,organisation_id,status
+user_001,Dr. Amina Yusuf,amina.yusuf@fmolh.gov.ng,super_admin,org_gov_fed_01,Active
+user_002,Dr. Olumide Adebayo,olumide.adebayo@fmolh.gov.ng,admin,org_gov_fed_01,Active
+user_003,Bolanle Adebayo,bolanle.adebayo@lagosmoh.gov.ng,admin,org_gov_state_01,Active
+user_004,Chinedu Okoro,chinedu.okoro@ikejalga.gov.ng,sub_admin,org_gov_lga_01,Active
+user_005,Fatima Bello,fatima.bello@fmolh.gov.ng,user,org_gov_fed_01,Active
+user_006,Musa Ibrahim,musa.ibrahim@fmolh.gov.ng,user,org_gov_fed_01,Active
+user_007,Funke Ogunleye,funke.ogunleye@lagosmoh.gov.ng,sub_admin,org_gov_state_01,Active
+user_008,Tunde Williams,tunde.williams@lagosmoh.gov.ng,user,org_gov_state_01,Active
+user_009,Adunni Okafor,adunni.okafor@lagosmoh.gov.ng,user,org_gov_state_01,Active
+user_010,Emeka Nwosu,emeka.nwosu@ikejalga.gov.ng,user,org_gov_lga_01,Active
+user_011,Hauwa Mohammed,hauwa.mohammed@ikejalga.gov.ng,user,org_gov_lga_01,Active
+user_012,Yusuf Abdullahi,yusuf.abdullahi@ikejalga.gov.ng,user,org_gov_lga_01,Active
+user_013,Dr. Hassan Usman,hassan.usman@kanomoh.gov.ng,admin,org_gov_state_02,Active
+user_014,Aisha Bello,aisha.bello@kanomoh.gov.ng,sub_admin,org_gov_state_02,Active
+user_015,Ibrahim Musa,ibrahim.musa@dalalga.gov.ng,sub_admin,org_gov_lga_02,Active
+user_016,Fatima Abdullahi,fatima.abdullahi@dalalga.gov.ng,user,org_gov_lga_02,Active
+user_017,Ngozi Eze,ngozi.eze@healthforall.org,admin,org_ngo_fed_01,Active
+user_018,David Akpan,david.akpan@healthforall.org,sub_admin,org_ngo_fed_01,Active
+user_019,Amara Chukwu,amara.chukwu@healthforall.org,user,org_ngo_fed_01,Active
+user_020,Hassan Bello,hassan.bello@healthforall-kano.org,sub_admin,org_ngo_state_01,Active
+user_021,Aisha Musa,aisha.musa@healthforall-kano.org,user,org_ngo_state_01,Active
+user_022,Ibrahim Sani,ibrahim.sani@healthforall-kano.org,user,org_ngo_state_01,Active
+user_023,Funmi Adeyemi,funmi.adeyemi@healthforall-lagos.org,sub_admin,org_ngo_state_02,Active
+user_024,Tolu Ogunleye,tolu.ogunleye@healthforall-lagos.org,user,org_ngo_state_02,Active
+user_025,Patience Okoro,patience.okoro@cah-rivers.org,admin,org_cso_state_01,Active
+user_026,Victor Briggs,victor.briggs@cah-rivers.org,sub_admin,org_cso_state_01,Active
+user_027,Grace Okafor,grace.okafor@cah-rivers.org,user,org_cso_state_01,Active
+user_028,Michael Thompson,michael.thompson@cah-rivers.org,user,org_cso_state_01,Invited
+user_029,Chinwe Okafor,chinwe.okafor@youthhealthabuja.org,admin,org_cso_state_02,Active
+user_030,Emeka Nwankwo,emeka.nwankwo@youthhealthabuja.org,user,org_cso_state_02,Active
+user_031,Dr. Sarah Mitchell,sarah.mitchell@ghi.org,super_admin,org_intl_global_01,Active
+user_032,James Anderson,james.anderson@ghi.org,admin,org_intl_global_01,Active
+user_033,Dr. Priya Sharma,priya.sharma@ghi.org,sub_admin,org_intl_global_01,Active
+user_034,Dr. Kwame Asante,kwame.asante@ghi-africa.org,admin,org_intl_africa_01,Active
+user_035,Amina Diallo,amina.diallo@ghi-africa.org,sub_admin,org_intl_africa_01,Active
+user_036,Thabo Mbeki,thabo.mbeki@ghi-africa.org,user,org_intl_africa_01,Active
+user_037,Dr. Ngozi Okonkwo,ngozi.okonkwo@ghi-nigeria.org,admin,org_intl_africa_02,Active
+user_038,Emeka Okafor,emeka.okafor@ghi-nigeria.org,sub_admin,org_intl_africa_02,Active
+user_039,Aisha Ibrahim,aisha.ibrahim@ghi-nigeria.org,user,org_intl_africa_02,Active
+user_040,Dr. Wanjiku Kamau,wanjiku.kamau@ghi-kenya.org,admin,org_intl_africa_03,Active
+user_041,Peter Ochieng,peter.ochieng@ghi-kenya.org,sub_admin,org_intl_africa_03,Active
+user_042,Faith Mwangi,faith.mwangi@ghi-kenya.org,user,org_intl_africa_03,Active
+user_043,Dr. Kofi Mensah,kofi.mensah@ghi-ghana.org,admin,org_intl_africa_04,Active
+user_044,Abena Asante,abena.asante@ghi-ghana.org,user,org_intl_africa_04,Active
+user_045,Dr. Li Wei,li.wei@ghi-asia.org,admin,org_intl_asia_01,Active
+user_046,Raj Patel,raj.patel@ghi-asia.org,user,org_intl_asia_01,Active
+user_047,Dr. Priya Singh,priya.singh@ghi-india.org,admin,org_intl_asia_02,Active
+user_048,Amit Kumar,amit.kumar@ghi-india.org,sub_admin,org_intl_asia_02,Active
+user_049,Sunita Sharma,sunita.sharma@ghi-india.org,user,org_intl_asia_02,Active
+user_050,Dr. Rahman Hassan,rahman.hassan@ghi-bangladesh.org,admin,org_intl_asia_03,Active
+user_051,Fatima Begum,fatima.begum@ghi-bangladesh.org,user,org_intl_asia_03,Active
+user_052,Dr. Emma Wilson,emma.wilson@ukhealth.gov.uk,admin,org_uk_nat_01,Active
+user_053,David Brown,david.brown@ukhealth.gov.uk,sub_admin,org_uk_nat_01,Active
+user_054,Sophie Taylor,sophie.taylor@ukhealth.gov.uk,user,org_uk_nat_01,Active
+user_055,Michael Johnson,michael.johnson@ukhealth.gov.uk,user,org_uk_nat_01,Active
+user_056,Charlotte Williams,charlotte.williams@ukhealth.gov.uk,user,org_uk_nat_01,Active
+user_057,Dr. James Smith,james.smith@ukhealth-nw.gov.uk,admin,org_uk_regional_01,Active
+user_058,Sarah Jones,sarah.jones@ukhealth-nw.gov.uk,sub_admin,org_uk_regional_01,Active
+user_059,Robert Wilson,robert.wilson@ukhealth-nw.gov.uk,user,org_uk_regional_01,Active
+user_060,Dr. Patricia Brown,patricia.brown@ukhealth-london.gov.uk,admin,org_uk_regional_02,Active
+user_061,Thomas Davis,thomas.davis@ukhealth-london.gov.uk,sub_admin,org_uk_regional_02,Active
+user_062,Dr. Wanjiku Kamau,wanjiku.kamau@health.go.ke,admin,org_kenya_nat_01,Active
+user_063,Peter Ochieng,peter.ochieng@health.go.ke,sub_admin,org_kenya_nat_01,Active
+user_064,Faith Mwangi,faith.mwangi@health.go.ke,user,org_kenya_nat_01,Active
+user_065,Joseph Kipchoge,joseph.kipchoge@health.go.ke,user,org_kenya_nat_01,Active
+user_066,Mercy Chebet,mercy.chebet@health.go.ke,user,org_kenya_nat_01,Active
+user_067,Dr. John Mwangi,john.mwangi@nairobihealth.go.ke,admin,org_kenya_county_01,Active
+user_068,Mary Wanjiru,mary.wanjiru@nairobihealth.go.ke,sub_admin,org_kenya_county_01,Active
+user_069,James Kariuki,james.kariuki@nairobihealth.go.ke,user,org_kenya_county_01,Active
+user_070,Dr. Susan Otieno,susan.otieno@kisumuhealth.go.ke,admin,org_kenya_county_02,Active
+user_071,Paul Omondi,paul.omondi@kisumuhealth.go.ke,sub_admin,org_kenya_county_02,Active
+user_072,Dr. Michael Chen,michael.chen@ihri.org,admin,org_standalone_01,Active
+user_073,Dr. Lisa Wang,lisa.wang@ihri.org,user,org_standalone_01,Active
+user_074,Ahmed Hassan,ahmed.hassan@chvn.org,admin,org_standalone_02,Active
+user_075,Amina Yusuf,amina.yusuf@chvn.org,user,org_standalone_02,Active
+
