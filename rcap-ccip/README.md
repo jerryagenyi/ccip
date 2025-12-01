@@ -9,6 +9,11 @@ This directory contains the complete documentation for the **Crisis Communicatio
 **When to use:** Grant applications, investor meetings, high-level project overview
 **Key sections:** Problem statement, solution vision, competitive advantage, market opportunity
 
+### 1.5. Concept Note Template (`concept_note_template.md`)
+**Purpose:** Comprehensive template for grant applications and structured thinking
+**When to use:** UKRI, Wellcome Trust, EU Horizon grant applications
+**Key sections:** Executive summary, problem analysis, technical architecture, implementation plan, budget, team
+
 ### 2. Theory of Change (`theory_of_change.md`)
 **Purpose:** North Star document that guides all strategic decisions
 **When to use:** PhD research, grant writing, strategic planning, decision validation
