@@ -1,7 +1,7 @@
 # Implementation Plan: Documentation & Help System
 
 ## Overview
-Technical implementation plan for Documentation & Help System based on the specification in `spec.md`. This ensures users can effectively use RCAP and developers can integrate with the API.
+Technical implementation plan for Documentation & Help System based on the specification in `spec.md`. This ensures users can effectively use CCIP and developers can integrate with the API.
 
 ## Technology Stack
 - **Backend**: Laravel 10+ with PHP 8.2+

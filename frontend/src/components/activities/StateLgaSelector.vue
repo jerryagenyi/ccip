@@ -1,0 +1,450 @@
+<template>
+  <div class="state-lga-selector">
+    <div class="row q-col-gutter-md">
+      <div class="col-12 col-md-6">
+        <q-select
+          v-model="selectedState"
+          :options="stateOptions"
+          label="State"
+          outlined
+          dense
+          emit-value
+          map-options
+          :rules="[(val) => !!val || 'State is required']"
+          :loading="loadingStates"
+          @update:model-value="onStateChange"
+        >
+          <template v-slot:prepend>
+            <q-icon name="location_city" />
+          </template>
+        </q-select>
+      </div>
+      <div class="col-12 col-md-6">
+        <q-select
+          v-model="selectedLga"
+          :options="lgaOptions"
+          label="Local Government Area"
+          outlined
+          dense
+          emit-value
+          map-options
+          :rules="[(val) => !!val || 'LGA is required']"
+          :loading="loadingLgas"
+          :disable="!selectedState"
+          @update:model-value="onLgaChange"
+        >
+          <template v-slot:prepend>
+            <q-icon name="location_on" />
+          </template>
+        </q-select>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed, watch, onMounted } from 'vue';
+
+// Nigerian states and LGAs data
+const NIGERIA_STATES = [
+  {
+    name: 'Abia',
+    lgas: [
+      'Aba North', 'Aba South', 'Arochukwu', 'Bende', 'Ikwuano',
+      'Isiala Ngwa North', 'Isiala Ngwa South', 'Isiukwuato', 'Obi Ngwa',
+      'Ohafia', 'Osisioma Ngwa', 'Ugahna', 'Ukwa East', 'Ukwa West', 'Umuahia North', 'Umuahia South'
+    ]
+  },
+  {
+    name: 'Adamawa',
+    lgas: [
+      'Demsa', 'Fufure', 'Ganye', 'Gayuk', 'Girei', 'Gombi', 'Hong',
+      'Jada', 'Lamurde', 'Madagali', 'Maiha', 'Mayo Belwa', 'Michika',
+      'Mubi North', 'Mubi South', 'Numan', 'Shelleng', 'Song', 'Toungo', 'Yola North', 'Yola South'
+    ]
+  },
+  {
+    name: 'Akwa Ibom',
+    lgas: [
+      'Abak', 'Eastern Obolo', 'Eket', 'Esit Eket', 'Essien Udim', 'Etim Ekpo',
+      'Etinan', 'Ibeno', 'Ibesikpo Asutan', 'Ika', 'Ikono', 'Ikot Abasi',
+      'Ikot Ekpene', 'Ikot Ekpene', 'Ini', 'Itu', 'Mbo', 'Mpat Enin',
+      'Nsit Atai', 'Nsit Ibom', 'Nsit Ubium', 'Obot Akara', 'Okobo', 'Onna',
+      'Oron', 'Oruk Anam', 'Udung Uko', 'Ukanafun', 'Uruan', 'Uyo'
+    ]
+  },
+  {
+    name: 'Anambra',
+    lgas: [
+      'Aguata', 'Anambra East', 'Anambra West', 'Anaocha', 'Awka North',
+      'Awka South', 'Ayamelum', 'Dunukofia', 'Ekwusigo', 'Idemili North',
+      'Idemili South', 'Ihiala', 'Njikoka', 'Nnewi North', 'Nnewi South',
+      'Ogbaru', 'Onitsha North', 'Onitsha South', 'Orumba North', 'Orumba South', 'Oyi'
+    ]
+  },
+  {
+    name: 'Bauchi',
+    lgas: [
+      'Alkaleri', 'Bauchi', 'Bogoro', 'Damban', 'Darazo', 'Dass', 'Gamawa',
+      'Ganjuwa', 'Giade', 'Itas/Gadau', 'Jama\'are', 'Katagum', 'Kirfi',
+      'Misau', 'Ningi', 'Shira', 'Tafawa Balewa', 'Toro', 'Warji', 'Zaki'
+    ]
+  },
+  {
+    name: 'Bayelsa',
+    lgas: [
+      'Brass', 'Ekeremor', 'Kolokuma/Opokuma', 'Nembe', 'Ogbia', 'Sagbama', 'Southern Ijaw'
+    ]
+  },
+  {
+    name: 'Benue',
+    lgas: [
+      'Ado', 'Agatu', 'Apa', 'Buruku', 'Gboko', 'Guma', 'Gwer East', 'Gwer West',
+      'Katsina Ala', 'Konshisha', 'Kwande', 'Logo', 'Makurdi', 'Obi', 'Ogbadibo',
+      'Ohimini', 'Oju', 'Okpokwu', 'Otukpo', 'Tarka', 'Ukum', 'Ushongo', 'Vandeikya'
+    ]
+  },
+  {
+    name: 'Borno',
+    lgas: [
+      'Abadam', 'Askira/Uba', 'Bama', 'Bayo', 'Biu', 'Chibok', 'Damboa', 'Dikwa',
+      'Gubio', 'Guzamala', 'Gwoza', 'Hawul', 'Jere', 'Kaga', 'Kala/Balge',
+      'Kukawa', 'Kwaya Kusar', 'Mafa', 'Magumeri', 'Maiduguri', 'Marte',
+      'Mobbar', 'Monguno', 'Ngala', 'Nganzai', 'Shani'
+    ]
+  },
+  {
+    name: 'Cross River',
+    lgas: [
+      'Akpabuyo', 'Bakassi', 'Bekwarra', 'Biase', 'Boki', 'Calabar Municipal',
+      'Calabar South', 'Etung', 'Ikom', 'Obanliku', 'Obubra', 'Obudu', 'Odukpani',
+      'Ogoja', 'Yakurr', 'Yala'
+    ]
+  },
+  {
+    name: 'Delta',
+    lgas: [
+      'Aniocha North', 'Aniocha South', 'Bomadi', 'Burutu', 'Ethiope East',
+      'Ethiope West', 'Ika North East', 'Ika South', 'Isoko North', 'Isoko South',
+      'Ndokwa East', 'Ndokwa West', 'Okpe', 'Oshimili North', 'Oshimili South',
+      'Patani', 'Sapele', 'Udu', 'Ughelli North', 'Ughelli South', 'Ukwuani',
+      'Uvwie', 'Warri North', 'Warri South', 'Warri South West'
+    ]
+  },
+  {
+    name: 'Ebonyi',
+    lgas: [
+      'Afikpo North', 'Afikpo South', 'Ebonyi', 'Ezza North', 'Ezza South',
+      'Ikwo', 'Ishielu', 'Ivo', 'Izzi', 'Ohaozara', 'Ohaukwu', 'Onicha'
+    ]
+  },
+  {
+    name: 'Edo',
+    lgas: [
+      'Akoko Edo', 'Egor', 'Esan Central', 'Esan North East', 'Esan South East',
+      'Esan West', 'Etsako Central', 'Etsako East', 'Etsako West', 'Igueben',
+      'Ikpoba Okha', 'Oredo', 'Orhionmwon', 'Ovia North East', 'Ovia South West',
+      'Owan East', 'Owan West', 'Uhumwonde'
+    ]
+  },
+  {
+    name: 'Ekiti',
+    lgas: [
+      'Ado Ekiti', 'Efon', 'Ekiti East', 'Ekiti South West', 'Ekiti West',
+      'Emure', 'Gbonyin', 'Ido Osi', 'Ijero', 'Ikere', 'Ikole', 'Ilejemeje',
+      'Irepodun/Ifelodun', 'Ise/Orun', 'Moba', 'Oye'
+    ]
+  },
+  {
+    name: 'Enugu',
+    lgas: [
+      'Aninri', 'Awgu', 'Enugu East', 'Enugu North', 'Enugu South', 'Ezeagu',
+      'Igbo Eze North', 'Igbo Eze South', 'Isi Uzo', 'Nkanu East', 'Nkanu West',
+      'Nsukka', 'Oji River', 'Udenu', 'Udi', 'Uzo Uwani'
+    ]
+  },
+  {
+    name: 'FCT',
+    lgas: [
+      'Abaji', 'Bwari', 'Gwagwalada', 'Kuje', 'Kwali', 'Municipal Area Council'
+    ]
+  },
+  {
+    name: 'Gombe',
+    lgas: [
+      'Akko', 'Balanga', 'Billiri', 'Dukku', 'Funakaye', 'Gombe', 'Kaltungo',
+      'Kwami', 'Nafada', 'Shongom', 'Yamaltu/Deba'
+    ]
+  },
+  {
+    name: 'Imo',
+    lgas: [
+      'Aboh Mbaise', 'Ahiazu Mbaise', 'Ehime Mbano', 'Ezinihitte', 'Ideato North',
+      'Ideato South', 'Ihitte/Uboma', 'Ikeduru', 'Ikeduru', 'Isiala Mbano',
+      'Isiala Mbano', 'Isu', 'Mbaitoli', 'Ngor Okpala', 'Njaba', 'Nkwerre',
+      'Nwangele', 'Obowo', 'Oguta', 'Ohaji/Egbema', 'Okigwe', 'Onuimo',
+      'Orlu', 'Orsu', 'Oru East', 'Oru West', 'Owerri Municipal', 'Owerri North', 'Owerri West'
+    ]
+  },
+  {
+    name: 'Jigawa',
+    lgas: [
+      'Auyo', 'Babura', 'Biriniwa', 'Birnin Kudu', 'Buji', 'Dutse', 'Gagarawa',
+      'Garki', 'Gumel', 'Guri', 'Gwaram', 'Hadejia', 'Jahun', 'Kafin Hausa',
+      'Kaugama', 'Kazaure', 'Kiri Kasama', 'Kiyawa', 'Maigatari', 'Malam Madori',
+      'Miga', 'Ringim', 'Roni', 'Sule Tankarkar', 'Taura', 'Yankwashi'
+    ]
+  },
+  {
+    name: 'Kaduna',
+    lgas: [
+      'Birnin Gwari', 'Chikun', 'Giwa', 'Igabi', 'Ikara', 'Jaba', 'Jema\'a',
+      'Kachia', 'Kaduna North', 'Kaduna South', 'Kagarko', 'Kajuru', 'Kauru',
+      'Kaura', 'Kauru', 'Kero', 'Kubau', 'Kudan', 'Lere', 'Makarfi', 'Sabon Gari',
+      'Sanga', 'Soba', 'Zangon Kataf', 'Zaria'
+    ]
+  },
+  {
+    name: 'Kano',
+    lgas: [
+      'Ajingi', 'Albasu', 'Bagwai', 'Bebeji', 'Bichi', 'Bunkure', 'Dala',
+      'Dambatta', 'Dawakin Kudu', 'Dawakin Tofa', 'Doguwa', 'Fagge', 'Gabasawa',
+      'Garko', 'Garun Mallam', 'Gaya', 'Gezawa', 'Gwale', 'Gwarzo', 'Kabo',
+      'Kano Municipal', 'Karaye', 'Kibiya', 'Kiru', 'Kumbotso', 'Kunchi',
+      'Kura', 'Madobi', 'Makoda', 'Minjibir', 'Nasarawa', 'Rano', 'Rimin Gado',
+      'Rogo', 'Shanono', 'Sumaila', 'Takai', 'Tarauni', 'Tofa', 'Tsanyawa',
+      'Tudun Wada', 'Ungogo', 'Warawa', 'Wudil'
+    ]
+  },
+  {
+    name: 'Katsina',
+    lgas: [
+      'Bakori', 'Batagarawa', 'Batsari', 'Baure', 'Bindawa', 'Charanchi',
+      'Danja', 'Dan Musa', 'Daura', 'Dutsi', 'Dutsin Ma', 'Faskari', 'Funtua',
+      'Ingawa', 'Jibia', 'Kafur', 'Kaita', 'Kankara', 'Kankia', 'Katsina',
+      'Kurfi', 'Kusada', 'Mai\'Adua', 'Mashi', 'Matazu', 'Musawa', 'Rimi',
+      'Rimi', 'Sabuwa', 'Safana', 'Sheme', 'Sokoto', 'Zango'
+    ]
+  },
+  {
+    name: 'Kebbi',
+    lgas: [
+      'Arewa Dandi', 'Argungu', 'Augie', 'Bagudo', 'Birnin Kebbi', 'Bunza',
+      'Dandi', 'Fakai', 'Gwandu', 'Jega', 'Kalgo', 'Koko Besse', 'Maiyama',
+      'Ngaski', 'Shanga', 'Suru', 'Wasagu/Danko', 'Yauri', 'Zuru'
+    ]
+  },
+  {
+    name: 'Kogi',
+    lgas: [
+      'Adavi', 'Ajaokuta', 'Ankpa', 'Bassa', 'Dekina', 'Ibaji', 'Idah',
+      'Igalamela/Odolu', 'Ijumu', 'Kabba/Bunu', 'Kogi', 'Lokoja', 'Mopa Muro',
+      'Ofu', 'Ogori/Magongo', 'Okehi', 'Okene', 'Olamaboro', 'Omala', 'Yagba East',
+      'Yagba West'
+    ]
+  },
+  {
+    name: 'Kwara',
+    lgas: [
+      'Asa', 'Baruten', 'Edu', 'Ekiti', 'Ifelodun', 'Ilorin East', 'Ilorin South',
+      'Ilorin West', 'Irepodun', 'Isin', 'Kaiama', 'Moro', 'Offa', 'Oke Ero',
+      'Oyun', 'Pategi'
+    ]
+  },
+  {
+    name: 'Lagos',
+    lgas: [
+      'Agege', 'Ajeromi-Ifelodun', 'Alimosho', 'Amuwo Odofin', 'Apapa',
+      'Badagry', 'Epe', 'Eti Osa', 'Ikeja', 'Ikeja', 'Ikorodu', 'Kosofe',
+      'Lagos Island', 'Lagos Mainland', 'Mushin', 'Ojo', 'Oshodi-Isolo',
+      'Shomolu', 'Surulere'
+    ]
+  },
+  {
+    name: 'Nasarawa',
+    lgas: [
+      'Akwanga', 'Awe', 'Doma', 'Karu', 'Keana', 'Keffi', 'Kokona', 'Lafia',
+      'Nasarawa', 'Nasarawa Egon', 'Obi', 'Toto', 'Wamba'
+    ]
+  },
+  {
+    name: 'Niger',
+    lgas: [
+      'Agaie', 'Agwara', 'Bida', 'Borgu', 'Bosso', 'Chanchaga', 'Edati',
+      'Gbako', 'Gurara', 'Katcha', 'Kontagora', 'Lapai', 'Lavun', 'Magama',
+      'Mariga', 'Mashegu', 'Mokwa', 'Munya', 'Paikoro', 'Rafi', 'Rijau',
+      'Shiroro', 'Suleja', 'Tafa', 'Wushishi'
+    ]
+  },
+  {
+    name: 'Ogun',
+    lgas: [
+      'Abeokuta North', 'Abeokuta South', 'Ado Odo Ota', 'Ewekoro', 'Ifo',
+      'Ijebu East', 'Ijebu North', 'Ijebu North East', 'Ijebu Ode', 'Ikenne',
+      'Imeko Afon', 'Ipokia', 'Obafemi Owode', 'Odeda', 'Odogbolu', 'Ogun Waterside',
+      'Remo North', 'Remo South', 'Shagamu', 'Yewa North', 'Yewa South'
+    ]
+  },
+  {
+    name: 'Ondo',
+    lgas: [
+      'Akoko North East', 'Akoko North West', 'Akoko South Akure', 'Akoko South East',
+      'Akure North', 'Akure South', 'Ese Odo', 'Idanre', 'Ifedore', 'Igbara Oke',
+      'Ijero', 'Ikare', 'Ikoyi', 'Ilaje', 'Ile Oluji/Okeigbo', 'Irele', 'Odigbo',
+      'Okitipupa', 'Ose', 'Owo', 'Owo'
+    ]
+  },
+  {
+    name: 'Osun',
+    lgas: [
+      'Aiyedade', 'Aiyedire', 'Atakumosa East', 'Atakumosa West', 'Boluwaduro',
+      'Boripe', 'Ede North', 'Ede South', 'Egbedore', 'Ejigbo', 'Ife Central',
+      'Ife East', 'Ife North', 'Ife South', 'Ifedayo', 'Ifelodun', 'Ila',
+      'Ilesa East', 'Ilesa West', 'Irepodun', 'Iwo', 'Obokun', 'Odo Otin',
+      'Ola Oluwa', 'Olorunda', 'Oriade', 'Orolu', 'Osogbo'
+    ]
+  },
+  {
+    name: 'Oyo',
+    lgas: [
+      'Afijio', 'Akinyele', 'Atiba', 'Atisbo', 'Egbeda', 'Ibadan North',
+      'Ibadan North East', 'Ibadan North West', 'Ibadan South East',
+      'Ibadan South West', 'Ibarapa Central', 'Ibarapa East', 'Ibarapa North',
+      'Ido', 'Irepo', 'Iseyin', 'Itesiwaju', 'Iwajowa', 'Kajola', 'Kajola',
+      'Lagelu', 'Ogbomoso North', 'Ogbomoso South', 'Ogo Oluwa', 'Olorunsogo',
+      'Oluyole', 'Ona Ara', 'Orelope', 'Ori Ire', 'Oyo East', 'Oyo West',
+      'Saki East', 'Saki West', 'Surulere'
+    ]
+  },
+  {
+    name: 'Plateau',
+    lgas: [
+      'Barkin Ladi', 'Bassa', 'Bokkos', 'Jos East', 'Jos North', 'Jos South',
+      'Kanam', 'Kanke', 'Kanam', 'Kauru', 'Kwalla', 'Langtang North',
+      'Langtang South', 'Mangu', 'Mikang', 'Pankshin', 'Qua\'an Pan',
+      'Riyom', 'Shendam', 'Wase'
+    ]
+  },
+  {
+    name: 'Rivers',
+    lgas: [
+      'Abua/Odual', 'Ahoada East', 'Ahoada West', 'Andoni', 'Asari Toru',
+      'Bonny', 'Degema', 'Emuoha', 'Eleme', 'Etche', 'Gokana', 'Ikwerre',
+      'Khana', 'Obia/Akpor', 'Ogba/Egbema/Ndoni', 'Ogu/Bolo', 'Okrika',
+      'Omuma', 'Opobo/Nkoro', 'Oyigbo', 'Port Harcourt', 'Tai'
+    ]
+  },
+  {
+    name: 'Sokoto',
+    lgas: [
+      'Binji', 'Bodinga', 'Dange Shuni', 'Gada', 'Goronyo', 'Gudu', 'Gwadabawa',
+      'Illela', 'Isa', 'Kebbe', 'Kware', 'Rabah', 'Sabon Birni', 'Shagari',
+      'Silame', 'Sokoto North', 'Sokoto South', 'Tambuwal', 'Tangaza', 'Tureta',
+      'Wamako', 'Wurno', 'Yabo'
+    ]
+  },
+  {
+    name: 'Taraba',
+    lgas: [
+      'Ardo Kola', 'Bali', 'Donga', 'Gashaka', 'Gassol', 'Ibi', 'Jalingo',
+      'Karim Lamido', 'Kurmi', 'Lau', 'Sardauna', 'Takum', 'Ussa', 'Wukari',
+      'Yorro', 'Zing'
+    ]
+  },
+  {
+    name: 'Yobe',
+    lgas: [
+      'Bade', 'Bursari', 'Damaturu', 'Fika', 'Fune', 'Geidam', 'Gogaram',
+      'Gulani', 'Gujba', 'Gusau', 'Jakusko', 'Karasuwa', 'Machina', 'Nangere',
+      'Nguru', 'Potiskum', 'Tarmuwa', 'Yunusari', 'Yusufari'
+    ]
+  },
+  {
+    name: 'Zamfara',
+    lgas: [
+      'Anka', 'Bakura', 'Birnin Magaji/Kiyaw', 'Bukkuyum', 'Bungudu',
+      'Chafe', 'Gummi', 'Gusau', 'Isa', 'Kaura Namoda', 'Kwatarkwashi',
+      'Maradun', 'Maru', 'Shinkafi', 'Talata Mafara', 'Tsafe', 'Zurmi'
+    ]
+  }
+];
+
+// Props
+interface Props {
+  state?: string | null;
+  lga?: string | null;
+}
+
+const props = defineProps<Props>();
+
+// Emits
+const emit = defineEmits<{
+  'update:state': [value: string | null];
+  'update:lga': [value: string | null];
+}>();
+
+// State
+const loadingStates = ref(false);
+const loadingLgas = ref(false);
+const selectedState = ref<string | null>(props.state || null);
+const selectedLga = ref<string | null>(props.lga || null);
+
+// Computed
+const stateOptions = computed(() =>
+  NIGERIA_STATES.map(state => ({
+    label: state.name,
+    value: state.name
+  }))
+);
+
+const lgaOptions = computed(() => {
+  if (!selectedState.value) return [];
+
+  const state = NIGERIA_STATES.find(s => s.name === selectedState.value);
+  if (!state) return [];
+
+  return state.lgas.map(lga => ({
+    label: lga,
+    value: lga
+  }));
+});
+
+// Methods
+function onStateChange(value: string | null) {
+  selectedLga.value = null;
+  emit('update:state', value);
+  emit('update:lga', null);
+}
+
+function onLgaChange(value: string | null) {
+  emit('update:lga', value);
+}
+
+// Watch props changes
+watch(() => props.state, (newState) => {
+  if (newState !== selectedState.value) {
+    selectedState.value = newState;
+    selectedLga.value = props.lga;
+  }
+});
+
+watch(() => props.lga, (newLga) => {
+  if (newLga !== selectedLga.value) {
+    selectedLga.value = newLga;
+  }
+});
+
+// Initialize
+onMounted(() => {
+  loadingStates.value = true;
+  setTimeout(() => {
+    loadingStates.value = false;
+  }, 500);
+});
+</script>
+
+<style scoped lang="scss">
+.state-lga-selector {
+  width: 100%;
+}
+</style>

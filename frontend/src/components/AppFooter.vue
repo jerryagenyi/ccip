@@ -3,10 +3,10 @@
     <p class="footer-text">
       © {{ currentYear }}
       <template v-if="organisationName">
-        {{ organisationName }} • Powered by RCAP v{{ appVersion }}
+        {{ organisationName }} • Powered by CCIP v{{ appVersion }}
       </template>
       <template v-else>
-        Powered by RCAP v{{ appVersion }}
+        Powered by CCIP v{{ appVersion }}
       </template>
     </p>
   </footer>

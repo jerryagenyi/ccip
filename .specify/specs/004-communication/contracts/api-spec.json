@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "RCAP API - Communication System",
+    "title": "CCIP API - Communication System",
     "version": "1.0.0",
     "description": "API endpoints for internal messaging and notifications"
   },

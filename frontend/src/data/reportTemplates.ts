@@ -1,0 +1,536 @@
+import type { ReportTemplate, ReportSection } from '@/types';
+
+export const DEFAULT_REPORT_TEMPLATES: ReportTemplate[] = [
+  {
+    id: 'activity-summary',
+    name: 'Activity Summary Report',
+    description: 'Comprehensive overview of risk communication activities',
+    type: 'activity',
+    category: 'summary',
+    sections: [
+      {
+        id: 'executive-summary',
+        title: 'Executive Summary',
+        description: 'High-level overview of the activity and its outcomes',
+        type: 'text',
+        required: true,
+        order: 1
+      },
+      {
+        id: 'activity-details',
+        title: 'Activity Details',
+        description: 'Information about the activity implementation',
+        type: 'structured',
+        required: true,
+        order: 2,
+        fields: [
+          { name: 'title', type: 'text', label: 'Activity Title' },
+          { name: 'dates', type: 'daterange', label: 'Activity Period' },
+          { name: 'location', type: 'location', label: 'Location' },
+          { name: 'target-audience', type: 'multiselect', label: 'Target Audience' }
+        ]
+      },
+      {
+        id: 'key-metrics',
+        title: 'Key Performance Metrics',
+        description: 'Quantitative measures of activity success',
+        type: 'metrics',
+        required: true,
+        order: 3,
+        metrics: [
+          { name: 'reach', label: 'Reach', unit: 'people' },
+          { name: 'engagement', label: 'Engagement Rate', unit: '%' },
+          { name: 'conversion', label: 'Behavior Change', unit: '%' }
+        ]
+      },
+      {
+        id: 'outcomes',
+        title: 'Outcomes and Impact',
+        description: 'Analysis of the activity\'s impact and outcomes',
+        type: 'analysis',
+        required: true,
+        order: 4
+      },
+      {
+        id: 'challenges',
+        title: 'Challenges and Lessons Learned',
+        description: 'Key challenges faced and lessons learned',
+        type: 'text',
+        required: false,
+        order: 5
+      },
+      {
+        id: 'recommendations',
+        title: 'Recommendations',
+        description: 'Recommendations for future activities',
+        type: 'list',
+        required: true,
+        order: 6
+      }
+    ],
+    visualizations: [
+      { type: 'timeline', title: 'Activity Timeline' },
+      { type: 'map', title: 'Geographic Coverage' },
+      { type: 'bar-chart', title: 'Engagement Metrics' }
+    ],
+    isDefault: true,
+    isPublic: true,
+    createdBy: 'system',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'semiotic-analysis',
+    name: 'Semiotic Analysis Report',
+    description: 'Detailed analysis of communication effectiveness and cultural appropriateness',
+    type: 'analysis',
+    category: 'semiotic',
+    sections: [
+      {
+        id: 'overview',
+        title: 'Analysis Overview',
+        description: 'Summary of the semiotic analysis conducted',
+        type: 'text',
+        required: true,
+        order: 1
+      },
+      {
+        id: 'cultural-analysis',
+        title: 'Cultural Appropriateness Analysis',
+        description: 'Evaluation of cultural relevance and appropriateness',
+        type: 'analysis',
+        required: true,
+        order: 2
+      },
+      {
+        id: 'linguistic-analysis',
+        title: 'Linguistic Effectiveness',
+        description: 'Analysis of language use and comprehension',
+        type: 'analysis',
+        required: true,
+        order: 3
+      },
+      {
+        id: 'visual-analysis',
+        title: 'Visual Communication Analysis',
+        description: 'Evaluation of visual elements and their impact',
+        type: 'analysis',
+        required: true,
+        order: 4
+      },
+      {
+        id: 'risk-assessment',
+        title: 'Risk Assessment',
+        description: 'Identification and assessment of communication risks',
+        type: 'risk-matrix',
+        required: true,
+        order: 5
+      },
+      {
+        id: 'recommendations',
+        title: 'Recommendations for Improvement',
+        description: 'Specific recommendations to enhance communication effectiveness',
+        type: 'action-items',
+        required: true,
+        order: 6
+      }
+    ],
+    visualizations: [
+      { type: 'radar-chart', title: 'Semiotic Dimensions' },
+      { type: 'heatmap', title: 'Risk Assessment Matrix' },
+      { type: 'word-cloud', title: 'Key Messages Analysis' }
+    ],
+    isDefault: true,
+    isPublic: true,
+    createdBy: 'system',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'campaign-performance',
+    name: 'Campaign Performance Dashboard',
+    description: 'Multi-campaign performance comparison and analysis',
+    type: 'dashboard',
+    category: 'performance',
+    sections: [
+      {
+        id: 'campaign-overview',
+        title: 'Campaign Overview',
+        description: 'Summary of all campaigns included in the report',
+        type: 'summary-cards',
+        required: true,
+        order: 1
+      },
+      {
+        id: 'performance-comparison',
+        title: 'Performance Comparison',
+        description: 'Comparative analysis of campaign performance',
+        type: 'comparison-table',
+        required: true,
+        order: 2
+      },
+      {
+        id: 'trend-analysis',
+        title: 'Trend Analysis',
+        description: 'Analysis of performance trends over time',
+        type: 'trend-charts',
+        required: true,
+        order: 3
+      },
+      {
+        id: 'best-practices',
+        title: 'Best Practices',
+        description: 'Identification of best practices across campaigns',
+        type: 'highlight-boxes',
+        required: false,
+        order: 4
+      },
+      {
+        id: 'roi-analysis',
+        title: 'Return on Investment Analysis',
+        description: 'Cost-effectiveness and ROI analysis',
+        type: 'financial-summary',
+        required: false,
+        order: 5
+      }
+    ],
+    visualizations: [
+      { type: 'comparison-chart', title: 'Campaign Comparison' },
+      { type: 'trend-line', title: 'Performance Trends' },
+      { type: 'funnel-chart', title: 'Conversion Funnel' },
+      { type: 'gauge-charts', title: 'KPI Indicators' }
+    ],
+    isDefault: true,
+    isPublic: true,
+    createdBy: 'system',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'stakeholder-update',
+    name: 'Stakeholder Update Report',
+    description: 'Regular update report for stakeholders and partners',
+    type: 'update',
+    category: 'communication',
+    sections: [
+      {
+        id: 'period-highlights',
+        title: 'Period Highlights',
+        description: 'Key achievements and highlights for the period',
+        type: 'highlight-list',
+        required: true,
+        order: 1
+      },
+      {
+        id: 'progress-indicators',
+        title: 'Progress Indicators',
+        description: 'Status of key performance indicators',
+        type: 'progress-bars',
+        required: true,
+        order: 2
+      },
+      {
+        id: 'upcoming-activities',
+        title: 'Upcoming Activities',
+        description: 'Planned activities for the next period',
+        type: 'timeline',
+        required: true,
+        order: 3
+      },
+      {
+        id: 'resource-needs',
+        title: 'Resource Requirements',
+        description: 'Resources needed for upcoming activities',
+        type: 'resource-list',
+        required: false,
+        order: 4
+      },
+      {
+        id: 'partner-contributions',
+        title: 'Partner Contributions',
+        description: 'Recognition of partner contributions and support',
+        type: 'partner-grid',
+        required: true,
+        order: 5
+      }
+    ],
+    visualizations: [
+      { type: 'progress-summary', title: 'Overall Progress' },
+      { type: 'milestone-tracker', title: 'Milestone Tracking' },
+      { type: 'partner-logos', title: 'Partners' }
+    ],
+    isDefault: true,
+    isPublic: true,
+    createdBy: 'system',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'research-findings',
+    name: 'Research Findings Report',
+    description: 'Detailed report on research activities and findings',
+    type: 'research',
+    category: 'academic',
+    sections: [
+      {
+        id: 'abstract',
+        title: 'Abstract',
+        description: 'Brief summary of the research and key findings',
+        type: 'text',
+        required: true,
+        order: 1,
+        maxLength: 300
+      },
+      {
+        id: 'introduction',
+        title: 'Introduction',
+        description: 'Background and objectives of the research',
+        type: 'structured-text',
+        required: true,
+        order: 2
+      },
+      {
+        id: 'methodology',
+        title: 'Research Methodology',
+        description: 'Detailed description of research methods',
+        type: 'methodology-section',
+        required: true,
+        order: 3
+      },
+      {
+        id: 'findings',
+        title: 'Key Findings',
+        description: 'Presentation of research findings',
+        type: 'research-findings',
+        required: true,
+        order: 4
+      },
+      {
+        id: 'discussion',
+        title: 'Discussion',
+        description: 'Interpretation and implications of findings',
+        type: 'academic-discussion',
+        required: true,
+        order: 5
+      },
+      {
+        id: 'conclusions',
+        title: 'Conclusions',
+        description: 'Summary and conclusions from the research',
+        type: 'conclusions-section',
+        required: true,
+        order: 6
+      },
+      {
+        id: 'references',
+        title: 'References',
+        description: 'List of references and citations',
+        type: 'bibliography',
+        required: false,
+        order: 7
+      },
+      {
+        id: 'appendices',
+        title: 'Appendices',
+        description: 'Additional materials and data',
+        type: 'appendices',
+        required: false,
+        order: 8
+      }
+    ],
+    visualizations: [
+      { type: 'data-tables', title: 'Research Data' },
+      { type: 'statistical-charts', title: 'Statistical Analysis' },
+      { type: 'qualitative-themes', title: 'Qualitative Themes' }
+    ],
+    isDefault: true,
+    isPublic: true,
+    createdBy: 'system',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  },
+  {
+    id: 'incident-report',
+    name: 'Incident Response Report',
+    description: 'Report on communication during incidents or emergencies',
+    type: 'incident',
+    category: 'emergency',
+    sections: [
+      {
+        id: 'incident-summary',
+        title: 'Incident Summary',
+        description: 'Brief overview of the incident',
+        type: 'incident-details',
+        required: true,
+        order: 1,
+        fields: [
+          { name: 'date-time', type: 'datetime', label: 'Date & Time' },
+          { name: 'location', type: 'location', label: 'Location' },
+          { name: 'severity', type: 'select', label: 'Severity Level' },
+          { name: 'type', type: 'select', label: 'Incident Type' }
+        ]
+      },
+      {
+        id: 'communication-timeline',
+        title: 'Communication Timeline',
+        description: 'Chronology of communication activities',
+        type: 'timeline',
+        required: true,
+        order: 2
+      },
+      {
+        id: 'messages-disseminated',
+        title: 'Messages Disseminated',
+        description: 'List of all messages and channels used',
+        type: 'message-log',
+        required: true,
+        order: 3
+      },
+      {
+        id: 'reach-analysis',
+        title: 'Reach and Coverage Analysis',
+        description: 'Analysis of message reach and coverage',
+        type: 'reach-metrics',
+        required: true,
+        order: 4
+      },
+      {
+        id: 'lessons-learned',
+        title: 'Lessons Learned',
+        description: 'Key lessons from the incident response',
+        type: 'lessons-learned',
+        required: true,
+        order: 5
+      },
+      {
+        id: 'recommendations',
+        title: 'Recommendations for Improvement',
+        description: 'Recommendations to improve future incident response',
+        type: 'action-items',
+        required: true,
+        order: 6
+      }
+    ],
+    visualizations: [
+      { type: 'incident-timeline', title: 'Incident Timeline' },
+      { type: 'communication-flow', title: 'Communication Flow' },
+      { type: 'reach-heatmap', title: 'Coverage Map' }
+    ],
+    isDefault: true,
+    isPublic: true,
+    createdBy: 'system',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  }
+];
+
+// Template categories for organization
+export const REPORT_TEMPLATE_CATEGORIES = [
+  {
+    id: 'summary',
+    name: 'Summary Reports',
+    description: 'High-level overview reports for management and stakeholders',
+    icon: 'summarize'
+  },
+  {
+    id: 'analysis',
+    name: 'Analysis Reports',
+    description: 'In-depth analysis of specific aspects or metrics',
+    icon: 'analytics'
+  },
+  {
+    id: 'performance',
+    name: 'Performance Reports',
+    description: 'Reports focused on performance metrics and KPIs',
+    icon: 'speed'
+  },
+  {
+    id: 'communication',
+    name: 'Communication Reports',
+    description: 'Reports for external communication and updates',
+    icon: 'campaign'
+  },
+  {
+    id: 'academic',
+    name: 'Research Reports',
+    description: 'Academic and research-focused reports',
+    icon: 'school'
+  },
+  {
+    id: 'emergency',
+    name: 'Emergency Reports',
+    description: 'Reports for incidents and emergency situations',
+    icon: 'warning'
+  },
+  {
+    id: 'semiotic',
+    name: 'Semiotic Reports',
+    description: 'Reports on semiotic analysis and cultural communication',
+    icon: 'psychology'
+  }
+];
+
+// Report sections library (reusable components)
+export const REPORT_SECTION_LIBRARY = {
+  'executive-summary': {
+    title: 'Executive Summary',
+    description: 'High-level summary for leadership',
+    type: 'text',
+    template: 'Provide a concise summary of the report, highlighting key findings, recommendations, and next steps.'
+  },
+  'introduction': {
+    title: 'Introduction',
+    description: 'Background and context',
+    type: 'structured-text',
+    template: 'Include background information, objectives, and scope of the report.'
+  },
+  'methodology': {
+    title: 'Methodology',
+    description: 'Methods used for data collection and analysis',
+    type: 'methodology-section',
+    template: 'Describe the research methods, data sources, and analytical approaches used.'
+  },
+  'findings': {
+    title: 'Findings',
+    description: 'Key findings and results',
+    type: 'research-findings',
+    template: 'Present the main findings in a clear and structured manner.'
+  },
+  'recommendations': {
+    title: 'Recommendations',
+    description: 'Actionable recommendations',
+    type: 'action-items',
+    template: 'Provide specific, actionable recommendations based on the findings.'
+  },
+  'conclusion': {
+    title: 'Conclusion',
+    description: 'Concluding remarks',
+    type: 'text',
+    template: 'Summarize the key points and provide final thoughts.'
+  },
+  'appendices': {
+    title: 'Appendices',
+    description: 'Additional materials',
+    type: 'appendices',
+    template: 'Include supplementary materials, raw data, or detailed analyses.'
+  }
+};
+
+// Visualization types with descriptions
+export const VISUALIZATION_TYPES = [
+  { type: 'bar-chart', name: 'Bar Chart', description: 'Compare values across categories' },
+  { type: 'line-chart', name: 'Line Chart', description: 'Show trends over time' },
+  { type: 'pie-chart', name: 'Pie Chart', description: 'Show proportions of a whole' },
+  { type: 'scatter-plot', name: 'Scatter Plot', description: 'Show relationship between variables' },
+  { type: 'heatmap', name: 'Heatmap', description: 'Show intensity across two dimensions' },
+  { type: 'timeline', name: 'Timeline', description: 'Display events chronologically' },
+  { type: 'gauge', name: 'Gauge Chart', description: 'Show progress against a target' },
+  { type: 'funnel', name: 'Funnel Chart', description: 'Show stages of a process' },
+  { type: 'radar', name: 'Radar Chart', description: 'Compare multiple metrics' },
+  { type: 'treemap', name: 'Treemap', description: 'Show hierarchical data' },
+  { type: 'word-cloud', name: 'Word Cloud', description: 'Visualize text frequency' },
+  { type: 'geographic-map', name: 'Geographic Map', description: 'Show data by location' },
+  { type: 'gantt', name: 'Gantt Chart', description: 'Show project timeline' },
+  { type: 'sankey', name: 'Sankey Diagram', description: 'Show flow between entities' },
+  { type: 'bubble-chart', name: 'Bubble Chart', description: 'Show three dimensions of data' }
+];

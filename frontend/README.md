@@ -1,6 +1,6 @@
-# RCAP Frontend
+# CCIP Frontend
 
-Vue 3 + Quasar frontend application for RCAP platform.
+Vue 3 + Quasar frontend application for CCIP platform.
 
 ## Setup
 

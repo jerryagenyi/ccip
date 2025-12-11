@@ -1,7 +1,7 @@
 # Feature Specification: [Feature Name]
 
 ## Overview
-Brief description of the feature and its purpose in the RCAP platform.
+Brief description of the feature and its purpose in the CCIP platform.
 
 ## User Stories
 

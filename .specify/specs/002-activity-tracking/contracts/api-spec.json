@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "RCAP API - Activity Tracking & Reporting",
+    "title": "CCIP API - Activity Tracking & Reporting",
     "version": "1.0.0",
     "description": "API endpoints for activity tracking, evidence uploads, and reporting templates"
   },

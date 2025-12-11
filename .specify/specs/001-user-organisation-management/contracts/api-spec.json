@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "RCAP API - User & Organisation Management",
+    "title": "CCIP API - User & Organisation Management",
     "version": "1.0.0",
     "description": "API endpoints for user authentication, organisation management, and role-based access control"
   },

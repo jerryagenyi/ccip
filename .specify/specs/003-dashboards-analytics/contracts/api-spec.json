@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "RCAP API - Dashboards & Analytics",
+    "title": "CCIP API - Dashboards & Analytics",
     "version": "1.0.0",
     "description": "API endpoints for role-based dashboards, analytics, and report exports"
   },

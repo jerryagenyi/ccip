@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "RCAP API - Documentation & Help System",
+    "title": "CCIP API - Documentation & Help System",
     "version": "1.0.0",
     "description": "API endpoints for help articles, onboarding, and API documentation"
   },

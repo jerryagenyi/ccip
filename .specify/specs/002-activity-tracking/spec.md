@@ -1,7 +1,7 @@
 # Feature Specification: Activity Tracking & Reporting
 
 ## Overview
-Implement comprehensive activity tracking system with evidence uploads, customisable templates, and audit trails for risk communication activities. This is the core feature of RCAP, enabling public health officials to record, track, and report on risk communication activities with supporting evidence.
+Implement comprehensive activity tracking system with evidence uploads, customisable templates, and audit trails for risk communication activities. This is the core feature of CCIP, enabling public health officials to record, track, and report on risk communication activities with supporting evidence.
 
 ## User Stories
 

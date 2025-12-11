@@ -1,8 +1,8 @@
-# RCAP Demo Data Templates
+# CCIP Demo Data Templates
 
 ## Purpose
 
-This directory contains comprehensive CSV templates for generating realistic test data to import into RCAP during development, testing, and demonstrations. The data is designed to mirror real-world organizational structures, relationships, and scenarios that RCAP will encounter in production.
+This directory contains comprehensive CSV templates for generating realistic test data to import into CCIP during development, testing, and demonstrations. The data is designed to mirror real-world organizational structures, relationships, and scenarios that CCIP will encounter in production.
 
 ## What We Intend to Do With These Files
 
@@ -19,9 +19,9 @@ This directory contains comprehensive CSV templates for generating realistic tes
    - Show data visualization, filtering, and reporting capabilities
 
 3. **Demonstrations**
-   - Showcase RCAP's capabilities to stakeholders, potential clients, and investors
+   - Showcase CCIP's capabilities to stakeholders, potential clients, and investors
    - Demonstrate multi-tenancy, hierarchical relationships, and cross-organizational features
-   - Illustrate how RCAP works across different countries, organizational types, and implementation models
+   - Illustrate how CCIP works across different countries, organizational types, and implementation models
 
 4. **Training and Onboarding**
    - Provide sample data for training new developers and users
@@ -96,13 +96,13 @@ This directory contains comprehensive CSV templates for generating realistic tes
 - **Independent Health Research Institute**: Organization with no parent, representing research institutions or independent entities
 - **Community Health Volunteers Network**: Grassroots network without formal hierarchy
 
-**Why This Matters**: Tests how RCAP handles organizations that don't fit into traditional hierarchies, ensuring the system is flexible enough for various organizational models.
+**Why This Matters**: Tests how CCIP handles organizations that don't fit into traditional hierarchies, ensuring the system is flexible enough for various organizational models.
 
 ### 2. **Organizations with Minimal Users**
 - Some organizations have only 2-3 users (e.g., standalone organizations)
 - Tests system behavior with small teams
 
-**Why This Matters**: Ensures RCAP works for both large and small organizations, not just large bureaucracies.
+**Why This Matters**: Ensures CCIP works for both large and small organizations, not just large bureaucracies.
 
 ### 3. **Invited Users**
 - Users with "Invited" status who haven't yet activated their accounts
@@ -114,14 +114,14 @@ This directory contains comprehensive CSV templates for generating realistic tes
 - CSO linked to government organization (demonstrates collaboration)
 - International organization working with national governments
 
-**Why This Matters**: Tests RCAP's ability to handle complex relationships where organizations from different categories collaborate.
+**Why This Matters**: Tests CCIP's ability to handle complex relationships where organizations from different categories collaborate.
 
 ### 5. **Multiple States/Regions Under Same Parent**
 - Two states (Lagos, Kano) under Federal MOH
 - Multiple country offices under regional offices
 - Multiple counties under national ministry
 
-**Why This Matters**: Tests how RCAP handles organizations with multiple children at the same level.
+**Why This Matters**: Tests how CCIP handles organizations with multiple children at the same level.
 
 ### 6. **Activities Across Different Statuses**
 - Mix of Draft, Submitted, Approved, Completed, and Rejected activities

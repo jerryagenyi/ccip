@@ -29,8 +29,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy composer files
-COPY composer.json composer.lock ./
+# Copy composer files (composer.lock is optional and will be generated during install if missing)
+COPY composer.json ./
 
 # Install PHP dependencies
 RUN composer install --no-scripts --no-autoloader
@@ -38,8 +38,8 @@ RUN composer install --no-scripts --no-autoloader
 # Copy application files
 COPY . .
 
-# Complete composer setup
-RUN composer dump-autoload --optimize
+# Complete composer setup (skip scripts since artisan may not be available during build)
+RUN composer dump-autoload --optimize --no-scripts
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \

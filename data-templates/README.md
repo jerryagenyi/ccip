@@ -1,6 +1,6 @@
-# RCAP Data Templates
+# CCIP Data Templates
 
-This directory contains CSV templates for generating realistic test data to import into RCAP during development and demonstrations.
+This directory contains CSV templates for generating realistic test data to import into CCIP during development and demonstrations.
 
 ## Overview
 

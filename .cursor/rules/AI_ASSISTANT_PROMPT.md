@@ -1,8 +1,8 @@
-# RCAP AI Assistant Development Prompt
+# CCIP AI Assistant Development Prompt
 
 ## Project Context
 
-You are working on **RCAP** (Risk Communication Activity Platform), a purpose-built platform for tracking, reporting, and analyzing public health risk communication activities. This is an MVP focused strictly on activity tracking, role-based management, secure evidence uploads, and internal communications—optimized for low-bandwidth African and global contexts.
+You are working on **CCIP** (Risk Communication Activity Platform), a purpose-built platform for tracking, reporting, and analyzing public health risk communication activities. This is an MVP focused strictly on activity tracking, role-based management, secure evidence uploads, and internal communications—optimized for low-bandwidth African and global contexts.
 
 **IMPORTANT**: Mapping and social media infodemiology modules are **FUTURE EXPANSION ONLY**. Do not implement, suggest, or code these features under any circumstances. They should remain documented in the roadmap only.
 
@@ -59,7 +59,7 @@ You are working on **RCAP** (Risk Communication Activity Platform), a purpose-bu
 
 ## Development Workflow (SpecKit)
 
-RCAP uses **SpecKit-driven development**. Follow this workflow:
+CCIP uses **SpecKit-driven development**. Follow this workflow:
 
 1. **READ CONSTITUTION**: Always check `memory/constitution.md` first
 2. **READ SPEC**: Review `specs/XXX-feature-name/spec.md` for user stories
@@ -131,7 +131,7 @@ RCAP uses **SpecKit-driven development**. Follow this workflow:
 ## File Organization
 
 ```
-rcap/
+ccip/
 ├── backend/                 # Laravel API
 │   ├── app/
 │   │   ├── Http/Controllers/

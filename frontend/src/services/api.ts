@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import { Notify } from 'quasar';
+import { API_ENDPOINTS, API_CONFIG } from '@/types/api';
 
 // Create axios instance
 const api: AxiosInstance = axios.create({
@@ -88,5 +89,7 @@ api.interceptors.response.use(
   }
 );
 
-export { api };
+// Export API utilities
+export { api, API_ENDPOINTS };
+export default api;
 

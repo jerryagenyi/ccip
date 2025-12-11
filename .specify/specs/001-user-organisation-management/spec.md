@@ -1,7 +1,7 @@
 # Feature Specification: User & Organisation Management
 
 ## Overview
-Implement multi-tier role-based user and organisation management system with hierarchical permissions and self-service profile management. This is the foundation for all other features in RCAP, providing authentication, authorization, and organisational structure.
+Implement multi-tier role-based user and organisation management system with hierarchical permissions and self-service profile management. This is the foundation for all other features in CCIP, providing authentication, authorization, and organisational structure.
 
 ## User Stories
 

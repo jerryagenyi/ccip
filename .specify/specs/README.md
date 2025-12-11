@@ -1,4 +1,4 @@
-# RCAP Specifications
+# CCIP Specifications
 
 This directory contains all feature specifications following **SpecKit-driven development** methodology.
 

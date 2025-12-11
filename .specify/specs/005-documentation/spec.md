@@ -1,7 +1,7 @@
 # Feature Specification: Documentation & Help System
 
 ## Overview
-Implement comprehensive documentation system for developers and users, including onboarding guides and feature-specific help. This ensures users can effectively use RCAP and developers can integrate with the API.
+Implement comprehensive documentation system for developers and users, including onboarding guides and feature-specific help. This ensures users can effectively use CCIP and developers can integrate with the API.
 
 ## User Stories
 

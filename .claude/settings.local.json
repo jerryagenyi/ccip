@@ -1,35 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:www.figma.com)",
-      "WebFetch(domain:youtu.be)",
-      "Bash(npm install:*)",
-      "Bash(npx playwright install:*)",
-      "Bash(curl:*)",
-      "Bash(npx playwright test:*)",
-      "mcp__MCP_DOCKER__browser_navigate",
-      "mcp__MCP_DOCKER__browser_take_screenshot",
-      "mcp__MCP_DOCKER__browser_resize",
-      "mcp__MCP_DOCKER__browser_snapshot",
-      "mcp__MCP_DOCKER__browser_click",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(npm i:*)",
-      "Bash(npm cache clean:*)",
-      "Bash(claude:*)",
-      "Bash(npm update:*)",
-      "mcp__MCP_DOCKER__browser_evaluate",
-      "mcp__MCP_DOCKER__browser_wait_for",
-      "mcp__MCP_DOCKER__browser_press_key",
-      "mcp__MCP_DOCKER__get_video_info",
-      "mcp__MCP_DOCKER__get_transcript",
-      "mcp__MCP_DOCKER__fetch",
-      "WebFetch(domain:codewiki.google)",
-      "WebSearch",
-      "mcp__MCP_DOCKER__brave_web_search"
-    ],
-    "deny": [],
-    "ask": []
+      "Bash(tree:*)",
+      "Bash(find:*)"
+    ]
   }
 }

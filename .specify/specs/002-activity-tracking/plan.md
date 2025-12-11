@@ -1,7 +1,7 @@
 # Implementation Plan: Activity Tracking & Reporting
 
 ## Overview
-Technical implementation plan for Activity Tracking & Reporting based on the specification in `spec.md`. This is the core feature of RCAP, enabling public health officials to record and track risk communication activities with supporting evidence.
+Technical implementation plan for Activity Tracking & Reporting based on the specification in `spec.md`. This is the core feature of CCIP, enabling public health officials to record and track risk communication activities with supporting evidence.
 
 ## Technology Stack
 - **Backend**: Laravel 10+ with PHP 8.2+

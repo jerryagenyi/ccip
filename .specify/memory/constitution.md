@@ -1,10 +1,10 @@
-# RCAP Constitution
+# CCIP Constitution
 
-This document defines the foundational principles, constraints, and guidelines that govern all development decisions for RCAP (Risk Communication Activity Platform).
+This document defines the foundational principles, constraints, and guidelines that govern all development decisions for CCIP (Risk Communication Activity Platform).
 
 ## Project Mission
 
-RCAP is a purpose-built platform for tracking, reporting, and analyzing public health risk communication activities. It serves federal, state, and local health officials in coordinating verifiable communications, optimized for low-bandwidth African and global contexts.
+CCIP is a purpose-built platform for tracking, reporting, and analyzing public health risk communication activities. It serves federal, state, and local health officials in coordinating verifiable communications, optimized for low-bandwidth African and global contexts.
 
 ## Core Principles
 
@@ -133,7 +133,7 @@ If any check fails, the decision must be:
 
 ## Success Criteria
 
-RCAP MVP is successful when:
+CCIP MVP is successful when:
 - All 5 epics implemented and tested
 - All services running in Docker
 - API documentation complete

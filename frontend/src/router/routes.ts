@@ -71,6 +71,33 @@ const routes: RouteRecordRaw[] = [
       { path: ':id', name: 'messages-detail', component: () => import('pages/MessageDetail.vue') },
     ],
   },
+  // Reports routes
+  {
+    path: '/reports',
+    component: () => import('layouts/MainLayout.vue'),
+    meta: { requiresAuth: true },
+    children: [
+      { path: '', name: 'reports-list', component: () => import('pages/ReportsList.vue') },
+    ],
+  },
+  // Analytics routes
+  {
+    path: '/analytics',
+    component: () => import('layouts/MainLayout.vue'),
+    meta: { requiresAuth: true },
+    children: [
+      { path: '', name: 'analytics', component: () => import('pages/Analytics.vue') },
+    ],
+  },
+  // Settings routes
+  {
+    path: '/settings',
+    component: () => import('layouts/MainLayout.vue'),
+    meta: { requiresAuth: true },
+    children: [
+      { path: '', name: 'settings', component: () => import('pages/Settings.vue') },
+    ],
+  },
   // Help routes
   {
     path: '/help',

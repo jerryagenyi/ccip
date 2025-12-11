@@ -1,11 +1,70 @@
 // App styles
 // Add custom styles here
 
-// RCAP Design System Colors
+// Import Inter font
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+// Typography
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// CCIP Design System Colors
 :root {
-  --rcap-primary: #1976D2;
-  --rcap-secondary: #26A69A;
-  --rcap-accent: #FF6B35;
+  --ccip-primary: #7151B3;
+  --ccip-secondary: #F0F2F5;
+  --ccip-accent: #53A7EA;
+  --ccip-positive: #4CAF50;
+  --ccip-negative: #E74C3C;
+  --ccip-warning: #F59E0B;
+  --ccip-background: #F2F0F7;
+  --ccip-card: #FFFFFF;
+  --ccip-text-primary: #1A202C;
+  --ccip-text-secondary: #718096;
+}
+
+// Global text styles
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: $text-primary;
+  line-height: 1.2;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1.125rem; }
+
+.text-body1 {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.text-body2 {
+  font-size: 0.875rem;
+  line-height: 1.425;
+  font-weight: 400;
+}
+
+.text-caption {
+  font-size: 0.75rem;
+  line-height: 1.375;
+  font-weight: 400;
+  color: $text-secondary;
+}
+
+.text-overline {
+  font-size: 0.75rem;
+  line-height: 1.375;
+  font-weight: 500;
+  letter-spacing: 0.08333em;
+  text-transform: uppercase;
 }
 
 // Low-bandwidth optimizations
@@ -14,7 +73,96 @@ img {
 }
 
 // Custom component styles
-.rcap-card {
-  // Custom card styles
+.q-page {
+  background-color: $background;
+}
+
+.q-card {
+  background-color: $card;
+  border-radius: $card-border-radius;
+  box-shadow: $shadow-1;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: $shadow-2;
+  }
+}
+
+.q-btn {
+  border-radius: $button-border-radius;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.q-input {
+  .q-field__control {
+    border-radius: $button-border-radius;
+  }
+}
+
+.q-menu, .q-dialog {
+  border-radius: $card-border-radius;
+}
+
+// Custom utility classes
+.text-gradient {
+  background: linear-gradient(135deg, $primary 0%, $accent 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-3;
+  }
+}
+
+.section-spacing {
+  padding: 2rem 0;
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+// Loading states
+.loading-skeleton {
+  background: linear-gradient(90deg, $secondary 25%, rgba(240, 242, 245, 0.5) 50%, $secondary 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+// Custom scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $secondary;
+}
+
+::-webkit-scrollbar-thumb {
+  background: darken($secondary, 20%);
+  border-radius: 4px;
+
+  &:hover {
+    background: darken($secondary, 30%);
+  }
 }
 
