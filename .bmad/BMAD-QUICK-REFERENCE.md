@@ -19,6 +19,11 @@
   - [Claude Code Users:](#claude-code-users)
   - [Other Platforms:](#other-platforms)
 - [Pro Tips](#pro-tips)
+- [BMAD's Native Workflow (Without `.specify/`)](#bmads-native-workflow-without-specify)
+  - [When You DON'T Have `.specify/` Specs](#when-you-dont-have-specify-specs)
+  - [Example: Building Login Without `.specify/`](#example-building-login-without-specify)
+  - [BMAD Tech Spec Structure](#bmad-tech-spec-structure)
+  - [Key Differences](#key-differences)
 - [Working with Existing Specifications (Your `.specify/` Folder)](#working-with-existing-specifications-your-specify-folder)
   - [Your Specs are the Source of Truth](#your-specs-are-the-source-of-truth)
   - [How to Check Existing Features with BMAD](#how-to-check-existing-features-with-bmad)
@@ -163,6 +168,99 @@ Check your specific documentation for agent activation commands.
 4. **Quick Flow** (Barry) is perfect for solo developers who want to move fast
 5. **Save intermediate results** - Workflows prompt to save after each step
 6. **You can type numbers instead of commands** - When an agent shows a numbered menu, just type the number
+
+## BMAD's Native Workflow (Without `.specify/`)
+
+### When You DON'T Have `.specify/` Specs
+
+BMAD has its own native workflow for generating and managing technical specifications:
+
+#### Step 1: Create Technical Specification
+```bash
+# Activate Architect or Quick Flow Solo Dev
+/bmad:bmm:agents:architect
+# OR
+/bmad:bmm:agents:quick-flow-solo-dev
+
+# Use the create-tech-spec command
+*create-tech-spec
+```
+
+**What BMAD does:**
+- Asks what you want to build
+- Investigates existing code patterns (if brownfield)
+- Generates complete technical specification
+- Saves to `docs/sprint-artifacts/tech-spec-{feature-name}.md`
+
+#### Step 2: Develop the Feature
+```bash
+# Activate Developer or Quick Flow Solo Dev
+/bmad:bmm:agents:dev
+# OR
+/bmad:bmm:agents:quick-flow-solo-dev
+
+# Execute the tech spec
+*quick-dev  # Using the tech spec file
+```
+
+#### Step 3: Code Review
+```bash
+*code-review
+```
+
+### Example: Building Login Without `.specify/`
+```bash
+/bmad:bmm:agents:architect
+
+> Agent loaded. What would you like to do?
+*create-tech-spec
+
+> BMAD will ask:
+"What feature would you like to build?"
+Type: User authentication system with login and registration
+
+> BMAD then:
+- Analyzes your existing codebase
+- Detects Laravel Sanctum patterns
+- Creates tech spec with tasks and acceptance criteria
+- Saves as: docs/sprint-artifacts/tech-spec-user-auth.md
+
+/bmad:bmm:agents:quick-flow-solo-dev
+
+> Agent loaded. What would you like to do?
+*quick-dev
+
+> When prompted for spec:
+docs/sprint-artifacts/tech-spec-user-auth.md
+
+> BMAD will:
+- Read the tech spec
+- Implement all tasks
+- Follow acceptance criteria
+- Complete the feature
+```
+
+### BMAD Tech Spec Structure
+BMAD generates specs with:
+- **Problem Statement** - What problem are we solving?
+- **Solution Overview** - High-level approach
+- **Code Context** - Existing patterns and conventions
+- **Implementation Tasks** - Detailed task list
+- **Acceptance Criteria** - Given/When/Then format
+- **Dependencies** - What needs to be in place
+- **Testing Strategy** - How to test the implementation
+
+### Key Differences
+
+| **With `.specify/`** | **Without `.specify/` (BMAD Native)** |
+|---------------------|--------------------------------------|
+| Your specs are source of truth | BMAD generates specs from conversation |
+| Structured pre-planning | Conversational spec engineering |
+| Detailed business requirements | Technical-focused specifications |
+| Manual spec creation | AI-generated specs with code analysis |
+| Perfect for large projects | Great for rapid development |
+
+---
 
 ## Working with Existing Specifications (Your `.specify/` Folder)
 
