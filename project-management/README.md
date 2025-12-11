@@ -1,62 +1,78 @@
 # CCIP Project Management
 
-This section contains project management documentation for the CCIP (Crisis Communication Intelligence Platform) project.
+Welcome to the CCIP Project Management hub. This folder contains all project management artifacts, planning documents, and development resources.
 
-## 📁 Directory Structure
+## 📁 Folder Structure
 
-### Current (`current/`)
-- **[Architectural Roadmap](current/architectural-roadmap.md)** - Current technical roadmap and implementation plan
+### 📋 Planning (`planning/`)
+- **[Requirements Specification](planning/REQUIREMENTS_SPECIFICATION.md)** - Complete functional requirements
+- **[Requirements Checklist](planning/REQUIREMENTS_CHECKLIST.md)** - Requirements verification
+- **[Development Readiness Assessment](planning/DEVELOPMENT_READINESS_ASSESSMENT.md)** - Readiness evaluation
+- **[Wiki Integration Assessment](planning/WIKI_INTEGRATION_ASSESSMENT.md)** - Wiki integration analysis
 
-### Archive (`archive/`)
-- **[PRD v1.0 - Archive](archive/PRD_v1.0_ARCHIVE.md)** - Original Product Requirements Document (superseded by v2.0)
-- **[Technical Specification v1.0 - Archive](archive/technical-specification_v1.0_ARCHIVE.md)** - Original technical specification (superseded by v2.0)
+### 🧪 Development (`development/`)
+- [Contributing Guide](development/CONTRIBUTING.md) - How to contribute to the project
+- [Developer Setup](development/DEVELOPER_SETUP.md) - Comprehensive development environment setup
+- [Docker Practices](development/DOCKER_PRACTICES.md) - Docker best practices
+- [AI Implementation Guidelines](development/AI_IMPLEMENTATION_GUIDELINES_FOR_MVP.md) - AI integration guide
+- [AI Planning Phase 3](development/AI_PLANNING_PHASE_3_SPECIFICATION.md) - AI planning details
+- [Post Prompt Status](development/POST_PROMPT_2_STATUS_UPDATE.md) - Implementation status updates
 
-## 📊 Project Status
+### 🔬 Testing (`testing/`)
+- [Auth Testing Summary](testing/AUTH_TESTING_SUMMARY.md) - Authentication testing results
+- [Complete Verification Report](testing/COMPLETE_VERIFICATION_REPORT.md) - Comprehensive testing report
+- [Implementation Readiness Summary](testing/IMPLEMENTATION_READINESS_SUMMARY.md) - Current implementation status
 
-**Overall Progress**: 90% Complete
+### 📦 Archive (`archive/`)
+- [Archive Migration Docs](archive/ARCHIVE_MIGRATION_DOCS.md) - Historical migration documents
+- [Administrative Hierarchy Framework](archive/ADMINISTRATIVE_HIERARCHY_FRAMEWORK.md) - Archived admin framework
 
-### Backend Status: ✅ 90% Complete
-- Laravel API fully implemented
-- 62/62 endpoints complete
-- Authentication system ready
-- Database migrations complete
-- Integration fixes applied
+## 🚀 Quick Start
 
-### Frontend Status: ✅ 80% Complete
-- Vue.js + Quasar framework
-- Component architecture implemented
-- State management with Pinia
-- Responsive design
+1. **Development Environment**
+   - See [Developer Setup](development/DEVELOPER_SETUP.md)
 
-### Integration Status: ✅ Ready
-- Frontend-backend integration tested
-- API endpoints verified
-- Data models synchronized
+2. **Project Requirements**
+   - Start with [Requirements Specification](planning/REQUIREMENTS_SPECIFICATION.md)
 
-## 🎯 Next Milestones
+3. **Current Status**
+   - Check [Implementation Readiness](testing/IMPLEMENTATION_READINESS_SUMMARY.md)
+   - Review [BMAD Workflow Status](../docs/bmm-workflow-status.yaml)
+   - Review [Latest Brainstorming Sessions](../docs/analysis/)
 
-1. **Complete Testing Suite** - Add comprehensive unit and integration tests
-2. **Performance Optimization** - Implement caching and optimize queries
-3. **Documentation** - Complete API documentation and user guides
-4. **Deployment** - Production deployment setup
+## 📊 Current Implementation Status
 
-## 📈 Recent Achievements
+- **Backend**: ✅ 90% Complete
+  - 62/62 API endpoints implemented
+  - Authentication system ready
+  - Database migrations complete
+  - AI integration active
 
-- ✅ Backend API 90% complete
-- ✅ File reorganization completed
-- ✅ Documentation consolidated
-- ✅ Integration fixes applied
-- ✅ Database seeders implemented
+- **Frontend**: ✅ 80% Complete
+  - Vue 3 + Quasar framework
+  - Component architecture
+  - Responsive design
+
+## 🤖 BMAD Development Framework
+
+This project uses the BMAD (Business Methodology for Agile Development) framework with specialized AI agents for efficient development.
+
+- **[BMAD Quick Reference](../.bmad/bmm/docs/BMAD-QUICK-REFERENCE.md)** - When and how to use BMAD agents
+- **[BMAD Agent Guide](../.bmad/bmm/docs/agents-guide.md)** - Detailed agent documentation
+- **[BMAD Workflow Guide](../.bmad/bmm/docs/bmad-quick-flow.md)** - Workflow documentation
+
+Quick access to BMAD agents:
+- Business Analyst: `/bmad:bmm:agents:analyst`
+- Architect: `/bmad:bmm:agents:architect`
+- Developer: `/bmad:bmm:agents:dev`
+- Quick Flow Solo Dev: `/bmad:bmm:agents:quick-flow-solo-dev`
+- Technical Writer: `/bmad:bmm:agents:tech-writer`
+- Product Manager: `/bmad:bmm:agents:pm`
 
 ## 🔗 Related Resources
 
-- [Product Documentation](../product/README.md) - Product requirements and strategy
-- [Technical Documentation](../docs/README.md) - Development guides
-- [Implementation Plan](../docs/technical/implementation/IMPLEMENTATION_PLAN.md)
-- [Backend Status](../docs/technical/implementation/backend/STATUS_CONSOLIDATED.md)
+- **[BMAD Documentation](../docs/)** - BMAD-generated project documentation (index, architecture, source tree)
+- **[BMAD Framework](../.bmad/bmm/docs/)** - Development framework and agents
+- **[Main Project README](../README.md)** - Project overview
 
-## 📝 Notes
-
-- The project has evolved from RCAP (Risk Communication Activity Platform) to CCIP
-- Version 2.0 documents represent the current, validated specifications
-- Archived documents are preserved for historical reference
+**Note:** BMAD workflow files (workflow status, brainstorming sessions, project scan reports) are now stored in `docs/` to align with BMAD configuration.
