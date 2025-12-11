@@ -1,0 +1,187 @@
+# Deploy Pipeline - Runs when code is merged to main
+# Deploys to Hostinger VPS using Dokploy
+#
+# ⚠️ DRAFT - Edit the following before use:
+# 1. Set up GitHub Secrets (Settings > Secrets and variables > Actions):
+#    - DOKPLOY_TOKEN: Your Dokploy API token
+#    - VPS_HOST: Your Hostinger VPS IP or domain
+#    - VPS_SSH_KEY: SSH private key for deployment (optional, for direct SSH)
+#    - VPS_USER: SSH username (optional, for direct SSH)
+#
+# 2. Configure Dokploy settings below
+# 3. Remove 'if: false' from jobs to enable deployment
+
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # Allow manual trigger
+
+env:
+  # ============================================
+  # 📝 EDIT THESE VALUES
+  # ============================================
+  DOKPLOY_URL: 'https://your-dokploy-instance.com'  # Your Dokploy dashboard URL
+  PROJECT_NAME: 'ccip'
+  BACKEND_SERVICE: 'ccip-backend'
+  FRONTEND_SERVICE: 'ccip-frontend'
+  
+jobs:
+  # ============================================
+  # Build and Push Docker Images
+  # ============================================
+  build:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    # if: false  # ⚠️ Remove this line to enable
+    
+    outputs:
+      backend_image: ${{ steps.meta-backend.outputs.tags }}
+      frontend_image: ${{ steps.meta-frontend.outputs.tags }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # If using Docker Hub or GitHub Container Registry
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          # For GitHub Container Registry:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          # For Docker Hub, use:
+          # username: ${{ secrets.DOCKERHUB_USERNAME }}
+          # password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract metadata for backend
+        id: meta-backend
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}/backend
+          tags: |
+            type=sha,prefix=
+            type=raw,value=latest
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ${{ steps.meta-backend.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Extract metadata for frontend
+        id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}/frontend
+          tags: |
+            type=sha,prefix=
+            type=raw,value=latest
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ============================================
+  # Deploy via Dokploy API
+  # ============================================
+  deploy-dokploy:
+    name: Deploy via Dokploy
+    runs-on: ubuntu-latest
+    needs: build
+    if: false  # ⚠️ Remove this line to enable Dokploy deployment
+    
+    steps:
+      - name: Trigger Dokploy deployment
+        run: |
+          # Option 1: Trigger via Dokploy webhook
+          curl -X POST "${{ env.DOKPLOY_URL }}/api/deploy" \
+            -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "projectName": "${{ env.PROJECT_NAME }}",
+              "services": ["${{ env.BACKEND_SERVICE }}", "${{ env.FRONTEND_SERVICE }}"]
+            }'
+
+      - name: Wait for deployment
+        run: sleep 30
+
+      - name: Health check
+        run: |
+          # Add your production URL health check
+          # curl -f https://your-domain.com/api/health || exit 1
+          echo "Health check placeholder - configure your production URL"
+
+  # ============================================
+  # Alternative: Deploy via SSH
+  # ============================================
+  deploy-ssh:
+    name: Deploy via SSH
+    runs-on: ubuntu-latest
+    needs: build
+    if: false  # ⚠️ Remove this line to enable SSH deployment
+    
+    steps:
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /opt/dokploy/projects/${{ env.PROJECT_NAME }}
+            
+            # Pull latest images
+            docker compose pull
+            
+            # Restart services with new images
+            docker compose up -d --force-recreate
+            
+            # Clean up old images
+            docker image prune -f
+            
+            # Run migrations
+            docker compose exec -T backend php artisan migrate --force
+            
+            # Clear caches
+            docker compose exec -T backend php artisan config:cache
+            docker compose exec -T backend php artisan route:cache
+            docker compose exec -T backend php artisan view:cache
+            
+            echo "Deployment complete!"
+
+  # ============================================
+  # Notify on completion
+  # ============================================
+  notify:
+    name: Notify
+    runs-on: ubuntu-latest
+    needs: [build]  # Add deploy-dokploy or deploy-ssh when enabled
+    if: always()
+    
+    steps:
+      - name: Deployment status
+        run: |
+          if [ "${{ needs.build.result }}" == "success" ]; then
+            echo "✅ Deployment successful!"
+            # Add Slack/Discord/Email notification here
+          else
+            echo "❌ Deployment failed!"
+            # Add failure notification here
+          fi
+

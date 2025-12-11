@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(tree:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "SlashCommand(/bmad:bmm:workflows:workflow-init)",
+      "Bash(dir:*)"
     ]
   }
 }
