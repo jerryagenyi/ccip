@@ -9,6 +9,7 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 const { configure } = require('quasar/wrappers');
+const path = require('path');
 
 module.exports = configure(function (ctx) {
   return {
@@ -66,7 +67,14 @@ module.exports = configure(function (ctx) {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      extendViteConf (viteConf) {
+        // Configure path aliases
+        viteConf.resolve = viteConf.resolve || {};
+        viteConf.resolve.alias = {
+          ...viteConf.resolve.alias,
+          '@': path.resolve(__dirname, './src'),
+        };
+      },
       // viteVuePluginOptions: {},
 
       vitePlugins: [
@@ -80,6 +88,8 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
+      port: 5173,
+      host: '0.0.0.0',
       // https: true
       open: true // opens browser window automatically
     },

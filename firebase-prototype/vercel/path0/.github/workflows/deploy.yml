@@ -1,0 +1,62 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  # === GHCR CONFIGURATION ===
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  # If you prefer Docker Hub, uncomment the lines below and comment out the GHCR lines.
+  # === DOCKER HUB CONFIGURATION ===
+  # REGISTRY: docker.io
+  # IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}
+
+jobs:
+  build-and-push:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # Required for pushing to GHCR
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }} # Use GHCR_PAT for GHCR
+          # If using Docker Hub, use these credentials instead:
+          # username: ${{ secrets.DOCKERHUB_USERNAME }}
+          # password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,prefix=
+            latest
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Trigger Dokploy Webhook
+        if: success()
+        uses: distributhor/workflow-webhook@v3
+        env:
+          webhook_url: ${{ secrets.DOKPLOY_WEBHOOK_URL }}
+          webhook_secret: ${{ secrets.DOKPLOY_TOKEN }}
+          data: '{ "repo": "${{ github.repository }}", "ref": "${{ github.sha }}", "image": "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" }'

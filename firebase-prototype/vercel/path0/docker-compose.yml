@@ -1,0 +1,30 @@
+# This is an example docker-compose.yml file for running your application with Dokploy.
+# Dokploy will manage this for you, but it's useful for understanding the configuration.
+
+services:
+  app:
+    # Replace <owner> with your GitHub username or organization name.
+    image: ghcr.io/<owner>/ccip-firebase:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Inject necessary environment variables here.
+      # These should be configured in your Dokploy service settings.
+      # For example:
+      # DATABASE_URL: ${DATABASE_URL}
+      # NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      PORT: 3000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    # Dokploy uses Traefik under the hood. You can configure labels here
+    # for advanced routing, but basic subdomain and TLS are handled
+    # automatically through the Dokploy UI.
+    labels:
+      - "traefik.enable=true"
+      # Example: "traefik.http.routers.myapp.rule=Host(`myapp.example.com`)"
+      # This is typically managed by Dokploy.

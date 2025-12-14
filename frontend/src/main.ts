@@ -22,5 +22,11 @@ app.use(Quasar, {
 app.use(pinia);
 app.use(router);
 
-app.mount('#q-app');
+// Try both possible mount points
+const mountPoint = document.querySelector('#q-app') || document.querySelector('#root');
+if (mountPoint) {
+  app.mount(mountPoint);
+} else {
+  console.error('Could not find Vue app mount point (#q-app or #root)');
+}
 

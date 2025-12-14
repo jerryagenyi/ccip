@@ -1,0 +1,187 @@
+{
+    "entities": {
+        "UserProfile": {
+            "title": "User Profile",
+            "description": "Represents a user's profile information.",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The user's full name."
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "The user's email address."
+                },
+                "avatarId": {
+                    "type": "string",
+                    "description": "ID for the user's avatar image."
+                },
+                "role": {
+                    "type": "string",
+                    "description": "The user's role in the system."
+                },
+                "team": {
+                    "type": "string",
+                    "description": "The team or organization the user belongs to."
+                }
+            },
+            "required": ["name", "email", "role"]
+        },
+        "Activity": {
+            "title": "Activity",
+            "description": "Represents a health-related activity or campaign.",
+            "type": "object",
+            "properties": {
+                "title": { "type": "string" },
+                "status": { "type": "string", "enum": ["Draft", "Submitted", "Approved", "Rejected", "Completed"] },
+                "organization": { "type": "string" },
+                "location": { "type": "string" },
+                "dateCreated": { "type": "string", "format": "date-time" },
+                "lastModified": { "type": "string", "format": "date-time" },
+                "description": { "type": "string" },
+                "type": { "type": "string" },
+                "targetContext": {
+                    "type": "object",
+                    "properties": {
+                        "region": { "type": "string" },
+                        "language": { "type": "string" },
+                        "culture": { "type": "string" }
+                    }
+                },
+                "plannedMessage": {
+                    "type": "object",
+                    "properties": {
+                        "content": { "type": "string" },
+                        "channels": { "type": "array", "items": { "type": "string" } },
+                        "messengers": { "type": "array", "items": { "type": "string" } }
+                    }
+                },
+                "semioticRiskScore": { "type": "number" },
+                "semioticAssessment": {
+                    "type": "object",
+                    "properties": {
+                        "assessedAt": { "type": "string", "format": "date-time" },
+                        "riskScore": { "type": "number" },
+                        "confidence": { "type": "number" },
+                        "predictedFailures": { "type": "array", "items": { "type": "object" } },
+                        "recommendations": { "type": "array", "items": { "type": "object" } },
+                        "appliedRecommendations": { "type": "array", "items": { "type": "string" } }
+                    }
+                },
+                 "communicationEffectiveness": {
+                    "type": "object",
+                    "properties": {
+                        "understandingScore": { "type": "number" },
+                        "complianceRate": { "type": "number" },
+                        "barriersEncountered": { "type": "array", "items": { "type": "string" } },
+                        "messageResonance": { "type": "string", "enum": ["high", "medium", "low"] },
+                        "culturalAlignment": { "type": "number" }
+                    }
+                },
+                "semioticValidation": {
+                    "type": "object",
+                    "properties": {
+                        "predictedFailuresValidated": { "type": "array", "items": { "type": "boolean" } },
+                        "recommendationsUsed": { "type": "array", "items": { "type": "string" } },
+                        "actualOutcome": { "type": "string", "enum": ["success", "partial", "failure"] }
+                    }
+                },
+                 "humanReviewCompleted": { "type": "boolean" }
+            },
+            "required": ["title", "status", "organization", "dateCreated"]
+        },
+        "Organisation": {
+            "title": "Organisation",
+            "description": "Represents an organization in the system.",
+            "type": "object",
+            "properties": {
+                "name": { "type": "string" },
+                "level": { "type": "string", "enum": ["Federal", "State", "LGA"] },
+                "type": { "type": "string", "enum": ["Government", "NGO", "CSO", "LGA"] },
+                "members": { "type": "number" },
+                "activities": { "type": "number" },
+                "status": { "type": "string", "enum": ["Active", "Pending", "Suspended"] },
+                "parent": { "type": ["string", "null"] }
+            },
+            "required": ["name", "level", "type", "status"]
+        },
+        "SemioticPattern": {
+            "title": "Semiotic Pattern",
+            "description": "Represents a known semiotic pattern that can indicate risk in communication.",
+            "type": "object",
+            "properties": {
+                "patternId": { "type": "string" },
+                "patternType": { "type": "string" },
+                "context": {
+                    "type": "object",
+                    "properties": {
+                        "region": { "type": "string" },
+                        "language": { "type": "string" },
+                        "culture": { "type": "string" }
+                    }
+                },
+                "failedElement": { "type": "string" },
+                "recommendation": { "type": "string" },
+                "riskScore": { "type": "number" },
+                "confidence": { "type": "number" }
+            },
+            "required": ["patternId", "patternType", "context", "failedElement", "recommendation", "riskScore"]
+        },
+        "FieldReport": {
+            "title": "Field Report",
+            "description": "Represents a report from the field on communication effectiveness.",
+            "type": "object",
+            "properties": {
+                 "activityId": { "type": "string" },
+                 "reportDate": { "type": "string", "format": "date-time" },
+                 "submittedBy": { "type": "string" },
+                 "communicationEffectiveness": {
+                    "type": "object",
+                    "properties": {
+                        "understandingScore": { "type": "number" },
+                        "complianceRate": { "type": "number" },
+                        "barriersEncountered": { "type": "array", "items": { "type": "string" } },
+                        "messageResonance": { "type": "string", "enum": ["high", "medium", "low"] },
+                        "culturalAlignment": { "type": "number" }
+                    }
+                },
+                "semioticValidation": {
+                    "type": "object",
+                    "properties": {
+                        "predictedFailuresValidated": { "type": "array", "items": { "type": "boolean" } },
+                        "recommendationsUsed": { "type": "array", "items": { "type": "string" } },
+                        "actualOutcome": { "type": "string", "enum": ["success", "partial", "failure"] }
+                    }
+                }
+            },
+            "required": ["activityId", "reportDate", "submittedBy"]
+        }
+    },
+    "auth": {
+        "providers": ["anonymous"]
+    },
+    "firestore": {
+        "/users/{userId}": {
+            "schema": { "$ref": "#/entities/UserProfile" },
+            "description": "Stores user profile information."
+        },
+        "/activities": {
+            "schema": { "$ref": "#/entities/Activity" },
+            "description": "Collection of all activities (campaigns)."
+        },
+        "/organisations": {
+            "schema": { "$ref": "#/entities/Organisation" },
+            "description": "Collection of all organisations."
+        },
+        "/semiotic_patterns": {
+            "schema": { "$ref": "#/entities/SemioticPattern" },
+            "description": "Collection of known semiotic risk patterns."
+        },
+        "/field_reports": {
+            "schema": { "$ref": "#/entities/FieldReport" },
+            "description": "Collection of field reports on communication effectiveness."
+        }
+    }
+}

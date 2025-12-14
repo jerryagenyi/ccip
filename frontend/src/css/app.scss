@@ -1,0 +1,18 @@
+// App-wide styles
+@import 'quasar/src/css/index.sass';
+
+// Base styles
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+// Custom variables
+$primary: #7151B3;
+$secondary: #F0F2F5;
+$accent: #53A7EA;
+$positive: #4CAF50;
+$negative: #E74C3C;
+$info: #53A7EA;
+$warning: #F59E0B;

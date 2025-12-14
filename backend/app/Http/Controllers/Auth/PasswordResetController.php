@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,30 +13,22 @@ use Illuminate\Validation\ValidationException;
 
 class PasswordResetController extends Controller
 {
-    public function sendResetLink(Request $request)
+    public function sendResetLink(ForgotPasswordRequest $request)
     {
-        $request->validate(['email' => 'required|email']);
 
-        $status = Password::sendResetLink(
+        // Always attempt to send reset link, but don't reveal if email exists
+        // This prevents email enumeration attacks
+        Password::sendResetLink(
             $request->only('email')
         );
 
-        if ($status === Password::RESET_LINK_SENT) {
-            return $this->success(null, 'Password reset link sent to your email');
-        }
-
-        throw ValidationException::withMessages([
-            'email' => [__($status)],
-        ]);
+        // Always return success message regardless of whether email exists
+        // This is a security best practice to prevent email enumeration
+        return $this->success(null, 'If that email address exists, a password reset link has been sent.');
     }
 
-    public function reset(Request $request)
+    public function reset(ResetPasswordRequest $request)
     {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
-        ]);
 
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
