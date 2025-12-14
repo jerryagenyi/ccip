@@ -2,7 +2,7 @@
 project_name: 'ccip'
 user_name: 'Jerry'
 date: '2025-12-14'
-sections_completed: ['technology_stack']
+sections_completed: ['technology_stack', 'language_specific_rules']
 existing_patterns_found: 15
 ---
 
@@ -43,4 +43,29 @@ _This file contains critical rules and patterns that AI agents must follow when 
 
 ## Critical Implementation Rules
 
-_Documented after discovery phase_
+### Language-Specific Rules
+
+#### TypeScript/JavaScript
+- **Strict mode enabled** — all code must be fully typed
+- `noUnusedLocals: true` — remove unused variables
+- `noUnusedParameters: true` — remove unused function parameters
+- **BAN `any` type** — use `unknown` or proper types instead
+- Use `const` assertions for literal types: `as const`
+- Prefer `interface` over `type` for object shapes
+- Always type function return values explicitly
+- Path alias `@/` maps to `src/` — use `@/components/` not relative paths
+- Use ES6 `import/export` syntax (no `require()`)
+- Type imports: `import type { Activity } from '@/types'`
+- Vue composables return reactive refs/computed, not plain values
+- Pinia stores use `defineStore` with Composition API syntax only
+
+#### PHP/Laravel
+- Always use type hints in method signatures: `public function createActivity(array $data): Activity`
+- Use Form Requests for validation (`LoginRequest`, not inline `$request->validate()`)
+- Prefer Eloquent relationships over manual joins
+- Always use `$fillable` array, never `$guarded = []`
+- Use `SoftDeletes` trait where appropriate
+- Cast JSON fields: `protected $casts = ['metadata' => 'array']`
+- Use API Resources (`ActivityResource`) for all responses, never return raw models
+- All endpoints under `/api/v1/` — no exceptions
+- PSR-4 autoloading: namespace matches directory structure
