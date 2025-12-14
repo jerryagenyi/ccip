@@ -2,7 +2,7 @@
 project_name: 'ccip'
 user_name: 'Jerry'
 date: '2025-12-14'
-sections_completed: ['technology_stack', 'language_specific_rules']
+sections_completed: ['technology_stack', 'language_specific_rules', 'framework_specific_rules']
 existing_patterns_found: 15
 ---
 
@@ -69,3 +69,46 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - Use API Resources (`ActivityResource`) for all responses, never return raw models
 - All endpoints under `/api/v1/` — no exceptions
 - PSR-4 autoloading: namespace matches directory structure
+
+### Framework-Specific Rules
+
+#### Vue 3 + Quasar
+- **Composition API only** — no Options API
+- Use `<script setup lang="ts">` syntax for all components
+- Define props with TypeScript interfaces: `interface Props { ... }`
+- Use `defineProps<Props>()` and `defineEmits<Emits>()`
+- Composables use `export function useXxx()` pattern
+- Pinia stores use `defineStore` with Composition API syntax (setup function style)
+- Use Quasar components (`q-btn`, `q-card`, `q-input`) instead of custom HTML
+- Wrap Quasar components in base components (`BaseButton.vue`, `BaseCard.vue`) for consistency
+- Use Quasar's built-in props (`color`, `size`, `variant`) rather than custom CSS classes
+- Follow Quasar's responsive breakpoints (`xs`, `sm`, `md`, `lg`, `xl`)
+- Pinia stores in `src/stores/` — one store per domain (`useActivityStore`, `useUserStore`)
+- Stores use Composition API: `defineStore('name', () => { ... })`
+- Use `ref()` for reactive state, `computed()` for derived state
+- Actions are async functions, not methods
+- Never mutate state directly outside the store
+- Routes defined in `src/router/routes.ts`
+- Use route guards in `src/router/guards.ts` for authentication
+- Use `useRouter()` and `useRoute()` composables, not `this.$router`
+
+#### Laravel
+- Controllers in `app/Http/Controllers/` — use `Controller` base class
+- API controllers return JSON responses using `$this->paginated()` or `$this->success()`
+- Use Form Request classes (`LoginRequest`) for validation, not inline validation
+- Keep controllers thin — move business logic to Services
+- Services in `app/Services/` — encapsulate business logic
+- Services are plain PHP classes, not extending anything
+- Use dependency injection in constructors
+- Return domain objects or arrays, not HTTP responses
+- Models use `HasFactory` and `SoftDeletes` traits where appropriate
+- Always define `$fillable` array — never use `$guarded = []`
+- Use `$casts` for JSON/array fields: `'metadata' => 'array'`
+- Define relationships: `belongsTo()`, `hasMany()`, `belongsToMany()`
+- Use Eloquent query builder, avoid raw SQL
+- Use API Resources (`ActivityResource`) for all API responses
+- Resources transform models to JSON structure
+- Never return raw models from controllers
+- Authentication via `auth:sanctum` middleware
+- Use Spatie permissions middleware for RBAC
+- Custom middleware in `app/Http/Middleware/`
