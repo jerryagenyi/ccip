@@ -2,7 +2,7 @@
 project_name: 'ccip'
 user_name: 'Jerry'
 date: '2025-12-14'
-sections_completed: ['technology_stack', 'language_specific_rules', 'framework_specific_rules']
+sections_completed: ['technology_stack', 'language_specific_rules', 'framework_specific_rules', 'testing_rules']
 existing_patterns_found: 15
 ---
 
@@ -112,3 +112,66 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - Authentication via `auth:sanctum` middleware
 - Use Spatie permissions middleware for RBAC
 - Custom middleware in `app/Http/Middleware/`
+
+### Testing Rules
+
+#### Frontend Testing (Vitest + Playwright)
+- Unit tests: `tests/unit/` — test components, stores, composables in isolation
+- E2E tests: `tests/e2e/` — test full user workflows with Playwright
+- Test files: `*.spec.ts` or `*.test.ts` naming convention
+- Setup file: `tests/setup.ts` for global test configuration
+- Use `describe` blocks to group related tests
+- Use `beforeEach` for test setup, clean up after tests
+- Environment: `jsdom` for component testing
+- Path alias `@/` works in tests (configured in `vitest.config.ts`)
+- Coverage provider: `v8` with text, json, html reporters
+- Exclude: `node_modules/`, `tests/`, config files, dist files
+- Use `@vue/test-utils` for component testing
+- Test component props, emits, slots, and user interactions
+- Mock Quasar components if needed: `vi.mock('quasar')`
+- Test composables independently, not through components
+- Use `vi.fn()` for mocks (Vitest, not Jest)
+- Pinia store tests use `createTestingPinia()` helper
+- Test Pinia stores in isolation with `setActivePinia(createPinia())`
+- Test state changes, computed properties, and async actions
+- Mock API calls: `vi.mock('@/services/api')`
+- Test async operations properly — use `await` for async actions
+- Test critical user flows: login, activity creation, navigation
+- Use data-testid attributes for reliable selectors
+- Test offline functionality (PWA features)
+- Test responsive behavior across breakpoints
+- Use page object pattern for complex Playwright flows
+- Test accessibility (a11y) with `@axe-core/playwright`
+
+#### Backend Testing (PHPUnit)
+- Feature tests: `tests/Feature/` — test API endpoints and workflows
+- Unit tests: `tests/Unit/` — test models, services, utilities
+- Test files: `*Test.php` naming convention
+- Use `RefreshDatabase` trait for feature tests that need actual DB state
+- Use factories for test data: `Activity::factory()->create()`
+- Test authentication: `$this->actingAs($user)`
+- Test authorization: verify role-based access control
+- Test validation: submit invalid data, verify error responses
+- Test pagination: verify paginated responses structure
+- Use `assertDatabaseHas()` and `assertDatabaseMissing()` for data verification
+- Test queue jobs separately from controllers
+- Test file uploads properly — mock S3/MinIO in tests
+- Test soft deletes — verify `deleted_at` is set, not actual deletion
+- Test relationships — verify eager loading works with `->with()`
+- Avoid N+1 queries in tests — verify eager loading
+- Test pagination edge cases — empty results, single page, last page
+- Test all HTTP methods: GET, POST, PUT, DELETE
+- Test status codes: 200, 201, 400, 401, 403, 404, 422
+- Test response structure: verify JSON structure matches API Resources
+- Test error handling: verify error messages and codes
+- Test API contracts — verify API Resources transform data correctly
+- Test middleware chains — authentication, authorization, rate limiting
+- Test error responses match API spec
+
+#### General Testing Rules
+- Write tests before implementation (TDD) or alongside code
+- Test error paths, not just happy paths
+- Mock external services (AI service, S3, email)
+- Keep tests fast — use factories, not database seeding
+- One assertion per test concept, but multiple assertions per test are fine
+- Test names describe what is being tested: `test_user_can_create_activity()`
