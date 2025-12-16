@@ -2,8 +2,11 @@
 project_name: 'ccip'
 user_name: 'Jerry'
 date: '2025-12-14'
-sections_completed: ['technology_stack', 'language_specific_rules', 'framework_specific_rules', 'testing_rules', 'code_quality_style_rules', 'development_workflow_rules']
-existing_patterns_found: 15
+sections_completed:
+  ['technology_stack', 'language_specific_rules', 'framework_specific_rules', 'testing_rules', 'code_quality_style_rules', 'development_workflow_rules', 'critical_dont_miss_rules']
+status: 'complete'
+rule_count: 150+
+optimized_for_llm: true
 ---
 
 # Project Context for AI Agents
@@ -341,3 +344,119 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - Tag releases with version numbers
 - Update `CHANGELOG.md` for each release
 - Test in staging before production
+
+### Critical Don't-Miss Rules
+
+#### Anti-Patterns to Avoid
+
+**Frontend:**
+- Don't use Options API — Composition API only
+- Don't use `any` type — use proper types or `unknown`
+- Don't mutate Pinia state outside stores — use actions
+- Don't use `v-html` without sanitization — security risk
+- Don't create components over 300 lines — split them
+- Don't use relative imports (`../../components/`) — use `@/` alias
+- Don't forget to handle loading and error states in async operations
+- Don't use `watchEffect` without understanding dependencies — prefer explicit `watch`
+
+**Backend:**
+- Don't use `$guarded = []` — always use `$fillable` array
+- Don't return raw models from controllers — use API Resources
+- Don't use inline validation in controllers — use Form Requests
+- Don't use raw SQL queries — use Eloquent query builder
+- Don't forget to use `SoftDeletes` trait where appropriate
+- Don't skip type hints in method signatures
+- Don't create endpoints outside `/api/v1/` — versioning requirement
+- Don't forget to handle exceptions — use try/catch or Laravel's exception handling
+
+#### Edge Cases to Handle
+
+**Frontend:**
+- Handle empty states in lists/tables
+- Handle network errors gracefully with user-friendly messages
+- Handle offline mode (PWA) — show appropriate UI
+- Handle form validation errors from API responses
+- Handle pagination edge cases — empty results, single page, last page
+- Handle loading states during async operations
+- Handle race conditions in async actions (use AbortController if needed)
+
+**Backend:**
+- Handle soft-deleted records in queries — use `withTrashed()` if needed
+- Handle pagination edge cases — empty results, invalid page numbers
+- Handle file upload validation — size, type, security
+- Handle concurrent updates — use database transactions where needed
+- Handle missing relationships gracefully — check `exists()` before accessing
+- Handle JSON field validation — ensure valid JSON structure
+- Handle timezone issues — use UTC for storage, convert for display
+
+#### Security Rules
+
+**Frontend:**
+- Never expose API keys or secrets in client code
+- Sanitize user input before displaying (prevent XSS)
+- Validate input on client side, but always validate on server too
+- Use HTTPS for all API calls
+- Store tokens securely — use httpOnly cookies or secure localStorage
+
+**Backend:**
+- Always validate and sanitize user input
+- Use parameterized queries (Eloquent handles this)
+- Never expose sensitive data in error messages
+- Use Laravel Sanctum for authentication — don't roll your own
+- Use Spatie permissions for authorization — check permissions in middleware
+- Hash passwords — never store plain text
+- Use CSRF protection for state-changing operations
+- Validate file uploads — check type, size, scan for malware
+- Use rate limiting on API endpoints
+- Log security events — failed logins, permission denials
+
+#### Performance Gotchas
+
+**Frontend:**
+- Avoid N+1 queries — use eager loading (`with()`)
+- Don't render large lists without virtualization
+- Use `v-show` instead of `v-if` for frequently toggled elements
+- Debounce search inputs to avoid excessive API calls
+- Use `computed` for expensive calculations, not methods
+- Lazy load routes and components
+- Optimize images — use appropriate formats and sizes
+
+**Backend:**
+- Avoid N+1 queries — use `with()` for eager loading
+- Use database indexes for frequently queried columns
+- Cache expensive queries — use Redis for caching
+- Use pagination for large datasets — never return all records
+- Use database transactions for multi-step operations
+- Avoid loading unnecessary relationships
+- Use query scopes to avoid repeating query logic
+- Use `select()` to limit columns when you don't need all fields
+
+#### Critical Project-Specific Rules
+- Always check SpecKit specs before implementation — `.specify/specs/XXX-feature-name/`
+- Follow task order in `tasks.md` — no skipping or reordering
+- All endpoints must be under `/api/v1/` — no exceptions
+- Use API Resources for all responses — never return raw models
+- Test offline functionality — PWA must work offline
+- Low-bandwidth optimization required — minimize payload sizes
+- No mapping/GIS features in MVP — explicitly excluded
+- Role-based security strictly enforced — check permissions at API level
+
+---
+
+## Usage Guidelines
+
+**For AI Agents:**
+- Read this file before implementing any code
+- Follow ALL rules exactly as documented
+- When in doubt, prefer the more restrictive option
+- Update this file if new patterns emerge
+
+**For Humans:**
+- Keep this file lean and focused on agent needs
+- Update when technology stack changes
+- Review quarterly for outdated rules
+- Remove rules that become obvious over time
+
+---
+
+*Last Updated: 2025-12-14*
