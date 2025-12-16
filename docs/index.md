@@ -25,6 +25,7 @@ For new developers, start with the [Main Documentation README](./README.md).
 - [Frontend Architecture](./architecture/frontend.md) - Vue 3 + Quasar implementation
 - [Backend Architecture](./architecture/backend.md) - Laravel API implementation
 - [Technical Roadmap](./architecture/roadmap.md) - Implementation phases
+- [UI/UX Design Specification](./ux-design.md) - UI/UX design system and component specifications (migrated from Firebase prototype)
 
 ## API Documentation
 
