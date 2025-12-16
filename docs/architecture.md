@@ -6,8 +6,7 @@ status: 'complete'
 completedAt: '2025-12-14'
 inputDocuments:
   - docs/prd.md
-  - docs/research/MACHINE_LEARNING_ARCHITECTURAL_FOUNDATION.md
-  - docs/research/PERPLEXITY_RESEARCH_REPORT.md
+  - docs/research/ccip-research-foundation.md
   - docs/index.md
   - docs/architecture/overview.md
   - docs/architecture/backend.md
