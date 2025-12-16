@@ -2,8 +2,8 @@
 stepsCompleted: []
 inputDocuments:
   - docs/prd.md
-  - product/research/MACHINE_LEARNING_ARCHITECTURAL_FOUNDATION.md
-  - product/research/PERPLEXITY_RESEARCH_REPORT.md
+  - docs/research/MACHINE_LEARNING_ARCHITECTURAL_FOUNDATION.md
+  - docs/research/PERPLEXITY_RESEARCH_REPORT.md
   - docs/index.md
   - docs/architecture/overview.md
   - docs/architecture/backend.md

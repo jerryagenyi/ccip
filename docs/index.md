@@ -41,13 +41,27 @@ For new developers, start with the [Main Documentation README](./README.md).
 
 Database schemas are defined in epic specifications in `docs/epics/` - BMAD Method epics and stories
 
+## Research & Reference
+
+- [Research Documents](./research/) - Machine learning foundations, research reports
+- [BMAD Project Structure](./BMAD-STRUCTURE.md) - BMAD Method project organization
+
 ## Archived Documentation
 
-All previous technical documentation has been archived in `./archived/technical-docs-backup/` for reference
+All previous technical documentation has been archived in `./archived/` for reference:
+- SpecKit specifications: `./archived/speckit/`
+- Old implementation plans: `./archived/implementation-roadmap.md`, etc.
+- Technical docs backup: `./archived/technical-docs-backup/`
 
 ## Getting Started
 
 For the most up-to-date setup instructions, see [Getting Started Guide](./getting-started/).
+
+## BMAD Method Workflow
+
+- [BMAD Project Structure](./BMAD-STRUCTURE.md) - Project organization guide
+- [Option A Task List](./OPTION-A-TASK-LIST.md) - Complete task list for Full BMAD Method workflow
+- [Workflow Status](./bmm-workflow-status.yaml) - Current BMAD workflow progress
 
 ---
 
