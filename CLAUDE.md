@@ -63,9 +63,10 @@ npm run test:e2e          # E2E tests with Playwright
 
 ### Key Architectural Concepts
 
-1. **SpecKit-Driven Development**: All features follow Epic → Spec → Plan → Tasks → Implementation workflow
-   - Epic specs in `.specify/specs/XXX-feature-name/`
-   - Always check relevant specs before implementation
+1. **BMAD Method Development**: All features follow Epic → Story → Implementation workflow
+ - Epic specifications in `docs/epics/epic-XXX-feature-name.md`
+ - User stories in `docs/stories/US-XXX-story-name.md`
+ - Always check relevant epics and stories before implementation
 
 2. **Hierarchical Organization System**:
    - Multi-level role-based access (Super Admin → Admin → Sub-admin → User)
@@ -119,10 +120,14 @@ Core entities:
 - **Role-based security** strictly enforced
 
 ## Important Files
-- Epic specifications: `.specify/specs/XXX-feature-name/spec.md`
+- Product Requirements: `docs/prd.md`
+- Epic specifications: `docs/epics/epic-XXX-feature-name.md`
+- User stories: `docs/stories/US-XXX-story-name.md`
+- Architecture: `docs/architecture.md`
+- Project Context: `docs/project_context.md` - Critical rules for AI agents
 - Implementation plan: `IMPLEMENTATION_PLAN.md`
 - Backend status: `backend/README.md`
-- API endpoints: `docs/technical/api/CCIP_API_ENDPOINT_SPECIFICATION.md`
+- API endpoints: `docs/api/`
 
 ## Testing Strategy
 - Backend: PHPUnit with feature tests

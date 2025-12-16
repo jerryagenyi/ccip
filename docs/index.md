@@ -21,11 +21,17 @@ For new developers, start with the [Main Documentation README](./README.md).
 ## Core Documentation
 
 - [README](./README.md) - Main technical documentation
+- [Product Requirements Document (PRD)](./prd.md) - Product requirements and specifications
 - [System Architecture Overview](./architecture/overview.md) - Complete system architecture
 - [Frontend Architecture](./architecture/frontend.md) - Vue 3 + Quasar implementation
 - [Backend Architecture](./architecture/backend.md) - Laravel API implementation
 - [Technical Roadmap](./architecture/roadmap.md) - Implementation phases
 - [UI/UX Design Specification](./ux-design.md) - UI/UX design system and component specifications (migrated from Firebase prototype)
+
+## Epics & Stories
+
+- [Epics](./epics/) - Feature epics organized by number (epic-001, epic-002, etc.)
+- [Stories](./stories/) - User stories organized by story ID (US-001, US-002, etc.)
 
 ## API Documentation
 
@@ -33,7 +39,7 @@ For new developers, start with the [Main Documentation README](./README.md).
 
 ## Data Models
 
-Database schemas are defined in `.specify/specs/*/data-model.md` - SpecKit specifications
+Database schemas are defined in epic specifications in `docs/epics/` - BMAD Method epics and stories
 
 ## Archived Documentation
 

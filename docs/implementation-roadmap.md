@@ -611,7 +611,7 @@ Full Release:                                                      ▲
 ### 8.3 Related Documents
 
 - **Implementation Readiness Report:** `docs/implementation-readiness-report-2025-12-13.md`
-- **PRD:** `product/requirements/product_requirements_document_v2.0.md`
+- **PRD:** `docs/prd.md`
 - **UX Design:** `firebase-prototype/docs/UX_DESIGN_SPECIFICATION.md`
 
 ---

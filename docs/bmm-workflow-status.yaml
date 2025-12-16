@@ -63,7 +63,7 @@ workflow_status: |
           required: true
           agent: "pm"
           command: "prd"
-          status: "required"
+          status: "docs/prd.md"
           output: "PRD focused on new features/changes"
           note: "Must consider existing system constraints"
         - id: "create-ux-design"
@@ -87,7 +87,7 @@ workflow_status: |
           required: true
           agent: "pm"
           command: "create-epics-and-stories"
-          status: "required"
+          status: "docs/epics/"
           note: "Required: Break down PRD into implementable epics and stories with full context (PRD + UX + Architecture)"
         - id: "test-design"
           recommended: true

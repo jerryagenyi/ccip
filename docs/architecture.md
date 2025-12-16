@@ -1,7 +1,7 @@
 ---
 stepsCompleted: []
 inputDocuments:
-  - product/requirements/product_requirements_document_v2.0.md
+  - docs/prd.md
   - product/research/MACHINE_LEARNING_ARCHITECTURAL_FOUNDATION.md
   - product/research/PERPLEXITY_RESEARCH_REPORT.md
   - docs/index.md
@@ -9,14 +9,14 @@ inputDocuments:
   - docs/architecture/backend.md
   - docs/architecture/frontend.md
   - docs/ux-design.md
-  - .specify/specs/001-user-organisation-management/spec.md
-  - .specify/specs/002-activity-tracking/spec.md
-  - .specify/specs/003-dashboards-analytics/spec.md
-  - .specify/specs/004-communication/spec.md
-  - .specify/specs/005-documentation/spec.md
-  - .specify/specs/006-pricing-subscription/spec.md
-  - .specify/specs/007-semiotic-risk-assessment/spec.md
-  - .specify/specs/008-pattern-database/spec.md
+  - docs/epics/epic-001-user-organisation-management.md
+  - docs/epics/epic-002-activity-tracking.md
+  - docs/epics/epic-003-dashboards-analytics.md
+  - docs/epics/epic-004-communication.md
+  - docs/epics/epic-005-documentation.md
+  - docs/epics/epic-006-pricing-subscription.md
+  - docs/epics/epic-007-semiotic-risk-assessment.md
+  - docs/epics/epic-008-pattern-database.md
 workflowType: 'architecture'
 lastStep: 0
 project_name: 'ccip'
