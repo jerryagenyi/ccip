@@ -71,5 +71,6 @@ For product-related questions:
 ## 🔗 Related Documentation
 
 - [Technical Documentation](../docs/README.md) - Implementation and development guides
-- [Project Management](../project-management/README.md) - Project planning and roadmaps
-- [API Documentation](../docs/technical/api/CCIP_API_ENDPOINT_SPECIFICATION.md) - Backend API reference
+- [System Architecture](../docs/architecture/overview.md) - Technical architecture and design
+- [API Documentation](../docs/api/) - Backend API reference
+- [Project Management](../project-management/README.md) - Project planning and roadmaps (archived)

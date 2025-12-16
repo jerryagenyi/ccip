@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -10,12 +12,8 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
 
         $user = User::where('email', $request->email)->first();
 
@@ -37,17 +35,8 @@ class AuthController extends Controller
         ], 'Login successful');
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'phone_number' => 'nullable|string|max:20',
-            'organisation_id' => 'nullable|exists:organisations,id',
-            'acceptTerms' => 'required|accepted',
-        ]);
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -57,12 +46,15 @@ class AuthController extends Controller
             'role' => 'user',
         ]);
 
+        // Send email verification notification
+        $user->sendEmailVerificationNotification();
+
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return $this->success([
             'user' => $user->load('organisation'),
             'token' => $token,
-        ], 'Registration successful', 201);
+        ], 'Registration successful. Please verify your email.', 201);
     }
 
     public function logout(Request $request)

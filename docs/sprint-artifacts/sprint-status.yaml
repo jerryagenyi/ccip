@@ -1,0 +1,109 @@
+# generated: 2025-12-16 07:23
+# project: ccip
+# project_key: ccip
+# tracking_system: file-system
+# story_location: docs/sprint-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - drafted: Story file created in stories folder
+#   - ready-for-dev: Draft approved and story context created
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - completed: Retrospective has been done
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically drafts next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2025-12-16 07:23
+project: ccip
+project_key: ccip
+tracking_system: file-system
+story_location: docs/sprint-artifacts
+
+development_status:
+  # Epic 001: User & Organisation Management
+  epic-001: backlog
+  US-001-user-registration-authentication: drafted
+  US-002-role-based-access-control: drafted
+  US-003-organisation-hierarchy: drafted
+  US-004-user-profile-management: drafted
+  US-005-transfer-ownership-admin-rights: drafted
+  US-006-link-organisations-retroactively: drafted
+  US-007-navigation-system: drafted
+  epic-001-retrospective: optional
+
+  # Epic 002: Activity Tracking & Reporting
+  epic-002: backlog
+  US-008-create-activity: drafted
+  US-009-upload-evidence: drafted
+  US-010-activity-submission-approval: drafted
+  US-011-activity-timeline: drafted
+  US-012-activity-templates: drafted
+  US-013-offline-field-report: drafted
+  US-014-effectiveness-metrics: drafted
+  US-015-gps-location-tagging: drafted
+  US-016-pattern-extraction: drafted
+  epic-002-retrospective: optional
+
+  # Epic 003: Dashboards & Analytics
+  epic-003: backlog
+  US-017-role-based-dashboard: drafted
+  US-018-activity-status-tracking: drafted
+  US-019-activity-heatmap: drafted
+  US-020-engagement-analytics: drafted
+  US-021-exportable-reports: drafted
+  epic-003-retrospective: optional
+
+  # Epic 004: Communication System
+  epic-004: backlog
+  US-022-internal-messaging: drafted
+  US-023-organisation-messaging: drafted
+  US-024-notifications: drafted
+  US-025-urgent-alerts: drafted
+  epic-004-retrospective: optional
+
+  # Epic 005: Documentation & Help System
+  epic-005: backlog
+  US-029-developer-documentation: drafted
+  US-030-user-help-guides: drafted
+  US-031-onboarding: drafted
+  US-032-in-app-help: drafted
+  epic-005-retrospective: optional
+
+  # Epic 006: Pricing & Subscription Management
+  epic-006: backlog
+  US-033-view-pricing: drafted
+  US-034-free-tier-management: drafted
+  US-035-premium-subscription: drafted
+  epic-006-retrospective: optional
+
+  # Epic 007: Semiotic Risk Assessment
+  epic-007: backlog
+  US-026-semiotic-risk-assessment: drafted
+  epic-007-retrospective: optional
+
+  # Epic 008: Pattern Database
+  epic-008: backlog
+  US-027-pattern-storage: drafted
+  US-028-pattern-search: drafted
+  epic-008-retrospective: optional

@@ -1,0 +1,184 @@
+name: Update Project Status from Issue Labels
+
+on:
+  issues:
+    types: [labeled, unlabeled]
+
+jobs:
+  update-status:
+    name: Update project status when issue labels change
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.issue.labels.*.name, 'story') || 
+      contains(github.event.issue.labels.*.name, 'epic')
+    permissions:
+      contents: read
+      issues: read
+      project: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get project data
+        id: project-data
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USER: jerryagenyi
+          PROJECT_NUMBER: 2
+        run: |
+          # Get project ID and status field
+          gh api graphql \
+            -f query='
+              query($user: String!, $number: Int!) {
+                user(login: $user) {
+                  projectV2(number: $number) {
+                    id
+                    fields(first: 20) {
+                      nodes {
+                        ... on ProjectV2SingleSelectField {
+                          id
+                          name
+                          options {
+                            id
+                            name
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }' \
+            -f user=$USER \
+            -F number=$PROJECT_NUMBER > project_data.json
+          
+          PROJECT_ID=$(jq -r '.data.user.projectV2.id' project_data.json)
+          STATUS_FIELD_ID=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name=="Status") | .id' project_data.json)
+          
+          echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_OUTPUT
+          echo "STATUS_FIELD_ID=$STATUS_FIELD_ID" >> $GITHUB_OUTPUT
+          
+          # Map status labels to option IDs
+          echo "BACKLOG_OPTION_ID=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name=="Status") | .options[] | select(.name=="Backlog") | .id' project_data.json)" >> $GITHUB_OUTPUT
+          echo "DRAFTED_OPTION_ID=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name=="Status") | .options[] | select(.name=="Drafted") | .id' project_data.json)" >> $GITHUB_OUTPUT
+          echo "READY_FOR_DEV_OPTION_ID=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name=="Status") | .options[] | select(.name=="Ready for Dev") | .id' project_data.json)" >> $GITHUB_OUTPUT
+          echo "IN_PROGRESS_OPTION_ID=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name=="Status") | .options[] | select(.name=="In Progress") | .id' project_data.json)" >> $GITHUB_OUTPUT
+          echo "REVIEW_OPTION_ID=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name=="Status") | .options[] | select(.name=="Review") | .id' project_data.json)" >> $GITHUB_OUTPUT
+          echo "DONE_OPTION_ID=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name=="Status") | .options[] | select(.name=="Done") | .id' project_data.json)" >> $GITHUB_OUTPUT
+
+      - name: Find project item
+        id: find-item
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NODE_ID: ${{ github.event.issue.node_id }}
+          PROJECT_ID: ${{ steps.project-data.outputs.PROJECT_ID }}
+        run: |
+          # Find the project item for this issue
+          item_id=$(gh api graphql \
+            -f query='
+              query($project: ID!, $issue: ID!) {
+                node(id: $project) {
+                  ... on ProjectV2 {
+                    items(first: 100) {
+                      nodes {
+                        id
+                        content {
+                          ... on Issue {
+                            id
+                            number
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }' \
+            -f project=$PROJECT_ID \
+            --jq ".data.node.items.nodes[] | select(.content.id == \"$ISSUE_NODE_ID\") | .id")
+          
+          if [ -z "$item_id" ]; then
+            echo "Item not found in project, skipping..."
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "ITEM_ID=$item_id" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
+
+      - name: Determine status from labels
+        id: status
+        if: steps.find-item.outputs.skip != 'true'
+        run: |
+          # Check for status labels
+          labels="${{ join(github.event.issue.labels.*.name, ' ') }}"
+          
+          status_option_id=""
+          
+          if echo "$labels" | grep -q "status:ready-for-dev"; then
+            status_option_id="${{ steps.project-data.outputs.READY_FOR_DEV_OPTION_ID }}"
+            status_name="Ready for Dev"
+          elif echo "$labels" | grep -q "status:in-progress"; then
+            status_option_id="${{ steps.project-data.outputs.IN_PROGRESS_OPTION_ID }}"
+            status_name="In Progress"
+          elif echo "$labels" | grep -q "status:review"; then
+            status_option_id="${{ steps.project-data.outputs.REVIEW_OPTION_ID }}"
+            status_name="Review"
+          elif echo "$labels" | grep -q "status:done"; then
+            status_option_id="${{ steps.project-data.outputs.DONE_OPTION_ID }}"
+            status_name="Done"
+          elif echo "$labels" | grep -q "status:drafted"; then
+            status_option_id="${{ steps.project-data.outputs.DRAFTED_OPTION_ID }}"
+            status_name="Drafted"
+          elif echo "$labels" | grep -q "status:backlog"; then
+            status_option_id="${{ steps.project-data.outputs.BACKLOG_OPTION_ID }}"
+            status_name="Backlog"
+          fi
+          
+          if [ -z "$status_option_id" ]; then
+            echo "No status label found, skipping update"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "STATUS_OPTION_ID=$status_option_id" >> $GITHUB_OUTPUT
+            echo "STATUS_NAME=$status_name" >> $GITHUB_OUTPUT
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update project status
+        if: steps.find-item.outputs.skip != 'true' && steps.status.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROJECT_ID: ${{ steps.project-data.outputs.PROJECT_ID }}
+          ITEM_ID: ${{ steps.find-item.outputs.ITEM_ID }}
+          STATUS_FIELD_ID: ${{ steps.project-data.outputs.STATUS_FIELD_ID }}
+          STATUS_OPTION_ID: ${{ steps.status.outputs.STATUS_OPTION_ID }}
+        run: |
+          gh api graphql \
+            -f query='
+              mutation($project: ID!, $item: ID!, $field: ID!, $value: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $project
+                  itemId: $item
+                  fieldId: $field
+                  value: { singleSelectOptionId: $value }
+                }) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }' \
+            -f project=$PROJECT_ID \
+            -f item=$ITEM_ID \
+            -f field=$STATUS_FIELD_ID \
+            -f value=$STATUS_OPTION_ID
+          
+          echo "✅ Updated project status to: ${{ steps.status.outputs.STATUS_NAME }}"
+
+      - name: Summary
+        if: steps.find-item.outputs.skip != 'true' && steps.status.outputs.skip != 'true'
+        run: |
+          echo "## Status Update" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Updated issue #${{ github.event.issue.number }} status to: **${{ steps.status.outputs.STATUS_NAME }}**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Issue: ${{ github.event.issue.html_url }}" >> $GITHUB_STEP_SUMMARY
+

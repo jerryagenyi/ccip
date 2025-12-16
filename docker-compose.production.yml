@@ -1,0 +1,113 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:16
+    container_name: ccip_database
+    environment:
+      POSTGRES_DB: ccip_production
+      POSTGRES_USER: ccip_user
+      POSTGRES_PASSWORD: vJ7#mK9$qL2@pN5r
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ccip_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: ccip_redis
+    command: redis-server --requirepass rY5@kP8#mX2*wL9v
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    container_name: ccip_minio
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: K2#mN8$pQ5@xR7w
+      MINIO_BROWSER_REDIRECT_URL: https://minio.jerryagenyi.xyz
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ccip_backend
+    environment:
+      # Database
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_DATABASE: ccip_production
+      DB_USERNAME: ccip_user
+      DB_PASSWORD: vJ7#mK9$qL2@pN5r
+
+      # Laravel
+      APP_NAME: CCIP
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://api.jerryagenyi.xyz
+      APP_KEY: base64:YOUR_LARAVEL_KEY_HERE
+
+      # Cache/Queue
+      CACHE_DRIVER: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: rY5@kP8#mX2*wL9v
+      QUEUE_CONNECTION: redis
+
+      # Storage (MinIO)
+      FILESYSTEM_DISK: s3
+      AWS_ACCESS_KEY_ID: ccip_minio_access
+      AWS_SECRET_ACCESS_KEY: S4@bT7!kW9*mL2p
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_BUCKET: ccip-storage
+      AWS_ENDPOINT: http://minio:9000
+      AWS_USE_PATH_STYLE_ENDPOINT: "true"
+
+      # Security
+      SANCTUM_STATEFUL_DOMAINS: api.jerryagenyi.xyz,jerryagenyi.xyz
+      SESSION_DOMAIN: jerryagenyi.xyz
+      JWT_SECRET: tG3&bH6!jZ9*pM4n
+
+    volumes:
+      - backend_storage:/var/www/html/storage
+    depends_on:
+      - database
+      - redis
+      - minio
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ccip_frontend
+    environment:
+      VITE_API_URL: https://api.jerryagenyi.xyz/api
+      VITE_APP_URL: https://app.jerryagenyi.xyz
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:
+  backend_storage:
+

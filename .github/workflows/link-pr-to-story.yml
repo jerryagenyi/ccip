@@ -1,0 +1,245 @@
+name: Link PR to Story in Project
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  link-pr:
+    name: Link PR to story and add to project
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+      project: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract story references from PR
+        id: extract-story
+        run: |
+          # Check PR title and body for story references (US-XXX format)
+          pr_title="${{ github.event.pull_request.title }}"
+          pr_body="${{ github.event.pull_request.body }}"
+          
+          # Extract US-XXX patterns
+          story_refs=$(echo -e "$pr_title\n$pr_body" | grep -oE 'US-[0-9]+' | sort -u | head -1)
+          
+          if [ -z "$story_refs" ]; then
+            echo "No story reference found in PR"
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Get the first story reference
+          story_key=$(echo "$story_refs" | head -1)
+          echo "STORY_KEY=$story_key" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
+          echo "Found story reference: $story_key"
+
+      - name: Find story issue
+        id: find-issue
+        if: steps.extract-story.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          STORY_KEY: ${{ steps.extract-story.outputs.STORY_KEY }}
+        run: |
+          # Find issue with story label and matching title/body
+          issues=$(gh issue list --repo jerryagenyi/ccip \
+            --label story \
+            --search "$STORY_KEY" \
+            --json number,title,nodeId)
+          
+          issue_num=$(echo "$issues" | jq -r '.[0].number // empty')
+          issue_node_id=$(echo "$issues" | jq -r '.[0].nodeId // empty')
+          
+          if [ -z "$issue_num" ]; then
+            echo "Story issue not found for $STORY_KEY"
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "ISSUE_NUMBER=$issue_num" >> $GITHUB_OUTPUT
+          echo "ISSUE_NODE_ID=$issue_node_id" >> $GITHUB_OUTPUT
+          echo "skip=false" >> $GITHUB_OUTPUT
+          echo "Found story issue: #$issue_num"
+
+      - name: Get project data
+        id: project-data
+        if: steps.find-issue.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USER: jerryagenyi
+          PROJECT_NUMBER: 2
+        run: |
+          # Get project ID and fields
+          gh api graphql \
+            -f query='
+              query($user: String!, $number: Int!) {
+                user(login: $user) {
+                  projectV2(number: $number) {
+                    id
+                    fields(first: 20) {
+                      nodes {
+                        ... on ProjectV2SingleSelectField {
+                          id
+                          name
+                          options {
+                            id
+                            name
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }' \
+            -f user=$USER \
+            -F number=$PROJECT_NUMBER > project_data.json
+          
+          PROJECT_ID=$(jq -r '.data.user.projectV2.id' project_data.json)
+          STATUS_FIELD_ID=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name=="Status") | .id' project_data.json)
+          IN_PROGRESS_OPTION_ID=$(jq -r '.data.user.projectV2.fields.nodes[] | select(.name=="Status") | .options[] | select(.name=="In Progress") | .id' project_data.json)
+          
+          echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_OUTPUT
+          echo "STATUS_FIELD_ID=$STATUS_FIELD_ID" >> $GITHUB_OUTPUT
+          echo "IN_PROGRESS_OPTION_ID=$IN_PROGRESS_OPTION_ID" >> $GITHUB_OUTPUT
+
+      - name: Check if PR already in project
+        id: check-existing
+        if: steps.find-issue.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NODE_ID: ${{ github.event.pull_request.node_id }}
+          PROJECT_ID: ${{ steps.project-data.outputs.PROJECT_ID }}
+        run: |
+          # Check if PR is already in project
+          existing_item=$(gh api graphql \
+            -f query='
+              query($project: ID!) {
+                node(id: $project) {
+                  ... on ProjectV2 {
+                    items(first: 100) {
+                      nodes {
+                        id
+                        content {
+                          ... on PullRequest {
+                            id
+                            number
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }' \
+            -f project=$PROJECT_ID \
+            --jq ".data.node.items.nodes[] | select(.content.id == \"$PR_NODE_ID\") | .id")
+          
+          if [ -n "$existing_item" ]; then
+            echo "PR already in project"
+            echo "ITEM_ID=$existing_item" >> $GITHUB_OUTPUT
+            echo "skip_add=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip_add=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Add PR to project
+        id: add-pr
+        if: steps.find-issue.outputs.skip != 'true' && steps.check-existing.outputs.skip_add != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NODE_ID: ${{ github.event.pull_request.node_id }}
+          PROJECT_ID: ${{ steps.project-data.outputs.PROJECT_ID }}
+        run: |
+          # Add PR to project
+          item_id=$(gh api graphql \
+            -f query='
+              mutation($project: ID!, $pr: ID!) {
+                addProjectV2ItemById(input: {
+                  projectId: $project
+                  contentId: $pr
+                }) {
+                  item {
+                    id
+                  }
+                }
+              }' \
+            -f project=$PROJECT_ID \
+            -f pr=$PR_NODE_ID \
+            --jq '.data.addProjectV2ItemById.item.id')
+          
+          echo "ITEM_ID=$item_id" >> $GITHUB_OUTPUT
+          echo "✅ Added PR #${{ github.event.pull_request.number }} to project"
+
+      - name: Set PR status to In Progress
+        if: steps.find-issue.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROJECT_ID: ${{ steps.project-data.outputs.PROJECT_ID }}
+          ITEM_ID: ${{ steps.add-pr.outputs.ITEM_ID || steps.check-existing.outputs.ITEM_ID }}
+          STATUS_FIELD_ID: ${{ steps.project-data.outputs.STATUS_FIELD_ID }}
+          IN_PROGRESS_OPTION_ID: ${{ steps.project-data.outputs.IN_PROGRESS_OPTION_ID }}
+        run: |
+          if [ -z "$ITEM_ID" ]; then
+            echo "No item ID, skipping status update"
+            exit 0
+          fi
+          
+          gh api graphql \
+            -f query='
+              mutation($project: ID!, $item: ID!, $field: ID!, $value: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $project
+                  itemId: $item
+                  fieldId: $field
+                  value: { singleSelectOptionId: $value }
+                }) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }' \
+            -f project=$PROJECT_ID \
+            -f item=$ITEM_ID \
+            -f field=$STATUS_FIELD_ID \
+            -f value=$IN_PROGRESS_OPTION_ID
+          
+          echo "✅ Set PR status to 'In Progress'"
+
+      - name: Link PR to story issue
+        if: steps.find-issue.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          ISSUE_NUMBER: ${{ steps.find-issue.outputs.ISSUE_NUMBER }}
+        run: |
+          # Check if PR already mentions the issue
+          pr_body="${{ github.event.pull_request.body }}"
+          
+          if echo "$pr_body" | grep -q "#$ISSUE_NUMBER"; then
+            echo "PR already linked to issue #$ISSUE_NUMBER"
+            exit 0
+          fi
+          
+          # Add comment to issue linking the PR
+          gh issue comment $ISSUE_NUMBER \
+            --repo jerryagenyi/ccip \
+            --body "🔗 Linked PR: #$PR_NUMBER"
+          
+          echo "✅ Linked PR #$PR_NUMBER to issue #$ISSUE_NUMBER"
+
+      - name: Summary
+        if: steps.find-issue.outputs.skip != 'true'
+        run: |
+          echo "## PR Linked to Story" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ PR #${{ github.event.pull_request.number }} linked to story ${{ steps.extract-story.outputs.STORY_KEY }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Story Issue:** #${{ steps.find-issue.outputs.ISSUE_NUMBER }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **PR:** ${{ github.event.pull_request.html_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status:** Set to 'In Progress' in project" >> $GITHUB_STEP_SUMMARY
+

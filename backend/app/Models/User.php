@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Role;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
@@ -92,6 +94,19 @@ class User extends Authenticatable
     public function organisation()
     {
         return $this->belongsTo(Organisation::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles')
+            ->withPivot('assigned_by', 'assigned_at')
+            ->withTimestamps();
+    }
+
+    public function hasRole(string $roleName): bool
+    {
+        return $this->roles()->where('name', $roleName)->exists() || 
+               $this->role === $roleName;
     }
 
     public function activities()

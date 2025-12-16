@@ -1,0 +1,125 @@
+# BMad Workflow Status for CCIP
+
+# This tracks progress through BMM methodology Analysis, Planning, and Solutioning phases.
+# Implementation phase is tracked separately in sprint-status.yaml
+
+# STATUS DEFINITIONS:
+# ==================
+# Initial Status (before completion):
+#   - required: Must be completed to progress
+#   - optional: Can be completed but not required
+#   - recommended: Strongly suggested but not required
+#   - conditional: Required only if certain conditions met (e.g., if_has_ui)
+#
+# Completion Status:
+#   - {file-path}: File created/found (e.g., "docs/product-brief.md")
+#   - skipped: Optional/conditional workflow that was skipped
+
+generated: "2025-12-11"
+project: "ccip"
+project_type: "brownfield"
+selected_track: "method"
+field_type: "brownfield"
+workflow_path: ".bmad/bmm/workflows/workflow-status/paths/method-brownfield.yaml"
+workflow_status: |
+  phases:
+    - prerequisite: true
+      name: "Documentation"
+      conditional: "if_undocumented"
+      note: "⚠️ CRITICAL: Must run document-project FIRST to analyze existing codebase"
+      workflows:
+        - id: "document-project"
+          required: true
+          agent: "analyst"
+          command: "document-project"
+          status: "docs/index.md"
+          output: "Comprehensive project documentation"
+          purpose: "Understand existing codebase before planning"
+
+    - phase: 0
+      name: "Discovery (Optional)"
+      optional: true
+      note: "User-selected during workflow-init"
+      workflows:
+        - id: "brainstorm-project"
+          optional: true
+          agent: "analyst"
+          command: "brainstorm-project"
+          status: "required"
+          included_by: "user_choice"
+          note: "Uses core brainstorming workflow with project context template"
+        - id: "research"
+          optional: true
+          agent: "analyst"
+          command: "research"
+          status: "required"
+          included_by: "user_choice"
+
+    - phase: 1
+      name: "Planning"
+      required: true
+      workflows:
+        - id: "prd"
+          required: true
+          agent: "pm"
+          command: "prd"
+          status: "docs/prd.md"
+          output: "PRD focused on new features/changes"
+          note: "Must consider existing system constraints"
+        - id: "create-ux-design"
+          conditional: "if_has_ui"
+          agent: "ux-designer"
+          command: "create-ux-design"
+          status: "conditional"
+
+    - phase: 2
+      name: "Solutioning"
+      required: true
+      workflows:
+        - id: "create-architecture"
+          recommended: true
+          agent: "architect"
+          command: "create-architecture"
+          status: "docs/architecture.md"
+          output: "Integration architecture - solution design for THIS project"
+          note: "HIGHLY RECOMMENDED: Distills massive brownfield context into focused solution design. Prevents agent confusion."
+        - id: "create-epics-and-stories"
+          required: true
+          agent: "pm"
+          command: "create-epics-and-stories"
+          status: "docs/epics/"
+          note: "Required: Break down PRD into implementable epics and stories with full context (PRD + UX + Architecture)"
+        - id: "test-design"
+          recommended: true
+          agent: "tea"
+          command: "test-design"
+          status: "recommended"
+          output: "System-level testability review"
+          note: "Testability assessment before gate check - auto-detects system-level mode"
+        - id: "validate-architecture"
+          optional: true
+          agent: "architect"
+          command: "validate-architecture"
+          status: "optional"
+        - id: "implementation-readiness"
+          required: true
+          agent: "architect"
+          command: "implementation-readiness"
+          status: "docs/implementation-readiness-report-2025-12-14.md"
+          note: "Validates PRD + Architecture + Epics + UX (optional)"
+
+    - phase: 3
+      name: "Implementation"
+      required: true
+      workflows:
+        - id: "sprint-planning"
+          required: true
+          agent: "sm"
+          command: "sprint-planning"
+          status: "docs/sprint-artifacts/sprint-status.yaml"
+          note: "Creates sprint plan with stories"
+
+discovery_requested:
+  brainstorm: true
+  research: true
+  product_brief: false
