@@ -2,7 +2,7 @@
 project_name: 'ccip'
 user_name: 'Jerry'
 date: '2025-12-14'
-sections_completed: ['technology_stack', 'language_specific_rules', 'framework_specific_rules', 'testing_rules']
+sections_completed: ['technology_stack', 'language_specific_rules', 'framework_specific_rules', 'testing_rules', 'code_quality_style_rules']
 existing_patterns_found: 15
 ---
 
@@ -175,3 +175,97 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - Keep tests fast — use factories, not database seeding
 - One assertion per test concept, but multiple assertions per test are fine
 - Test names describe what is being tested: `test_user_can_create_activity()`
+
+### Code Quality & Style Rules
+
+#### Code Organization
+
+**Frontend Structure:**
+- Pages: `src/pages/` — route components (one per route)
+- Components: `src/components/` — reusable components, organized by feature (`components/activities/`, `components/ui/`)
+- Stores: `src/stores/` — Pinia stores, one per domain (`useActivityStore.ts`)
+- Composables: `src/composables/` — reusable composition functions (`usePDFExport.ts`)
+- Services: `src/services/` — API client and external service wrappers
+- Types: `src/types/` — TypeScript type definitions
+- Layouts: `src/layouts/` — layout components (`MainLayout.vue`, `AuthLayout.vue`)
+- Components should be under 300 lines — split into smaller components if larger
+- Use barrel exports (`index.ts`) sparingly — prefer explicit imports
+- Keep test files co-located or in `__tests__` directories
+
+**Backend Structure:**
+- Controllers: `app/Http/Controllers/` — API controllers, use `Controller` base class
+- Models: `app/Models/` — Eloquent models, one per database table
+- Services: `app/Services/` — business logic services
+- Requests: `app/Http/Requests/` — Form Request validation classes
+- Resources: `app/Http/Resources/` — API Resource transformers
+- Middleware: `app/Http/Middleware/` — custom middleware
+- Migrations: `database/migrations/` — database schema changes
+- Use query scopes instead of repeating query logic
+- Group related exports together
+
+#### Naming Conventions
+
+**Frontend:**
+- Components: PascalCase (`ActivityList.vue`, `BaseButton.vue`)
+- Stores: camelCase with `use` prefix (`useActivityStore.ts`)
+- Composables: camelCase with `use` prefix (`usePDFExport.ts`)
+- Files: kebab-case for pages, PascalCase for components
+- Variables: camelCase (`const activityList = ref([])`)
+- Constants: UPPER_SNAKE_CASE (`API_ENDPOINTS`)
+
+**Backend:**
+- Classes: PascalCase (`ActivityController`, `ActivityService`)
+- Methods: camelCase (`createActivity()`, `getActivities()`)
+- Variables: camelCase (`$activities`, `$user`)
+- Constants: UPPER_SNAKE_CASE (`MAX_FILE_SIZE`)
+- Database tables: snake_case plural (`activities`, `user_organisations`)
+
+#### Code Style
+
+**TypeScript/Vue:**
+- Use single quotes for strings: `'text'` not `"text"`
+- Use trailing commas in multi-line objects/arrays
+- Use 2 spaces for indentation
+- Max line length: 100 characters (soft limit)
+- Use semicolons consistently
+- Always use `defineProps` and `defineEmits` with TypeScript interfaces, never inline props
+- Use `computed` for derived state, not methods
+- Use `watchEffect` sparingly — prefer explicit `watch` with dependencies
+
+**PHP/Laravel:**
+- Use Laravel Pint for code formatting (PSR-12 standard)
+- Use single quotes for strings when possible
+- Use type hints for all method parameters and return types
+- Use `return` type hints on all methods
+- Use `readonly` properties where appropriate
+- Prefer `match()` over `switch` for simple value matching
+- Use short array syntax: `[]` not `array()`
+- Use strict comparison: `===` not `==`
+
+#### Code Quality Principles
+- Single responsibility — components/services should do one thing
+- Use dependency injection consistently
+- Avoid circular dependencies
+- Keep functions small — max 50 lines, extract to helpers if longer
+- Use query scopes instead of repeating query logic
+
+#### Documentation
+
+**Comments:**
+- Use JSDoc comments for TypeScript functions: `/** Description */`
+- JSDoc should include `@param` and `@returns` for all exported functions
+- Use PHPDoc comments for PHP methods: `/** Description */`
+- PHPDoc should include `@param`, `@return`, and `@throws` where applicable
+- Use `@see` for related methods
+- Comment complex logic, not obvious code
+- Use `// TODO:` for temporary workarounds
+- Use `// FIXME:` for known bugs
+- Use `// NOTE:` for important context
+- Remove commented-out code before committing
+- Keep comments up-to-date with code changes
+- Document complex business logic, not just function signatures
+
+**README/Docs:**
+- Update `CLAUDE.md` when adding new patterns
+- Document API changes in `docs/api/`
+- Keep architecture docs in `docs/architecture/` up-to-date
