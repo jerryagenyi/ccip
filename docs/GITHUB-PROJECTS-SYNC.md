@@ -29,6 +29,10 @@ Your project is already configured with automated workflows to sync sprint statu
    
    **Option A: Via GitHub CLI** (after workflows are committed):
    ```bash
+   # If workflows are on dev branch:
+   gh workflow run .github/workflows/sync-sprint-status.yml --ref dev
+   
+   # Or use workflow name (once merged to main):
    gh workflow run "Sync Sprint Status to GitHub Projects"
    ```
    
@@ -37,7 +41,10 @@ Your project is already configured with automated workflows to sync sprint statu
    - Click "Sync Sprint Status to GitHub Projects"
    - Click "Run workflow" → "Run workflow"
    
-   **Note:** Workflows must be committed and pushed to GitHub first!
+   **Note:** 
+   - Workflows must be committed and pushed to GitHub first!
+   - If workflows are on `dev` branch, use: `gh workflow run .github/workflows/sync-sprint-status.yml --ref dev`
+   - For best results, merge workflows to `main` branch
 
 ### How It Works
 
