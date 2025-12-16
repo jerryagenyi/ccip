@@ -598,6 +598,8 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/quasar-variables.sass';
+
 .auth-register {
   width: 100%;
 }

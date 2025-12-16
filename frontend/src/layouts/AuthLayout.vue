@@ -88,6 +88,8 @@
 </script>
 
 <style lang="scss" scoped>
+@import '@/quasar-variables.sass';
+
 .auth-page {
   min-height: 100vh;
   background: linear-gradient(135deg, $background 0%, darken($background, 10%) 100%);
