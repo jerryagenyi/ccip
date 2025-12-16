@@ -1,46 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Bash(tree:*)",
-      "Bash(find:*)",
-      "SlashCommand(/bmad:bmm:workflows:workflow-init)",
-      "Bash(dir:*)",
-      "Bash(.claude/hooks/background-music-manager.sh on)",
-      "Bash(.claude/hooks/background-music-manager.sh:*)",
-      "Bash(curl:*)",
-      "Bash(bash:*)",
-      "Bash(agentvibes:*)",
-      "Bash(pipx install:*)",
-      "Bash(pip install:*)",
-      "Bash(/agent-vibes:list)",
-      "Bash(SlashCommand /agent-vibes:list)",
-      "Bash(.claude/hooks/voice-manager.sh:*)",
-      "Bash(.claude/hooks/piper-download-voices.sh)",
-      "Bash(python -m piper_tts:*)",
-      "Bash(.claude/hooks/play-tts.sh \"Hello! This is a test of the text to speech system with background music.\")",
-      "Bash(.claude/hooks/piper-installer.sh)",
-      "Bash(.claude/hooks/provider-manager.sh:*)",
-      "Bash(.claude/hooks/play-tts.sh:*)",
-      "Bash(claude:*)",
-      "Bash(npm update:*)",
-      "Bash(pipx upgrade:*)",
-      "Bash(findstr:*)",
-      "Bash(npm view:*)",
-      "Bash(npm run test:e2e:*)",
-      "Bash(docker:*)",
-      "Bash(docker-compose up:*)",
-      "Bash(npx playwright test:*)",
-      "Bash(docker-compose stop:*)",
-      "Bash(ls:*)",
-      "Bash(netstat:*)",
-      "Bash(jobs:*)",
-      "Bash(cat:*)",
-      "Bash(kill:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(dokploy project create:*)",
+      "Bash(dokploy app --help:*)",
+      "Bash(dokploy --help:*)",
+      "Bash(ssh:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(npm run test:*)",
+      "Bash(git fetch:*)",
+      "Bash(git rm:*)"
     ]
-  },
-  "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "agentvibes"
-  ]
+  }
 }
