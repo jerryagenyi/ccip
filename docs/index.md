@@ -21,11 +21,17 @@ For new developers, start with the [Main Documentation README](./README.md).
 ## Core Documentation
 
 - [README](./README.md) - Main technical documentation
+- [Product Requirements Document (PRD)](./prd.md) - Product requirements and specifications
 - [System Architecture Overview](./architecture/overview.md) - Complete system architecture
 - [Frontend Architecture](./architecture/frontend.md) - Vue 3 + Quasar implementation
 - [Backend Architecture](./architecture/backend.md) - Laravel API implementation
 - [Technical Roadmap](./architecture/roadmap.md) - Implementation phases
 - [UI/UX Design Specification](./ux-design.md) - UI/UX design system and component specifications (migrated from Firebase prototype)
+
+## Epics & Stories
+
+- [Epics](./epics/) - Feature epics organized by number (epic-001, epic-002, etc.)
+- [Stories](./stories/) - User stories organized by story ID (US-001, US-002, etc.)
 
 ## API Documentation
 
@@ -33,15 +39,29 @@ For new developers, start with the [Main Documentation README](./README.md).
 
 ## Data Models
 
-Database schemas are defined in `.specify/specs/*/data-model.md` - SpecKit specifications
+Database schemas are defined in epic specifications in `docs/epics/` - BMAD Method epics and stories
+
+## Research & Reference
+
+- [Research Documents](./research/) - Machine learning foundations, research reports
+- [BMAD Project Structure](./BMAD-STRUCTURE.md) - BMAD Method project organization
 
 ## Archived Documentation
 
-All previous technical documentation has been archived in `./archived/technical-docs-backup/` for reference
+All previous technical documentation has been archived in `./archived/` for reference:
+- SpecKit specifications: `./archived/speckit/`
+- Old implementation plans: `./archived/implementation-roadmap.md`, etc.
+- Technical docs backup: `./archived/technical-docs-backup/`
 
 ## Getting Started
 
 For the most up-to-date setup instructions, see [Getting Started Guide](./getting-started/).
+
+## BMAD Method Workflow
+
+- [BMAD Project Structure](./BMAD-STRUCTURE.md) - Project organization guide
+- [Option A Task List](./OPTION-A-TASK-LIST.md) - Complete task list for Full BMAD Method workflow
+- [Workflow Status](./bmm-workflow-status.yaml) - Current BMAD workflow progress
 
 ---
 

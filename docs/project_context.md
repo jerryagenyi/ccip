@@ -311,7 +311,8 @@ _This file contains critical rules and patterns that AI agents must follow when 
 
 **SpecKit-Driven Development:**
 - All features follow Epic → Spec → Plan → Tasks → Implementation workflow
-- Epic specs in `.specify/specs/XXX-feature-name/`
+- Epic specifications in `docs/epics/epic-XXX-feature-name.md`
+- User stories in `docs/stories/US-XXX-story-name.md`
 - Always check relevant specs before implementation
 - Follow task order in `tasks.md` — no skipping or reordering
 - Mark tasks complete only when implementation AND tests are done
@@ -432,7 +433,7 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - Use `select()` to limit columns when you don't need all fields
 
 #### Critical Project-Specific Rules
-- Always check SpecKit specs before implementation — `.specify/specs/XXX-feature-name/`
+- Always check epic and story files before implementation — `docs/epics/epic-XXX-feature-name.md` and `docs/stories/US-XXX-story-name.md`
 - Follow task order in `tasks.md` — no skipping or reordering
 - All endpoints must be under `/api/v1/` — no exceptions
 - Use API Resources for all responses — never return raw models

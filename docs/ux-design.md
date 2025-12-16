@@ -63,6 +63,13 @@ The prototype uses **ShadCN UI** as its base component library. All components a
 - **Focus Management:** Focus rings are styled using `--ring` variable.
 - **Color Contrast:** The default theme palette has been designed to meet WCAG 2.1 AA standards for contrast.
 
+### 1.7 Offline Capability (PWA)
+- **Service Worker:** Configured via Quasar PWA mode
+- **Offline Detection:** Visual indicator in navigation/header
+- **Offline Storage:** IndexedDB for reports and form data
+- **Background Sync:** Automatic sync when connection restored
+- **Offline-First:** Forms and reports work without connection
+
 ---
 
 ## 2. User Flow Diagrams
@@ -91,6 +98,135 @@ The prototype uses **ShadCN UI** as its base component library. All components a
 
 ---
 
+## 2.4 Offline PWA Patterns
+
+### Service Worker Architecture
+
+**Offline Detection:**
+- Visual indicator in header/navigation showing connection status
+- Icon: Wi-Fi icon (online) / Wi-Fi-off icon (offline)
+- Color coding: Green (online), Orange (offline, syncing), Red (offline, sync failed)
+
+**Offline Report Submission:**
+- Field report form works identically online and offline
+- Form validation works offline (client-side)
+- Submit button changes to "Submit (Offline)" when offline
+- Success message: "Report saved offline. Will sync when connection is restored."
+
+**Offline Data Storage:**
+- IndexedDB via `localForage` library
+- Store: Reports, attachments metadata, user preferences
+- Sync queue: Maintains list of pending sync operations
+
+**Sync Status UI:**
+- Component: `OfflineSyncStatus.vue`
+- Location: Header or notification area
+- Displays: Number of pending reports, last sync time, sync progress
+- Manual sync button: "Sync Now" when online
+
+**Conflict Resolution:**
+- If report was modified online while offline edit pending:
+  - Show conflict dialog: "This report was updated. Choose version to keep."
+  - Options: "Keep my changes", "Use server version", "Merge manually"
+
+### Offline-First Design Patterns
+
+**Caching Strategy:**
+- Static assets: Cache-first (service worker cache)
+- API responses: Network-first with cache fallback
+- Activity lists: Cache with background refresh
+- Forms: Always available offline
+
+**User Experience:**
+- No blocking: Users can always create/edit reports offline
+- Clear feedback: Always show sync status
+- Optimistic UI: Show success immediately, sync in background
+- Error handling: Clear messages if sync fails
+
+---
+
+## 2.5 Effectiveness Metrics Capture UI
+
+### Metrics Input Components
+
+**Understanding Score:**
+- Input type: Slider (1-5) or Star Rating (1-5 stars)
+- Label: "How well did the target population understand the message?"
+- Visual feedback: Color changes (red=1, yellow=3, green=5)
+- Optional: Percentage input (0-100%) for more granular scoring
+
+**Compliance Score:**
+- Input type: Slider (1-5) or Star Rating
+- Label: "What percentage of the target population complied with the message?"
+- Visual feedback: Same color coding as Understanding Score
+- Optional: Percentage input (0-100%)
+
+**Barriers Encountered:**
+- Input type: Multi-select tags or checkboxes with free text option
+- Predefined options:
+  - Language barrier
+  - Cultural misunderstanding
+  - Trust issues
+  - Access barriers
+  - Information overload
+  - Conflicting information
+  - Other (free text)
+- Visual: Tag input with add/remove functionality
+- Required: At least one barrier selected if effectiveness is low (< 3)
+
+### Metrics Form Layout
+
+**Component: `EffectivenessMetrics.vue`**
+
+**Layout:**
+```
+┌─────────────────────────────────────┐
+│ Effectiveness Metrics                │
+├─────────────────────────────────────┤
+│                                     │
+│ Understanding Score                 │
+│ ⭐⭐⭐⭐⭐ (5/5)                    │
+│ [Slider: 1 ──────●────── 5]        │
+│                                     │
+│ Compliance Score                    │
+│ ⭐⭐⭐⭐☆ (4/5)                     │
+│ [Slider: 1 ──────●────── 5]        │
+│                                     │
+│ Barriers Encountered                │
+│ [Tag: Language barrier] [Tag: +]   │
+│ [Tag: Trust issues]                │
+│                                     │
+│ [Save Metrics]                      │
+└─────────────────────────────────────┘
+```
+
+**Validation:**
+- Both scores required before submission
+- Barriers required if either score < 3
+- Visual indicators for incomplete fields
+
+**Accessibility:**
+- Keyboard navigation for sliders
+- Screen reader labels for all inputs
+- ARIA labels for score values
+- Focus management
+
+### Integration with Field Report Form
+
+**Report Form Flow:**
+1. Activity details (title, type, message)
+2. Evidence uploads (photos, documents)
+3. **Effectiveness Metrics** (new section)
+4. GPS Location (optional)
+5. Submit
+
+**Metrics Section:**
+- Collapsible section (expanded by default)
+- Clear instructions: "Rate the effectiveness of this communication activity"
+- Help text: "These metrics help improve future recommendations"
+
+---
+
 ## 3. Feature Coverage Matrix
 
 | PRD Feature | UI Implementation | Status |
@@ -98,7 +234,7 @@ The prototype uses **ShadCN UI** as its base component library. All components a
 | **Multi-Tier Organization Management** | `organisations/page.tsx`, `organisations/[id]/page.tsx`, `organisations/create/page.tsx`, `settings/hierarchy/page.tsx` | ✅ Complete |
 | **Activity Planning & Management** | `activities/page.tsx`, `activities/create/pagetsx`, `activities/[id]/page.tsx`, `activity-form.tsx` | ✅ Complete |
 | **Semiotic Risk Assessment** | `activity-form.tsx` -> `SemioticAssessmentDisplay.tsx` | ✅ Framework Only |
-| **Field Reporting & Evidence Collection** | Represented by "Completed" status and conceptual `FieldReport` entity in `backend.json`. No specific UI exists. | ❌ Not Implemented |
+| **Field Reporting & Evidence Collection** | `FieldReportForm.vue`, `EffectivenessMetrics.vue`, `GPSLocationPicker.vue`, `OfflineSyncStatus.vue`, `FileUpload.vue` | ✅ Enhanced with offline, metrics, GPS |
 | **Role-Based Dashboards** | `dashboard/page.tsx` with role switcher and `dashboard/role-specific/*.tsx` components. | ✅ Complete |
 | **Internal Communication System** | `messages/page.tsx`, `announcements/page.tsx`, Notifications dropdown in `Header.tsx`. | ✅ Complete |
 | **Pattern Database** | Conceptual. Represented by `mockSemioticPatterns` in `data.ts`. No UI for management. | ❌ Not Implemented |
@@ -185,9 +321,9 @@ The prototype uses **ShadCN UI** as its base component library. All components a
 
 ### 8.1 PRD Features Not Fully Implemented in UI
 
-*   **Field Reporting (Feature 4):** There is no UI for submitting a field report. The `FieldReport` entity exists in `backend.json`, but no form has been created for it. **Offline capability is not implemented.**
-*   **Pattern Database Management (Feature 7):** No UI exists to search, view, or manage the `SemioticPattern` database. This is a backend-heavy feature but would require an admin interface.
-*   **Evidence Uploads & GPS Tagging:** The "Attachments" upload exists, but there's no specific UI for "Evidence" linked to a field report, nor is there any GPS-related UI.
+*   **Field Reporting (Feature 4):** ✅ **NOW IMPLEMENTED** - UI specifications added for `FieldReportForm.vue`, `EffectivenessMetrics.vue`, `GPSLocationPicker.vue`, and `OfflineSyncStatus.vue`. Offline capability patterns documented in Section 2.4.
+*   **Pattern Database Management (Feature 7):** No UI exists to search, view, or manage the `SemioticPattern` database. This is a backend-heavy feature but would require an admin interface (deferred to admin panel, not user-facing).
+*   **Evidence Uploads & GPS Tagging:** ✅ **NOW IMPLEMENTED** - Evidence uploads via `FileUpload.vue`, GPS tagging via `GPSLocationPicker.vue` documented in Section 2.5.
 
 ### 8.2 UI Elements Not Explicitly in PRD
 
@@ -222,4 +358,5 @@ This document provides a complete and actionable summary of the prototype's UI/U
 
 ---
 
-*Last updated: December 14, 2025*
+*Last updated: December 14, 2025*  
+*Enhanced: Added offline PWA patterns (Section 2.4) and effectiveness metrics UI (Section 2.5)*

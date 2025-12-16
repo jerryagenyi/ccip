@@ -1,0 +1,325 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CCIP API - Dashboards & Analytics",
+    "version": "1.0.0",
+    "description": "API endpoints for role-based dashboards, analytics, and report exports"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/api/v1",
+      "description": "Development server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "DashboardSummary": {
+        "type": "object",
+        "properties": {
+          "total_activities": { "type": "integer" },
+          "by_status": {
+            "type": "object",
+            "properties": {
+              "draft": { "type": "integer" },
+              "submitted": { "type": "integer" },
+              "approved": { "type": "integer" },
+              "rejected": { "type": "integer" }
+            }
+          },
+          "by_type": {
+            "type": "object",
+            "additionalProperties": { "type": "integer" }
+          },
+          "recent_activities": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Activity" }
+          }
+        }
+      },
+      "StatusBreakdown": {
+        "type": "object",
+        "properties": {
+          "draft": { "type": "integer" },
+          "submitted": { "type": "integer" },
+          "approved": { "type": "integer" },
+          "rejected": { "type": "integer" }
+        }
+      },
+      "HeatmapData": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer"
+        },
+        "description": "Date string (YYYY-MM-DD) as key, activity count as value"
+      },
+      "EngagementMetric": {
+        "type": "object",
+        "properties": {
+          "activity_id": { "type": "integer" },
+          "metric_type": { "type": "string", "enum": ["reach", "engagement", "feedback", "attendance"] },
+          "value": { "type": "number" },
+          "unit": { "type": "string" },
+          "recorded_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "EngagementTrend": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "average": { "type": "number" },
+          "total": { "type": "number" }
+        }
+      },
+      "OrganisationComparison": {
+        "type": "object",
+        "properties": {
+          "organisation_id": { "type": "integer" },
+          "organisation_name": { "type": "string" },
+          "total_activities": { "type": "integer" },
+          "engagement_rate": { "type": "number" },
+          "submission_rate": { "type": "number" }
+        }
+      },
+      "Activity": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "title": { "type": "string" },
+          "date": { "type": "string", "format": "date" },
+          "status": { "type": "string" },
+          "type": { "type": "string" }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/dashboard/{role}": {
+      "get": {
+        "tags": ["Dashboard"],
+        "summary": "Get role-based dashboard",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "role", "in": "path", "required": true, "schema": { "type": "string", "enum": ["super_admin", "admin", "sub_admin", "user"] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dashboard data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/DashboardSummary" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/summary": {
+      "get": {
+        "tags": ["Dashboard"],
+        "summary": "Get dashboard summary",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Dashboard summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/DashboardSummary" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/activities/status": {
+      "get": {
+        "tags": ["Analytics"],
+        "summary": "Get status breakdown",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "organisation_id", "in": "query", "schema": { "type": "integer" } },
+          { "name": "start_date", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "end_date", "in": "query", "schema": { "type": "string", "format": "date" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status breakdown",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/StatusBreakdown" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/activities/heatmap": {
+      "get": {
+        "tags": ["Analytics"],
+        "summary": "Get heatmap data (time-based)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "start_date", "in": "query", "required": true, "schema": { "type": "string", "format": "date" } },
+          { "name": "end_date", "in": "query", "required": true, "schema": { "type": "string", "format": "date" } },
+          { "name": "organisation_id", "in": "query", "schema": { "type": "integer" } },
+          { "name": "type", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Heatmap data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/HeatmapData" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/engagement": {
+      "get": {
+        "tags": ["Analytics"],
+        "summary": "Get engagement metrics",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "start_date", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "end_date", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "organisation_id", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Engagement metrics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "metrics": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/EngagementMetric" }
+                        },
+                        "average": { "type": "number" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/engagement/trends": {
+      "get": {
+        "tags": ["Analytics"],
+        "summary": "Get engagement trends",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "start_date", "in": "query", "required": true, "schema": { "type": "string", "format": "date" } },
+          { "name": "end_date", "in": "query", "required": true, "schema": { "type": "string", "format": "date" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Engagement trends",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/EngagementTrend" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/organisation-comparison": {
+      "get": {
+        "tags": ["Analytics"],
+        "summary": "Compare organisations",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "start_date", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "end_date", "in": "query", "schema": { "type": "string", "format": "date" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Organisation comparison",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/OrganisationComparison" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/export": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Export report",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "format", "in": "query", "required": true, "schema": { "type": "string", "enum": ["pdf", "excel", "csv"] } },
+          { "name": "start_date", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "end_date", "in": "query", "schema": { "type": "string", "format": "date" } },
+          { "name": "organisation_id", "in": "query", "schema": { "type": "integer" } },
+          { "name": "type", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Report file",
+            "content": {
+              "application/pdf": {},
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {},
+              "text/csv": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

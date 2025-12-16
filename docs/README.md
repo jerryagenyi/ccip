@@ -35,7 +35,7 @@ Welcome to the technical documentation for CCIP (Crisis Communication Intelligen
 
 ## 🔄 Related Documentation
 
-- [Product Requirements](../product/requirements/product_requirements_document_v2.0.md) - Product specifications
+- [Product Requirements Document (PRD)](./prd.md) - Product specifications
 - [Product Strategy](../product/strategy/) - Business strategy and research
 - [Data Templates](../data-templates/) - Test data templates
 

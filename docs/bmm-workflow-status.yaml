@@ -63,7 +63,7 @@ workflow_status: |
           required: true
           agent: "pm"
           command: "prd"
-          status: "required"
+          status: "docs/prd.md"
           output: "PRD focused on new features/changes"
           note: "Must consider existing system constraints"
         - id: "create-ux-design"
@@ -80,14 +80,14 @@ workflow_status: |
           recommended: true
           agent: "architect"
           command: "create-architecture"
-          status: "recommended"
+          status: "docs/architecture.md"
           output: "Integration architecture - solution design for THIS project"
           note: "HIGHLY RECOMMENDED: Distills massive brownfield context into focused solution design. Prevents agent confusion."
         - id: "create-epics-and-stories"
           required: true
           agent: "pm"
           command: "create-epics-and-stories"
-          status: "required"
+          status: "docs/epics/"
           note: "Required: Break down PRD into implementable epics and stories with full context (PRD + UX + Architecture)"
         - id: "test-design"
           recommended: true
@@ -105,7 +105,7 @@ workflow_status: |
           required: true
           agent: "architect"
           command: "implementation-readiness"
-          status: "required"
+          status: "docs/implementation-readiness-report-2025-12-14.md"
           note: "Validates PRD + Architecture + Epics + UX (optional)"
 
     - phase: 3
@@ -116,7 +116,7 @@ workflow_status: |
           required: true
           agent: "sm"
           command: "sprint-planning"
-          status: "required"
+          status: "docs/sprint-artifacts/sprint-status.yaml"
           note: "Creates sprint plan with stories"
 
 discovery_requested:
