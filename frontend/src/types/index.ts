@@ -139,6 +139,25 @@ export interface SemioticAssessment {
     reason: string;
   }[];
   assessedAt: string;
+  culturalAppropriateness?: {
+    score: number;
+    issues: {
+      severity: 'high' | 'medium' | 'low';
+      message: string;
+      recommendation: string;
+    }[];
+  };
+  linguisticEffectiveness?: {
+    score: number;
+    suggestions: string[];
+  };
+  visualCommunication?: {
+    score: number;
+    recommendations: {
+      category: string;
+      description: string;
+    }[];
+  };
 }
 
 export interface CommunicationEffectiveness {

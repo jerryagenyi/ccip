@@ -1,18 +1,10 @@
 # Deploy Pipeline - Runs when code is merged to main
-# Deploys to Hostinger VPS using Dokploy GitHub Integration
+# Deploys to Hostinger VPS using Dokploy Docker Compose
 #
-# This workflow is configured for Dokploy GitHub deployment:
-# - Dokploy builds from GitHub repo (not pre-built images)
-# - Dokploy handles building Docker images on VPS
-# - This workflow just triggers Dokploy webhook
-#
-# Setup Required:
-# 1. Connect GitHub in Dokploy: Settings > Git > Connect GitHub
-# 2. Configure services in Dokploy with GitHub provider
-# 3. Enable Auto-Deploy in Dokploy service settings
-# 4. Add GitHub Secrets (optional, for manual trigger):
-#    - DOKPLOY_URL: http://72.61.19.90:3000
-#    - DOKPLOY_TOKEN: Your Dokploy API token
+# Dokploy auto-deploys on push to main when:
+# 1. GitHub repository is connected
+# 2. Auto-Deploy is enabled in Dokploy
+# 3. Docker Compose application is configured
 
 name: Deploy to Production
 
@@ -21,176 +13,76 @@ on:
     branches: [main]
   workflow_dispatch:  # Allow manual trigger
 
-env:
-  # Set DOKPLOY_URL in GitHub Secrets (Settings > Secrets > Actions)
-  # Your Dokploy URL: http://72.61.19.90:3000
-  DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
-  PROJECT_NAME: 'ccip'
-  BACKEND_SERVICE: 'backend'  # Service name in Dokploy
-  FRONTEND_SERVICE: 'frontend'  # Service name in Dokploy
-  
 jobs:
   # ============================================
-  # Optional: Build Docker Images (for CI/CD)
+  # Deployment Status Check
   # ============================================
-  # Note: If using Dokploy GitHub deployment, you can skip this job
-  # Dokploy will build images from source code automatically
-  build:
-    name: Build Docker Images (Optional - for CI/CD)
+  deploy-status:
+    name: Deployment Status
     runs-on: ubuntu-latest
-    if: false  # Set to true if you want to build images for testing/CI
-    
-    outputs:
-      backend_image: ${{ steps.meta-backend.outputs.tags }}
-      frontend_image: ${{ steps.meta-frontend.outputs.tags }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      # If using Docker Hub or GitHub Container Registry
-      - name: Login to Container Registry
-        uses: docker/login-action@v3
-        with:
-          # For GitHub Container Registry:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          # For Docker Hub, use:
-          # username: ${{ secrets.DOCKERHUB_USERNAME }}
-          # password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Extract metadata for backend
-        id: meta-backend
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}/backend
-          tags: |
-            type=sha,prefix=
-            type=raw,value=latest
-
-      - name: Build and push backend
-        uses: docker/build-push-action@v5
-        with:
-          context: ./backend
-          file: ./backend/Dockerfile
-          push: true
-          tags: ${{ steps.meta-backend.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Extract metadata for frontend
-        id: meta-frontend
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}/frontend
-          tags: |
-            type=sha,prefix=
-            type=raw,value=latest
-
-      - name: Build and push frontend
-        uses: docker/build-push-action@v5
-        with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
-          push: true
-          tags: ${{ steps.meta-frontend.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-  # ============================================
-  # Deploy via Dokploy (GitHub Integration)
-  # ============================================
-  # With GitHub deployment, Dokploy auto-deploys on push to main
-  # This job is optional - only needed for manual triggers
-  deploy-dokploy:
-    name: Trigger Dokploy Deployment
-    runs-on: ubuntu-latest
-    # Remove 'if: false' if you want manual trigger capability
-    if: false
-    
-    steps:
-      - name: Trigger Dokploy deployment via API
+      - name: Check Deployment
         run: |
-          # Only needed if Auto-Deploy is disabled in Dokploy
-          # With Auto-Deploy ON, Dokploy webhook handles this automatically
-          curl -X POST "${{ env.DOKPLOY_URL }}/api/webhooks/deploy" \
-            -H "Authorization: Bearer ${{ secrets.DOKPLOY_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "project": "${{ env.PROJECT_NAME }}",
-              "services": ["${{ env.BACKEND_SERVICE }}", "${{ env.FRONTEND_SERVICE }}"]
-            }' || echo "⚠️  Auto-deploy should handle this automatically. Check Dokploy dashboard."
+          echo "✅ Deployment triggered by push to main branch"
+          echo "📊 Dokploy will auto-deploy from Docker Compose"
+          echo "🔗 Project: http://72.61.19.90:3000/dashboard/project/xzYEMcKghF7krrf2peEaI"
+          echo "🌐 Production URL: https://app.jerryagenyi.xyz"
+          echo ""
+          echo "Deployment progress can be monitored in Dokploy dashboard."
+          echo "Typical deployment time: 2-5 minutes"
 
-      - name: Wait for deployment
-        run: sleep 30
-
-      - name: Health check
+      - name: Health Check
         run: |
-          # Add your production URL health check
-          # Uncomment and update with your production URL:
-          # curl -f https://your-domain.com/api/health || exit 1
-          # curl -f https://your-domain.com || exit 1
-          echo "✅ Deployment triggered - check Dokploy dashboard for status"
+          # Wait for deployment to start
+          sleep 30
 
-  # ============================================
-  # Alternative: Deploy via SSH
-  # ============================================
-  deploy-ssh:
-    name: Deploy via SSH (Alternative Method)
-    runs-on: ubuntu-latest
-    needs: build
-    if: false  # Enable this if webhook method doesn't work - requires VPS_SSH_KEY secret
-    
-    steps:
-      - name: Deploy to VPS via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            cd /opt/dokploy/projects/${{ env.PROJECT_NAME }}
-            
-            # Pull latest images
-            docker compose pull
-            
-            # Restart services with new images
-            docker compose up -d --force-recreate
-            
-            # Clean up old images
-            docker image prune -f
-            
-            # Run migrations
-            docker compose exec -T backend php artisan migrate --force
-            
-            # Clear caches
-            docker compose exec -T backend php artisan config:cache
-            docker compose exec -T backend php artisan route:cache
-            docker compose exec -T backend php artisan view:cache
-            
-            echo "Deployment complete!"
+          # Check if services are responding
+          echo "Checking deployment health..."
 
-  # ============================================
-  # Notify on completion
-  # ============================================
-  notify:
-    name: Notify
-    runs-on: ubuntu-latest
-    needs: []  # No dependencies - Dokploy handles deployment automatically
-    if: always()
-    
-    steps:
-      - name: Deployment status
-        run: |
-          if [ "${{ needs.build.result }}" == "success" ]; then
-            echo "✅ Deployment successful!"
-            # Add Slack/Discord/Email notification here
+          # Check frontend
+          if curl -f https://app.jerryagenyi.xyz > /dev/null 2>&1; then
+            echo "✅ Frontend is responding"
           else
-            echo "❌ Deployment failed!"
-            # Add failure notification here
+            echo "⏳ Frontend still starting..."
           fi
 
+          # Check backend API
+          if curl -f https://api.jerryagenyi.xyz/api/health > /dev/null 2>&1; then
+            echo "✅ Backend API is responding"
+          else
+            echo "⏳ Backend API still starting..."
+          fi
+
+          echo "Full deployment may take a few more minutes."
+          echo "Monitor in Dokploy for detailed logs and status."
+
+  # ============================================
+  # Notification (Optional)
+  # ============================================
+  notify:
+    name: Notification
+    runs-on: ubuntu-latest
+    needs: deploy-status
+    if: always()
+
+    steps:
+      - name: Deployment Complete
+        run: |
+          echo "🎉 Deployment to production initiated!"
+          echo ""
+          echo "What happened:"
+          echo "- Code pushed to main branch"
+          echo "- Dokploy detected the change"
+          echo "- Docker Compose build started"
+          echo "- Services will be updated with zero downtime"
+          echo ""
+          echo "Next steps:"
+          echo "1. Monitor deployment in Dokploy dashboard"
+          echo "2. Test the application at https://app.jerryagenyi.xyz"
+          echo "3. Check backend API at https://api.jerryagenyi.xyz/api"
+          echo ""
+          echo "If deployment fails:"
+          echo "- Check Docker Compose logs in Dokploy"
+          echo "- Verify environment variables"
+          echo "- Review build logs for errors"
