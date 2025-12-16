@@ -7,11 +7,11 @@ Implement role-based dashboards with activity tracking, heatmaps, engagement ana
 This epic delivers comprehensive analytics and reporting capabilities. Role-based dashboards provide tailored views for different user types, while analytics features include activity heatmaps, engagement metrics, and exportable reports. All analytics respect organisational hierarchy and role-based permissions.
 
 ## User Stories
-- US-010: Role-Based Dashboard
-- US-011: Activity Status Tracking
-- US-012: Activity Heatmap
-- US-013: Engagement Analytics
-- US-014: Exportable Reports
+- US-017: Role-Based Dashboard
+- US-018: Activity Status Tracking
+- US-019: Activity Heatmap
+- US-020: Engagement Analytics
+- US-021: Exportable Reports
 
 ## Priority
 **High** - Critical for decision-making
