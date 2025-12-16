@@ -7,9 +7,9 @@ Implement pricing tiers and subscription management system to support free tier 
 This epic provides pricing and subscription management capabilities. The system supports free and premium tiers with different feature sets and member limits. Organisation admins can view pricing, manage subscriptions, and upgrade when needed.
 
 ## User Stories
-- US-020: View Pricing Information
-- US-021: Free Tier Management
-- US-022: Premium Tier Subscription
+- US-033: View Pricing Information
+- US-034: Free Tier Management
+- US-035: Premium Tier Subscription
 
 ## Priority
 **Medium** - Important for business model

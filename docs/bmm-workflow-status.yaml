@@ -116,7 +116,7 @@ workflow_status: |
           required: true
           agent: "sm"
           command: "sprint-planning"
-          status: "required"
+          status: "docs/sprint-artifacts/sprint-status.yaml"
           note: "Creates sprint plan with stories"
 
 discovery_requested:

@@ -7,10 +7,10 @@ Implement comprehensive documentation system for developers and users, including
 This epic provides comprehensive documentation and help resources. Developer documentation includes API specs and integration guides, while user documentation includes feature guides, onboarding flows, and in-app help. The system supports role-based help content and search functionality.
 
 ## User Stories
-- US-019: Developer Documentation
-- US-020: User Help Guides
-- US-021: Onboarding
-- US-022: In-App Help
+- US-029: Developer Documentation
+- US-030: User Help Guides
+- US-031: Onboarding
+- US-032: In-App Help
 
 ## Priority
 **Medium** - Important for user adoption
