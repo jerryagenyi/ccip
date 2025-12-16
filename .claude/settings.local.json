@@ -13,7 +13,9 @@
       "Bash(npm run test:*)",
       "Bash(git fetch:*)",
       "Bash(git rm:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(php artisan:*)",
+      "Bash(docker build:*)"
     ]
   }
 }
