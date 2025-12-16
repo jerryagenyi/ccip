@@ -2,7 +2,7 @@
 project_name: 'ccip'
 user_name: 'Jerry'
 date: '2025-12-14'
-sections_completed: ['technology_stack', 'language_specific_rules', 'framework_specific_rules', 'testing_rules', 'code_quality_style_rules']
+sections_completed: ['technology_stack', 'language_specific_rules', 'framework_specific_rules', 'testing_rules', 'code_quality_style_rules', 'development_workflow_rules']
 existing_patterns_found: 15
 ---
 
@@ -269,3 +269,75 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - Update `CLAUDE.md` when adding new patterns
 - Document API changes in `docs/api/`
 - Keep architecture docs in `docs/architecture/` up-to-date
+
+### Development Workflow Rules
+
+#### Git/Repository Rules
+
+**Branch Naming:**
+- Feature branches: `feature/XXX-description` (e.g., `feature/001-user-auth`)
+- Bug fixes: `fix/XXX-description` (e.g., `fix/login-error`)
+- Epic branches: `epic/XXX-feature-name` (e.g., `epic/001-user-organisation-management`)
+- Use SpecKit epic numbers (001, 002, etc.) in branch names when applicable
+- Never commit directly to `main` or `develop` branches — always use feature branches
+
+**Commit Message Format:**
+- Format: `type(scope): description [task-id]`
+- Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+- Scope: epic number or feature name (e.g., `feat(001): add user registration`)
+- Description: imperative mood, lowercase, no period
+- Include task ID when implementing SpecKit tasks: `[task-1.1]`
+- Examples:
+  - `feat(001): add user registration endpoint [task-1.1]`
+  - `fix(002): correct activity status validation [task-2.3]`
+  - `test(003): add dashboard analytics tests [task-3.2]`
+
+**PR Requirements:**
+- Link to SpecKit epic/spec in PR description
+- Include acceptance criteria checklist
+- Include test coverage report
+- Link to related issues/epics
+- Ensure all tests pass before requesting review
+- Ensure CI passes before requesting review
+- Update documentation if API/architecture changes
+- Request review from relevant team members
+- Use draft PRs for work-in-progress
+- Create PRs even for small fixes
+
+#### Development Workflow
+
+**SpecKit-Driven Development:**
+- All features follow Epic → Spec → Plan → Tasks → Implementation workflow
+- Epic specs in `.specify/specs/XXX-feature-name/`
+- Always check relevant specs before implementation
+- Follow task order in `tasks.md` — no skipping or reordering
+- Mark tasks complete only when implementation AND tests are done
+- Update `tasks.md` as you complete tasks — mark `[x]` when done
+- Follow red-green-refactor cycle: write failing test first, then implementation
+- All tests must pass before marking task complete
+- Update `IMPLEMENTATION_PLAN.md` if scope changes
+
+**Local Development:**
+- Use Docker Compose for local development: `docker-compose up`
+- Backend: `cd backend && php artisan serve` (port 8000)
+- Frontend: `cd frontend && npm run dev` (port 5173)
+- Run full test suite before pushing: `npm run test && php artisan test`
+- Use `git pull --rebase` before pushing to avoid merge commits
+- Run `php artisan pint` before committing PHP code
+- Run `npm run lint` (if configured) before committing frontend code
+
+**Code Review:**
+- All code must be reviewed before merging
+- Reviewers check: tests, documentation, code style, architecture alignment
+- Address review comments before merging
+
+**Documentation Updates:**
+- Update architecture docs when adding new patterns or services
+- Document breaking API changes in `docs/api/CHANGELOG.md`
+- Update `CLAUDE.md` when adding new patterns
+
+**Deployment:**
+- Use semantic versioning for releases: `v1.0.0`, `v1.1.0`, etc.
+- Tag releases with version numbers
+- Update `CHANGELOG.md` for each release
+- Test in staging before production
