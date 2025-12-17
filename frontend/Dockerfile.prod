@@ -35,7 +35,7 @@ RUN rm -rf /usr/share/nginx/html/* && \
     rm -rf /etc/nginx/http.d/* 2>/dev/null || true
 
 # Copy built Vue app (Quasar SPA outputs to dist/spa)
-# Use . to copy all contents, not just the directory
+# Copy contents of spa directory to nginx html root (not the directory itself)
 COPY --from=builder /app/dist/spa/. /usr/share/nginx/html/
 
 # Copy nginx configuration for SPA routing
