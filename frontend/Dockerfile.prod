@@ -6,34 +6,37 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Clean install + rebuild lockfile for Linux environment
-RUN npm ci --prefer-offline --no-audit && \
-    rm -rf node_modules package-lock.json && \
-    npm install --prefer-offline --no-audit
+# Install dependencies
+RUN npm ci --prefer-offline --no-audit
 
 # Copy application files
 COPY . .
 
-# Build application
+# Build application (Quasar outputs to dist/spa for SPA mode)
 RUN npm run build
 
-# Debug: Show what was built (Quasar outputs to dist/spa for SPA mode)
-RUN echo "=== Build output structure ===" && \
-    ls -la /app/ && \
-    echo "=== Checking dist directory ===" && \
-    ls -la /app/dist/ 2>/dev/null || echo "dist/ not found" && \
-    echo "=== Checking dist/spa directory ===" && \
-    ls -la /app/dist/spa/ 2>/dev/null || echo "dist/spa not found"
+# Verify build output exists
+RUN test -d /app/dist/spa && \
+    test -f /app/dist/spa/index.html && \
+    echo "✅ Build successful - dist/spa contains:" && \
+    ls -la /app/dist/spa/ || \
+    (echo "❌ Build failed - dist/spa not found" && exit 1)
 
 # Production stage
 FROM nginx:alpine
 
+# Remove default nginx content
+RUN rm -rf /usr/share/nginx/html/*
+
 # Copy built Vue app (Quasar SPA outputs to dist/spa)
-# Try dist/spa first (Quasar default), fallback to dist if needed
 COPY --from=builder /app/dist/spa /usr/share/nginx/html
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Verify files were copied correctly
+RUN test -f /usr/share/nginx/html/index.html && \
+    echo "✅ Files copied successfully - Contents:" && \
+    ls -la /usr/share/nginx/html/ && \
+    echo "✅ Frontend build ready" || \
+    (echo "❌ Files not copied correctly" && exit 1)
 
 # Expose port
 EXPOSE 80
