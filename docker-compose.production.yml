@@ -1,6 +1,6 @@
 services:
   database:
-    image: postgres:16
+    image: postgres:15
     container_name: ccip_database
     environment:
       POSTGRES_DB: ccip_production
@@ -8,6 +8,7 @@ services:
       POSTGRES_PASSWORD: vJ7#mK9$qL2@pN5r
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - postgres_backups:/backups
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ccip_user -d ccip_production"]
@@ -45,6 +46,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile.prod
     container_name: ccip_backend
+    ports:
+      - "0.0.0.0:8000:9000"
     environment:
       # Database
       DB_HOST: database
@@ -95,16 +98,18 @@ services:
       dockerfile: Dockerfile.prod
     container_name: ccip_frontend
     environment:
-      VITE_API_URL: https://api.jerryagenyi.xyz/api
-      VITE_APP_URL: https://app.jerryagenyi.xyz
+      VITE_API_URL: https://api.ccip.jerryagenyi.xyz/api
+      VITE_APP_URL: https://ccip.jerryagenyi.xyz
     ports:
-      - "80:80"
+      - "0.0.0.0:80:80"
     depends_on:
       - backend
     restart: unless-stopped
 
 volumes:
   postgres_data:
+  postgres_backups:
   redis_data:
   minio_data:
   backend_storage:
+  backend_logs:
