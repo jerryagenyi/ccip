@@ -1,7 +1,6 @@
 services:
   database:
     image: postgres:15
-    container_name: ccip_database
     environment:
       POSTGRES_DB: ccip_production
       POSTGRES_USER: ccip_user
@@ -9,6 +8,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - postgres_backups:/backups
+    networks:
+      - dokploy-network
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ccip_user -d ccip_production"]
@@ -18,10 +19,11 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: ccip_redis
     command: redis-server --requirepass rY5@kP8#mX2*wL9v
     volumes:
       - redis_data:/data
+    networks:
+      - dokploy-network
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -31,7 +33,6 @@ services:
 
   minio:
     image: minio/minio:latest
-    container_name: ccip_minio
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: K2#mN8$pQ5@xR7w
@@ -39,15 +40,25 @@ services:
     volumes:
       - minio_data:/data
     command: server /data --console-address ":9001"
+    ports:
+      - "9000"
+      - "9001"
+    networks:
+      - dokploy-network
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ccip-minio.rule=Host(`minio.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-minio.entrypoints=websecure"
+      - "traefik.http.routers.ccip-minio.tls.certResolver=letsencrypt"
+      - "traefik.http.services.ccip-minio.loadbalancer.server.port=9001"
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile.prod
-    container_name: ccip_backend
     ports:
-      - "0.0.0.0:8000:80"
+      - "80"
     environment:
       # Database
       DB_HOST: database
@@ -90,21 +101,36 @@ services:
       - database
       - redis
       - minio
+    networks:
+      - dokploy-network
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ccip-backend.rule=Host(`ccip-api.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-backend.entrypoints=websecure"
+      - "traefik.http.routers.ccip-backend.tls.certResolver=letsencrypt"
+      - "traefik.http.services.ccip-backend.loadbalancer.server.port=80"
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
-    container_name: ccip_frontend
     environment:
       VITE_API_URL: https://ccip-api.jerryagenyi.xyz/api
       VITE_APP_URL: https://ccip-app.jerryagenyi.xyz
     ports:
-      - "0.0.0.0:80:80"
+      - "80"
     depends_on:
       - backend
+    networks:
+      - dokploy-network
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ccip-frontend.rule=Host(`ccip-app.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-frontend.entrypoints=websecure"
+      - "traefik.http.routers.ccip-frontend.tls.certResolver=letsencrypt"
+      - "traefik.http.services.ccip-frontend.loadbalancer.server.port=80"
 
 volumes:
   postgres_data:
@@ -113,3 +139,7 @@ volumes:
   minio_data:
   backend_storage:
   backend_logs:
+
+networks:
+  dokploy-network:
+    external: true
