@@ -115,9 +115,9 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
-    environment:
-      VITE_API_URL: https://ccip-api.jerryagenyi.xyz/api
-      VITE_APP_URL: https://ccip.jerryagenyi.xyz
+      args:
+        VITE_API_URL: https://ccip-api.jerryagenyi.xyz/api
+        VITE_APP_URL: https://ccip.jerryagenyi.xyz
     ports:
       - "80"
     depends_on:
