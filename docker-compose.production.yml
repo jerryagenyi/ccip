@@ -47,7 +47,7 @@ services:
       dockerfile: Dockerfile.prod
     container_name: ccip_backend
     ports:
-      - "0.0.0.0:8000:9000"
+      - "0.0.0.0:8000:80"
     environment:
       # Database
       DB_HOST: database
