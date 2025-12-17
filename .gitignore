@@ -63,3 +63,8 @@ docker-data/
 runtime/
 cache/
 
+# Secrets - NEVER commit
+.env.secrets
+secrets/
+*.secrets
+
