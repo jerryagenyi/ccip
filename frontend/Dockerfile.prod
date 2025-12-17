@@ -43,8 +43,8 @@ COPY --from=builder /app/dist/spa/. /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy startup script
-COPY start-nginx.sh /docker-entrypoint.d/99-start-nginx.sh
-RUN chmod +x /docker-entrypoint.d/99-start-nginx.sh
+COPY start-nginx.sh /start-nginx.sh
+RUN chmod +x /start-nginx.sh
 
 # Verify nginx config is valid
 RUN nginx -t
@@ -76,5 +76,5 @@ RUN echo "=== Verifying deployment $(date) ===" && \
 # Expose port
 EXPOSE 80
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start nginx with verification
+CMD ["/start-nginx.sh"]
