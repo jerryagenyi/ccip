@@ -57,7 +57,7 @@ RUN chmod +x /start-nginx.sh
 # Verify nginx config is valid
 RUN nginx -t
 
-# Verify files were copied correctly (force run with timestamp to avoid cache)
+# Verify files were copied correctly
 RUN echo "=== Verifying deployment $(date) ===" && \
     echo "HTML directory contents:" && \
     ls -la /usr/share/nginx/html/ && \
@@ -68,9 +68,7 @@ RUN echo "=== Verifying deployment $(date) ===" && \
     head -5 /usr/share/nginx/html/index.html && \
     echo "" && \
     echo "Checking if spa subdirectory exists (should NOT):" && \
-    test ! -d /usr/share/nginx/html/spa && \
-    echo "✅ No spa subdirectory (files copied correctly)" || \
-    echo "⚠️ spa subdirectory exists - files may be nested" && \
+    (test ! -d /usr/share/nginx/html/spa && echo "✅ No spa subdirectory (files copied correctly)" || echo "⚠️ spa subdirectory exists - files may be nested") && \
     echo "" && \
     echo "Nginx config files:" && \
     ls -la /etc/nginx/conf.d/ && \
@@ -78,8 +76,7 @@ RUN echo "=== Verifying deployment $(date) ===" && \
     echo "Nginx config content:" && \
     cat /etc/nginx/conf.d/default.conf && \
     echo "" && \
-    echo "✅ Frontend build ready" || \
-    (echo "❌ Files not copied correctly" && exit 1)
+    echo "✅ Frontend build ready"
 
 # Expose port
 EXPOSE 80
