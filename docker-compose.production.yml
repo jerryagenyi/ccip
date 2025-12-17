@@ -91,7 +91,7 @@ services:
       AWS_USE_PATH_STYLE_ENDPOINT: true
 
       # Security
-      SANCTUM_STATEFUL_DOMAINS: ccip-api.jerryagenyi.xyz,ccip-app.jerryagenyi.xyz
+      SANCTUM_STATEFUL_DOMAINS: ccip-api.jerryagenyi.xyz,ccip.jerryagenyi.xyz
       SESSION_DOMAIN: jerryagenyi.xyz
       JWT_SECRET: "tG3&bH6!jZ9*pM4n"
 
@@ -117,7 +117,7 @@ services:
       dockerfile: Dockerfile.prod
     environment:
       VITE_API_URL: https://ccip-api.jerryagenyi.xyz/api
-      VITE_APP_URL: https://ccip-app.jerryagenyi.xyz
+      VITE_APP_URL: https://ccip.jerryagenyi.xyz
     ports:
       - "80"
     depends_on:
@@ -127,7 +127,7 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ccip-frontend.rule=Host(`ccip-app.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-frontend.rule=Host(`ccip.jerryagenyi.xyz`)"
       - "traefik.http.routers.ccip-frontend.entrypoints=websecure"
       - "traefik.http.routers.ccip-frontend.tls.certResolver=letsencrypt"
       - "traefik.http.services.ccip-frontend.loadbalancer.server.port=80"
