@@ -7,7 +7,10 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN npm ci --prefer-offline --no-audit
+# Fix for npm optional dependencies bug: remove lockfile and node_modules, then reinstall
+# This ensures platform-specific optional deps like @rollup/rollup-linux-x64-gnu are installed
+RUN rm -rf node_modules package-lock.json && \
+    npm install --prefer-offline --no-audit
 
 # Copy application files
 COPY . .
