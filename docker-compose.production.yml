@@ -35,7 +35,7 @@ services:
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: K2#mN8$pQ5@xR7w
-      MINIO_BROWSER_REDIRECT_URL: https://ccip-minio.jerryagenyi.xyz
+      MINIO_BROWSER_REDIRECT_URL: https://minio.jerryagenyi.xyz
     volumes:
       - minio_data:/data
     command: server /data --console-address ":9001"
