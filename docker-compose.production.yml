@@ -1,3 +1,4 @@
+# Production compose file - Domain routing managed by Dokploy Domains UI
 services:
   database:
     image: postgres:15
