@@ -46,11 +46,6 @@ services:
     networks:
       - dokploy-network
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.ccip-minio.rule=Host(`minio.jerryagenyi.xyz`)"
-      - "traefik.http.routers.ccip-minio.entrypoints=web"
-      - "traefik.http.services.ccip-minio.loadbalancer.server.port=9001"
 
   backend:
     build:
@@ -103,11 +98,6 @@ services:
     networks:
       - dokploy-network
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.ccip-backend.rule=Host(`ccip-api.jerryagenyi.xyz`)"
-      - "traefik.http.routers.ccip-backend.entrypoints=web"
-      - "traefik.http.services.ccip-backend.loadbalancer.server.port=80"
 
   frontend:
     build:
@@ -123,11 +113,6 @@ services:
     networks:
       - dokploy-network
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.ccip-frontend.rule=Host(`ccip.jerryagenyi.xyz`)"
-      - "traefik.http.routers.ccip-frontend.entrypoints=web"
-      - "traefik.http.services.ccip-frontend.loadbalancer.server.port=80"
 
 volumes:
   postgres_data:
