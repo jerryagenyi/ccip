@@ -102,10 +102,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=dokploy-network"
-      # HTTP router (redirects to HTTPS)
+      # HTTP router (Cloudflare handles HTTPS redirect)
       - "traefik.http.routers.ccip-backend-web.rule=Host(`ccip-api.jerryagenyi.xyz`)"
       - "traefik.http.routers.ccip-backend-web.entrypoints=web"
-      - "traefik.http.routers.ccip-backend-web.middlewares=redirect-to-https@file"
       - "traefik.http.routers.ccip-backend-web.service=ccip-backend-web"
       - "traefik.http.services.ccip-backend-web.loadbalancer.server.port=80"
       # HTTPS router
@@ -132,10 +131,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=dokploy-network"
-      # HTTP router (redirects to HTTPS)
+      # HTTP router (Cloudflare handles HTTPS redirect)
       - "traefik.http.routers.ccip-frontend-web.rule=Host(`ccip.jerryagenyi.xyz`)"
       - "traefik.http.routers.ccip-frontend-web.entrypoints=web"
-      - "traefik.http.routers.ccip-frontend-web.middlewares=redirect-to-https@file"
       - "traefik.http.routers.ccip-frontend-web.service=ccip-frontend-web"
       - "traefik.http.services.ccip-frontend-web.loadbalancer.server.port=80"
       # HTTPS router
