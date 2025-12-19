@@ -67,7 +67,7 @@ services:
       APP_ENV: production
       APP_DEBUG: "false"
       APP_URL: https://ccip-api.jerryagenyi.xyz
-      APP_KEY: base64:YOUR_LARAVEL_KEY_HERE
+      APP_KEY: base64:4EAd6nXaE1RKYumGiHXMiVEXYUcMvBzImUx6BpUeiI8=
 
       # Cache/Queue
       CACHE_DRIVER: redis
