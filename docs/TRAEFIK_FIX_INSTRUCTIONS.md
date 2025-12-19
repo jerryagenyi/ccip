@@ -107,11 +107,12 @@ frontend:
   labels:
     - "traefik.enable=true"  # ✅ CRITICAL
     - "traefik.docker.network=dokploy-network"
+    # HTTP router (NO redirect middleware when using Cloudflare)
     - "traefik.http.routers.ccip-frontend-web.rule=Host(`ccip.jerryagenyi.xyz`)"
     - "traefik.http.routers.ccip-frontend-web.entrypoints=web"
-    - "traefik.http.routers.ccip-frontend-web.middlewares=redirect-to-https@file"
     - "traefik.http.routers.ccip-frontend-web.service=ccip-frontend-web"
     - "traefik.http.services.ccip-frontend-web.loadbalancer.server.port=80"
+    # HTTPS router
     - "traefik.http.routers.ccip-frontend-websecure.rule=Host(`ccip.jerryagenyi.xyz`)"
     - "traefik.http.routers.ccip-frontend-websecure.entrypoints=websecure"
     - "traefik.http.routers.ccip-frontend-websecure.tls.certresolver=letsencrypt"
@@ -119,7 +120,7 @@ frontend:
     - "traefik.http.services.ccip-frontend-websecure.loadbalancer.server.port=80"
 ```
 
-Note: The `redirect-to-https@file` middleware **does exist** in `/etc/dokploy/traefik/dynamic/middlewares.yml` - it will work once Traefik can read that file.
+**Important:** If using Cloudflare proxy, do NOT use the `redirect-to-https@file` middleware - it creates a redirect loop since both Cloudflare and Traefik try to redirect HTTP→HTTPS.
 
 ---
 
@@ -216,3 +217,17 @@ $ docker exec dokploy-traefik ss -tlnp
 # Only shows :80, not :443 - because websecure entrypoint isn't configured
 ```
 
+## Cloudflare + Traefik Redirect Loop
+
+If you see `ERR_TOO_MANY_REDIRECTS` after fixing Traefik config, it's because:
+
+1. **Cloudflare** is set to redirect HTTP→HTTPS (at edge)
+2. **Traefik** also has `redirect-to-https@file` middleware
+3. This creates an infinite loop
+
+**Solution:** Remove the `redirect-to-https@file` middleware from your Traefik labels. Let Cloudflare handle the HTTPS redirect at the edge.
+
+```bash
+# Test locally (should return HTML, not a redirect)
+curl -H "Host: ccip.jerryagenyi.xyz" http://127.0.0.1/
+```
