@@ -88,6 +88,7 @@ services:
       # Security
       SANCTUM_STATEFUL_DOMAINS: ccip-api.jerryagenyi.xyz,ccip.jerryagenyi.xyz
       SESSION_DOMAIN: jerryagenyi.xyz
+      SESSION_DRIVER: file
       JWT_SECRET: "tG3&bH6!jZ9*pM4n"
 
     volumes:
