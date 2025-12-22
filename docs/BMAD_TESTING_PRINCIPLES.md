@@ -2,7 +2,9 @@
 
 ## Overview
 
-BMAD (Business Model Architecture Design) Method includes comprehensive testing principles through the **TEA (Test Engineering Agent)** and **Test Architecture** workflows. These principles ensure systematic, maintainable, and effective testing throughout the development lifecycle.
+**BMAD Method** (Breakthrough Method for Agile AI Driven Development) is a structured development methodology that includes comprehensive testing principles through the **TEA (Test Engineering Agent)** and **Test Architecture** workflows. These principles ensure systematic, maintainable, and effective testing throughout the development lifecycle.
+
+BMAD Method is an open-source framework available at [github.com/bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD) that provides specialized AI agents working together to deliver exceptional development results.
 
 ## Core Testing Principles
 
@@ -178,9 +180,9 @@ BMAD (Business Model Architecture Design) Method includes comprehensive testing 
 - Refactor tests for clarity and performance
 - Document test purpose and scope
 
-## TEA Agent Responsibilities
+## TEA Agent (Test Engineering Agent)
 
-The **TEA (Test Engineering Agent)** is responsible for:
+The **TEA (Test Engineering Agent)** is one of 19 specialized agents in BMAD Method v6. It's responsible for:
 
 1. **Test Strategy**: Define testing approach and priorities
 2. **Test Design**: Create comprehensive test cases
@@ -190,6 +192,24 @@ The **TEA (Test Engineering Agent)** is responsible for:
 6. **Test Reporting**: Generate and communicate test results
 7. **Test Quality**: Ensure tests are effective and maintainable
 8. **Test Coverage**: Monitor and improve test coverage
+
+### BMAD Method Agent Ecosystem
+
+BMAD Method includes 19 specialized agents across different domains:
+
+**Development Agents:**
+- Developer, UX Designer, Tech Writer, Game Developer
+
+**Architecture Agents:**
+- Architect, Test Architect (TEA), Game Architect
+
+**Product Agents:**
+- PM (Product Manager), Analyst, Game Designer
+
+**Leadership Agents:**
+- Scrum Master, BMad Master
+
+Each agent brings deep domain expertise and can be customized to match your team's style. The TEA agent integrates with testing frameworks like `@seontechnologies/playwright-utils` for production-ready fixture-based utilities.
 
 ## Example: CCIP Testing Implementation
 
@@ -230,15 +250,36 @@ frontend/tests/
 
 ## References
 
-- BMAD Test Architecture Workflows:
-  - `@bmad/bmm/workflows/testarch-framework`
-  - `@bmad/bmm/workflows/testarch-test-design`
-  - `@bmad/bmm/workflows/testarch-atdd`
-  - `@bmad/bmm/workflows/testarch-automate`
-  - `@bmad/bmm/workflows/testarch-ci`
-  - `@bmad/bmm/workflows/testarch-nfr`
-  - `@bmad/bmm/workflows/testarch-trace`
-  - `@bmad/bmm/workflows/testarch-test-review`
+### Official BMAD Method Resources
 
-- TEA Agent: `@bmad/bmm/agents/tea`
+- **GitHub Repository**: [github.com/bmad-code-org/BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)
+- **Documentation**: Complete BMM documentation available in the repository
+- **Community**: Discord community for support and collaboration
+
+### BMAD Method Test Architecture Workflows
+
+BMAD Method provides comprehensive test architecture workflows accessible via Cursor rules:
+
+- `@bmad/bmm/workflows/testarch-framework` - Establishes testing framework architecture
+- `@bmad/bmm/workflows/testarch-test-design` - Designs test cases systematically
+- `@bmad/bmm/workflows/testarch-atdd` - Acceptance test-driven development workflow
+- `@bmad/bmm/workflows/testarch-automate` - Systematic automation strategy
+- `@bmad/bmm/workflows/testarch-ci` - Continuous Integration testing
+- `@bmad/bmm/workflows/testarch-nfr` - Non-functional requirements testing
+- `@bmad/bmm/workflows/testarch-trace` - Test traceability to requirements
+- `@bmad/bmm/workflows/testarch-test-review` - Systematic test review process
+
+### TEA Agent
+
+- **Agent Reference**: `@bmad/bmm/agents/tea`
+- **Integration**: Works with `@seontechnologies/playwright-utils` for fixture-based utilities
+- **Responsibilities**: Complete test engineering lifecycle from strategy to execution
+
+### BMAD Method v6 Features
+
+- **Scale-Adaptive Intelligence**: Automatically adjusts from bug fixes to enterprise systems
+- **50+ Workflows**: Comprehensive coverage of development scenarios
+- **19 Specialized Agents**: Deep domain expertise across development lifecycle
+- **BMad Core Framework**: Modular architecture enabling custom solutions
+- **Visual Workflows**: SVG diagrams showing complete methodology
 
