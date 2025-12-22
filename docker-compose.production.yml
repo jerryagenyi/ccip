@@ -120,7 +120,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.prod
       args:
-        VITE_API_URL: https://ccip-api.jerryagenyi.xyz/api
+        VITE_API_URL: https://ccip-api.jerryagenyi.xyz/api/v1
         VITE_APP_URL: https://ccip.jerryagenyi.xyz
     ports:
       - "80"
