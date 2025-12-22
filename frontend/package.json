@@ -7,9 +7,22 @@
     "dev": "quasar dev --host",
     "build": "quasar build",
     "test": "vitest",
+    "test:unit": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:codegen": "playwright codegen",
+    "test:e2e:prod": "cross-env BASE_URL=https://ccip.jerryagenyi.xyz API_URL=https://ccip-api.jerryagenyi.xyz/api/v1 playwright test tests/e2e/auth-production.spec.ts",
+    "test:e2e:prod:headed": "cross-env BASE_URL=https://ccip.jerryagenyi.xyz API_URL=https://ccip-api.jerryagenyi.xyz/api/v1 playwright test tests/e2e/auth-production.spec.ts --headed",
+    "test:ci": "cross-env NODE_ENV=test playwright test",
+    "test:ci:prod": "cross-env NODE_ENV=test BASE_URL=https://ccip.jerryagenyi.xyz API_URL=https://ccip-api.jerryagenyi.xyz/api/v1 playwright test --reporter=junit",
+    "playwright:install": "playwright install",
+    "playwright:install:deps": "playwright install-deps",
+    "playwright:report": "playwright show-report",
+    "playwright:codegen": "playwright codegen https://ccip.jerryagenyi.xyz"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.9",
@@ -20,12 +33,14 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.0",
     "@playwright/test": "^1.40.0",
     "@quasar/app-vite": "^2.4.0",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vitest/coverage-v8": "^1.0.0",
     "@vitest/ui": "^1.0.0",
     "@vue/test-utils": "^2.4.0",
+    "cross-env": "^7.0.3",
     "esbuild": "^0.27.2",
     "jsdom": "^23.0.0",
     "vite": "^5.4.0",
