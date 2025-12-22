@@ -44,10 +44,11 @@ class AuthController extends Controller
             'phone_number' => $request->phone_number,
             'organisation_id' => $request->organisation_id,
             'role' => 'user',
+            'email_verified_at' => now(), // Auto-verify for now
         ]);
 
-        // Send email verification notification
-        $user->sendEmailVerificationNotification();
+        // TODO: Configure email settings before enabling email verification
+        // $user->sendEmailVerificationNotification();
 
         $token = $user->createToken('auth-token')->plainTextToken;
 

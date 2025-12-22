@@ -38,7 +38,25 @@
       "Bash(openssl:*)",
       "Bash(docker-compose ps:*)",
       "Bash(docker-compose:*)",
-      "Bash(docker exec:*)"
+      "Bash(docker exec:*)",
+      "Bash(docker builder prune:*)",
+      "Bash(ls:*)",
+      "Bash(powershell:*)",
+      "mcp__MCP_DOCKER__search_repositories",
+      "mcp__MCP_DOCKER__mcp-find",
+      "mcp__MCP_DOCKER__mcp-add",
+      "mcp__MCP_DOCKER__curl",
+      "Bash(.claude/hooks/bmad-speak.sh:*)",
+      "Bash(npx bmad-method@alpha install:*)",
+      "Bash(taskkill:*)",
+      "Bash(set BMAD_INSTALL_TYPE=modify:*)",
+      "Bash(./bmad_install.bat:*)",
+      "Bash(python:*)",
+      "mcp__MCP_DOCKER__browser_navigate",
+      "mcp__MCP_DOCKER__browser_wait_for",
+      "mcp__MCP_DOCKER__browser_console_messages",
+      "mcp__MCP_DOCKER__browser_network_requests",
+      "Bash(npm run test:e2e:prod:*)"
     ]
   }
 }

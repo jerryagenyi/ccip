@@ -68,3 +68,5 @@ cache/
 secrets/
 *.secrets
 
+frontend/test-results/
+input.txt
