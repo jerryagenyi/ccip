@@ -108,14 +108,11 @@ jobs:
           sed -i 's/REDIS_HOST=redis/REDIS_HOST=127.0.0.1/' .env || true
           echo "Using MySQL for testing (configured in .env and phpunit.xml.dist)"
 
-      - name: Run database migrations
-        run: php artisan migrate --force
-
       - name: Run Laravel Pint (linting)
         run: vendor/bin/pint --test
 
       - name: Run PHPUnit tests
-        run: php artisan test
+        run: php artisan test --parallel --processes=1
 
   # ============================================
   # Frontend Tests (Vue 3 + Quasar)
