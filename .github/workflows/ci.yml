@@ -76,6 +76,12 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
+      - name: Create Laravel cache directories
+        run: |
+          mkdir -p bootstrap/cache
+          mkdir -p storage/framework/{cache,sessions,views}
+          chmod -R 775 bootstrap/cache storage
+
       - name: Install dependencies
         env:
           COMPOSER_PROCESS_TIMEOUT: 600
@@ -138,12 +144,6 @@ jobs:
           # rebuild native modules for the current platform
           npm rebuild || true
 
-          # Fallback: install platform-specific rollup native package if still missing
-          PLATFORM_SUFFIX=$(node -e "const os=require('os'); process.stdout.write(`${os.platform()}-${os.arch()}-gnu`)")
-          PKG="@rollup/rollup-${PLATFORM_SUFFIX}"
-          echo "Attempting to ensure $PKG is present (no-save install allowed as a fallback)"
-          npm i "$PKG" --no-save || true
-
       - name: Run type check
         run: npx vue-tsc --noEmit || true
 
@@ -192,6 +192,13 @@ jobs:
           cache: 'npm'
           cache-dependency-path: frontend/package-lock.json
 
+      - name: Create Laravel cache directories
+        working-directory: backend
+        run: |
+          mkdir -p bootstrap/cache
+          mkdir -p storage/framework/{cache,sessions,views}
+          chmod -R 775 bootstrap/cache storage
+
       - name: Install backend dependencies
         working-directory: backend
         env:
@@ -223,10 +230,6 @@ jobs:
           rm -rf node_modules
           npm ci --no-audit --no-fund
           npm rebuild || true
-          PLATFORM_SUFFIX=$(node -e "const os=require('os'); process.stdout.write(`${os.platform()}-${os.arch()}-gnu`)")
-          PKG="@rollup/rollup-${PLATFORM_SUFFIX}"
-          echo "Attempting to ensure $PKG is present (no-save install allowed as a fallback)"
-          npm i "$PKG" --no-save || true
 
       - name: Install Playwright browsers
         working-directory: frontend
