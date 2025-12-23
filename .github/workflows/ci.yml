@@ -58,6 +58,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Ensure Laravel writable directories
+        run: |
+          mkdir -p bootstrap/cache
+          mkdir -p storage/{app,framework,logs,framework/cache,framework/sessions,framework/views}
+          chmod -R 0777 bootstrap/cache storage || true
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -191,6 +197,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
           cache-dependency-path: frontend/package-lock.json
+
+      - name: Ensure Laravel writable directories (for e2e)
+        working-directory: backend
+        run: |
+          mkdir -p bootstrap/cache
+          mkdir -p storage/{app,framework,logs,framework/cache,framework/sessions,framework/views}
+          chmod -R 0777 bootstrap/cache storage || true
 
       - name: Install backend dependencies
         working-directory: backend
