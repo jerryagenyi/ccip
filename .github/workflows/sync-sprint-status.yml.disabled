@@ -41,7 +41,7 @@ jobs:
       - name: Get project data
         id: project-data
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
           USER: jerryagenyi
           PROJECT_NUMBER: 2
         run: |
@@ -109,7 +109,7 @@ jobs:
 
       - name: Sync status to GitHub Projects
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
           PROJECT_ID: ${{ steps.project-data.outputs.PROJECT_ID }}
           STATUS_FIELD_ID: ${{ steps.project-data.outputs.STATUS_FIELD_ID }}
           BACKLOG_OPTION_ID: ${{ steps.project-data.outputs.BACKLOG_OPTION_ID }}
