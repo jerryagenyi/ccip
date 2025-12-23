@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('source_date')->nullable();
 
             // Evidence Details
-            $table->jsonb('effectiveness_metrics')->default('{}');
+            $table->json('effectiveness_metrics')->nullable();
             $table->enum('confidence_level', ['high', 'medium', 'low'])->nullable();
 
             // Processing
