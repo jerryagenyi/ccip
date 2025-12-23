@@ -87,7 +87,7 @@ jobs:
           COMPOSER_PROCESS_TIMEOUT: 600
         run: |
           # Update lock file for ParaTest if it's in composer.json but missing from lock file
-          composer update brianium/paratest --no-interaction --no-scripts --lock || true
+          composer update brianium/paratest --no-interaction --no-scripts || true
           composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
       - name: Copy environment file
