@@ -98,10 +98,11 @@ jobs:
 
       - name: Configure test environment
         run: |
-          # ParaTest handles database setup based on phpunit.xml.dist
-          # Just set Redis host for cache/queue
+          # Set DB_CONNECTION to mysql so Laravel's default config matches phpunit.xml.dist
+          # Other DB settings (host, port, etc.) come from phpunit.xml.dist
+          sed -i 's/DB_CONNECTION=pgsql/DB_CONNECTION=mysql/' .env
           sed -i 's/REDIS_HOST=redis/REDIS_HOST=127.0.0.1/' .env || true
-          echo "Using MySQL for testing (configured in phpunit.xml.dist)"
+          echo "Using MySQL for testing (DB_CONNECTION in .env, details in phpunit.xml.dist)"
 
       - name: Run Laravel Pint (linting)
         run: vendor/bin/pint --test
