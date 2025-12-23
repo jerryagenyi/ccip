@@ -109,7 +109,9 @@ jobs:
           # Set cache store to array to avoid cache table dependency
           # Laravel uses CACHE_STORE env var, not CACHE_DRIVER
           echo "CACHE_STORE=array" >> .env
-          echo "Using MySQL for testing with array cache store"
+          # Disable stateful Sanctum authentication to force token-only auth in tests
+          echo "SANCTUM_STATEFUL_DOMAINS=" >> .env
+          echo "Using MySQL for testing with array cache store and token-only auth"
 
       - name: Run Laravel Pint (linting)
         run: vendor/bin/pint --test
@@ -238,6 +240,9 @@ jobs:
           sed -i 's/DB_USERNAME=ccip_user/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=change_this_secure_password/DB_PASSWORD=password/' .env
           sed -i 's/REDIS_HOST=redis/REDIS_HOST=127.0.0.1/' .env
+          # Set cache store to array and disable stateful Sanctum auth
+          echo "CACHE_STORE=array" >> .env
+          echo "SANCTUM_STATEFUL_DOMAINS=" >> .env
           php artisan migrate --force
           php artisan db:seed --force
 
