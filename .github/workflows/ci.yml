@@ -116,9 +116,13 @@ jobs:
 
       - name: Debug single test to capture actual error
         run: |
-          # Run a single failing test with verbose output to see the actual exception
-          vendor/bin/phpunit --filter "user_can_login_with_valid_credentials" --verbose 2>&1 || true
-          # Show Laravel logs if any
+          # Enable debug logging for Laravel
+          sed -i 's/APP_ENV=production/APP_ENV=testing/' .env || true
+          echo "APP_DEBUG=true" >> .env
+          echo "LOG_LEVEL=debug" >> .env
+          # Run a single failing test with debug output
+          vendor/bin/phpunit --filter "user_can_login_with_valid_credentials" || true
+          # Show Laravel logs
           cat storage/logs/laravel.log 2>/dev/null || echo "No Laravel logs found"
 
       - name: Run PHPUnit tests
