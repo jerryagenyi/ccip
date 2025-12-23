@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PHP_VERSION: '8.2'
+  PHP_VERSION: '8.3'
   NODE_VERSION: '20'
 
 jobs:
@@ -110,7 +110,7 @@ jobs:
         run: vendor/bin/pint --test
 
       - name: Run PHPUnit tests
-        run: php artisan test --parallel
+        run: php artisan test
 
   # ============================================
   # Frontend Tests (Vue 3 + Quasar)
@@ -143,12 +143,6 @@ jobs:
 
           # rebuild native modules for the current platform
           npm rebuild || true
-
-          # Fallback: install platform-specific rollup native package if still missing
-          PLATFORM_SUFFIX=$(node -e "const os=require('os'); process.stdout.write(`${os.platform()}-${os.arch()}-gnu`)")
-          PKG="@rollup/rollup-${PLATFORM_SUFFIX}"
-          echo "Attempting to ensure $PKG is present (no-save install allowed as a fallback)"
-          npm i "$PKG" --no-save || true
 
       - name: Run type check
         run: npx vue-tsc --noEmit || true
@@ -236,10 +230,6 @@ jobs:
           rm -rf node_modules
           npm ci --no-audit --no-fund
           npm rebuild || true
-          PLATFORM_SUFFIX=$(node -e "const os=require('os'); process.stdout.write(`${os.platform()}-${os.arch()}-gnu`)")
-          PKG="@rollup/rollup-${PLATFORM_SUFFIX}"
-          echo "Attempting to ensure $PKG is present (no-save install allowed as a fallback)"
-          npm i "$PKG" --no-save || true
 
       - name: Install Playwright browsers
         working-directory: frontend
