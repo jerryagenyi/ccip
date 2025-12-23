@@ -304,14 +304,8 @@ const handleContactSubmit = async () => {
   }
 };
 
-onMounted(() => {
-  // If authenticated, redirect to dashboard after a moment
-  if (isAuthenticated.value) {
-    setTimeout(() => {
-      router.push('/dashboard');
-    }, 2000);
-  }
-});
+// Note: Authenticated users are redirected by router guard
+// No need to handle redirect here
 </script>
 
 <style scoped lang="scss">
