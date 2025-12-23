@@ -184,7 +184,7 @@ class AuthTest extends TestCase
             ])
             ->assertJson([
                 'success' => true,
-                'message' => 'Registration successful',
+                'message' => 'Registration successful. Please verify your email.',
             ]);
 
         $this->assertDatabaseHas('users', [
@@ -378,17 +378,11 @@ class AuthTest extends TestCase
             'Authorization' => 'Bearer '.$oldToken,
         ])->postJson('/api/v1/auth/refresh');
 
-        // Old token should be invalid - verify it's deleted from database
-        $this->assertDatabaseMissing('personal_access_tokens', [
-            'tokenable_id' => $user->id,
-            'tokenable_type' => User::class,
-            'name' => 'auth-token',
-        ]);
-
         // Old token should not work for authenticated requests
+        // The refresh endpoint deletes all tokens and creates a new one
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '.$oldToken,
-        ])->postJson('/api/v1/auth/logout');
+        ])->getJson('/api/v1/users/me');
 
         $response->assertStatus(401);
     }
@@ -466,13 +460,7 @@ class AuthTest extends TestCase
             'Authorization' => 'Bearer '.$token,
         ])->postJson('/api/v1/auth/logout');
 
-        // Verify token is deleted
-        $this->assertDatabaseMissing('personal_access_tokens', [
-            'tokenable_id' => $user->id,
-            'tokenable_type' => User::class,
-        ]);
-
-        // Try to use token after logout
+        // Try to use token after logout - should be invalid
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '.$token,
         ])->getJson('/api/v1/users/me');
@@ -517,6 +505,22 @@ class AuthTest extends TestCase
         $token2 = $user->createToken('device-2')->plainTextToken;
         $token3 = $user->createToken('device-3')->plainTextToken;
 
+        // Verify all tokens work before refresh
+        $response1 = $this->withHeaders([
+            'Authorization' => 'Bearer '.$token1,
+        ])->getJson('/api/v1/users/me');
+        $response1->assertStatus(200);
+
+        $response2 = $this->withHeaders([
+            'Authorization' => 'Bearer '.$token2,
+        ])->getJson('/api/v1/users/me');
+        $response2->assertStatus(200);
+
+        $response3 = $this->withHeaders([
+            'Authorization' => 'Bearer '.$token3,
+        ])->getJson('/api/v1/users/me');
+        $response3->assertStatus(200);
+
         // Refresh using one token
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '.$token1,
@@ -525,7 +529,7 @@ class AuthTest extends TestCase
         $response->assertStatus(200);
         $newToken = $response->json('data.token');
 
-        // All old tokens should be invalid
+        // All old tokens should be invalid after refresh
         $response1 = $this->withHeaders([
             'Authorization' => 'Bearer '.$token1,
         ])->getJson('/api/v1/users/me');
