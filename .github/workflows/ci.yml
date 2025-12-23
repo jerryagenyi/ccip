@@ -106,7 +106,9 @@ jobs:
           sed -i 's/DB_USERNAME=ccip_user/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=change_this_secure_password/DB_PASSWORD=password/' .env
           sed -i 's/REDIS_HOST=redis/REDIS_HOST=127.0.0.1/' .env || true
-          echo "Using MySQL for testing (configured .env + phpunit.xml.dist)"
+          # Set cache driver to array to avoid cache table dependency
+          sed -i 's/CACHE_DRIVER=.*/CACHE_DRIVER=array/' .env || echo "CACHE_DRIVER=array" >> .env
+          echo "Using MySQL for testing with array cache driver"
 
       - name: Run Laravel Pint (linting)
         run: vendor/bin/pint --test
