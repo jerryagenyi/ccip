@@ -86,7 +86,6 @@ jobs:
         env:
           COMPOSER_PROCESS_TIMEOUT: 600
         run: |
-          # Update lock file for newly added ParaTest package
           composer update brianium/paratest --no-interaction --no-scripts
           composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
@@ -207,7 +206,6 @@ jobs:
         env:
           COMPOSER_PROCESS_TIMEOUT: 600
         run: |
-          # Update lock file for newly added ParaTest package
           composer update brianium/paratest --no-interaction --no-scripts
           composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
