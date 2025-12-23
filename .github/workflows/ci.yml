@@ -111,6 +111,9 @@ jobs:
       - name: Run Laravel Pint (linting)
         run: vendor/bin/pint --test
 
+      - name: Migrate test database
+        run: php artisan migrate --force
+
       - name: Run PHPUnit tests
         run: php artisan test
 
