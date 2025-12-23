@@ -20,6 +20,8 @@
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
+        <!-- Disable stateful Sanctum authentication to force token-only auth in tests -->
+        <env name="SANCTUM_STATEFUL_DOMAINS" value=""/>
         <!-- MySQL with single process - 41/43 tests passed with this config -->
         <env name="DB_CONNECTION" value="mysql"/>
         <env name="DB_HOST" value="127.0.0.1"/>
