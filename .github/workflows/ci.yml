@@ -82,6 +82,11 @@ jobs:
           mkdir -p storage/{app,framework,logs,framework/cache,framework/sessions,framework/views}
           chmod -R 0777 bootstrap/cache storage || true
 
+      - name: Update composer.lock for ParaTest
+        env:
+          COMPOSER_PROCESS_TIMEOUT: 600
+        run: composer update brianium/paratest --no-interaction --no-scripts --lock || true
+
       - name: Install dependencies
         env:
           COMPOSER_PROCESS_TIMEOUT: 600
