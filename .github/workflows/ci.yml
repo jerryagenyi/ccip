@@ -27,19 +27,6 @@ jobs:
     timeout-minutes: 20
     
     services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: ccip_test
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
       redis:
         image: redis:alpine
         ports:
@@ -64,6 +51,7 @@ jobs:
           php-version: ${{ env.PHP_VERSION }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, pdo_mysql, redis
           coverage: xdebug
+          ini-values: memory_limit=512M
 
       - name: Get Composer cache directory
         id: composer-cache
@@ -97,16 +85,11 @@ jobs:
 
       - name: Configure test environment
         run: |
-          sed -i 's/DB_CONNECTION=pgsql/DB_CONNECTION=mysql/' .env
-          sed -i 's/DB_HOST=postgres/DB_HOST=127.0.0.1/' .env
-          sed -i 's/DB_PORT=5432/DB_PORT=3306/' .env
-          sed -i 's/DB_DATABASE=ccip/DB_DATABASE=ccip_test/' .env
-          sed -i 's/DB_USERNAME=ccip_user/DB_USERNAME=root/' .env
-          sed -i 's/DB_PASSWORD=change_this_secure_password/DB_PASSWORD=password/' .env
-          sed -i 's/REDIS_HOST=redis/REDIS_HOST=127.0.0.1/' .env
-
-      - name: Run migrations
-        run: php artisan migrate --force
+          # phpunit.xml.dist uses SQLite for parallel testing, so we don't need MySQL config
+          # Just set Redis host for cache/queue
+          sed -i 's/REDIS_HOST=redis/REDIS_HOST=127.0.0.1/' .env || true
+          # Ensure SQLite is available (phpunit.xml.dist will use it)
+          echo "Using SQLite for parallel testing (configured in phpunit.xml.dist)"
 
       - name: Run Laravel Pint (linting)
         run: vendor/bin/pint --test
