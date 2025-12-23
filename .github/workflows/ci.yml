@@ -98,11 +98,13 @@ jobs:
 
       - name: Configure test environment
         run: |
-          # phpunit.xml.dist uses SQLite for parallel testing, so we don't need MySQL config
+          # phpunit.xml.dist uses MySQL for testing (configured in phpunit.xml.dist)
           # Just set Redis host for cache/queue
           sed -i 's/REDIS_HOST=redis/REDIS_HOST=127.0.0.1/' .env || true
-          # Ensure SQLite is available (phpunit.xml.dist will use it)
-          echo "Using SQLite for parallel testing (configured in phpunit.xml.dist)"
+          echo "Using MySQL for testing (configured in phpunit.xml.dist)"
+
+      - name: Run database migrations
+        run: php artisan migrate --force
 
       - name: Run Laravel Pint (linting)
         run: vendor/bin/pint --test
