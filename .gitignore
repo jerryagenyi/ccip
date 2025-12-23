@@ -63,3 +63,10 @@ docker-data/
 runtime/
 cache/
 
+# Secrets - NEVER commit
+.env.secrets
+secrets/
+*.secrets
+
+frontend/test-results/
+input.txt

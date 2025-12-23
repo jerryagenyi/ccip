@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('phone_number')->nullable();
             $table->string('profile_picture')->nullable();
             $table->enum('role', ['super_admin', 'admin', 'sub_admin', 'user'])->default('user');
-            $table->foreignId('organisation_id')->nullable()->constrained('organisations')->nullOnDelete();
+            $table->unsignedBigInteger('organisation_id')->nullable();
             $table->boolean('is_active')->default(true);
             $table->json('preferences')->nullable();
             $table->rememberToken();

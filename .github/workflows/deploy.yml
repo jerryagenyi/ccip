@@ -1,12 +1,19 @@
-# Deploy Pipeline - Runs when code is merged to main
-# Deploys to Hostinger VPS using Dokploy Docker Compose
+# Deploy Pipeline - Monitoring & Health Checks (Optional)
+# 
+# NOTE: This workflow is OPTIONAL. Dokploy handles actual deployment automatically.
+# This workflow only provides:
+# - Deployment notifications in GitHub Actions
+# - Health checks after deployment
+# - Status visibility in Actions tab
 #
 # Dokploy auto-deploys on push to main when:
 # 1. GitHub repository is connected
 # 2. Auto-Deploy is enabled in Dokploy
 # 3. Docker Compose application is configured
+#
+# You can safely delete this file if you don't need GitHub Actions notifications.
 
-name: Deploy to Production
+name: Deploy to Production (Monitoring)
 
 on:
   push:
@@ -27,7 +34,8 @@ jobs:
           echo "✅ Deployment triggered by push to main branch"
           echo "📊 Dokploy will auto-deploy from Docker Compose"
           echo "🔗 Project: http://72.61.19.90:3000/dashboard/project/xzYEMcKghF7krrf2peEaI"
-          echo "🌐 Production URL: https://app.jerryagenyi.xyz"
+          echo "🌐 Production Frontend: https://ccip.jerryagenyi.xyz"
+          echo "🌐 Production Backend: https://ccip-api.jerryagenyi.xyz"
           echo ""
           echo "Deployment progress can be monitored in Dokploy dashboard."
           echo "Typical deployment time: 2-5 minutes"
@@ -41,14 +49,14 @@ jobs:
           echo "Checking deployment health..."
 
           # Check frontend
-          if curl -f https://app.jerryagenyi.xyz > /dev/null 2>&1; then
+          if curl -f https://ccip.jerryagenyi.xyz > /dev/null 2>&1; then
             echo "✅ Frontend is responding"
           else
             echo "⏳ Frontend still starting..."
           fi
 
           # Check backend API
-          if curl -f https://api.jerryagenyi.xyz/api/health > /dev/null 2>&1; then
+          if curl -f https://ccip-api.jerryagenyi.xyz/api/health > /dev/null 2>&1; then
             echo "✅ Backend API is responding"
           else
             echo "⏳ Backend API still starting..."
@@ -79,8 +87,8 @@ jobs:
           echo ""
           echo "Next steps:"
           echo "1. Monitor deployment in Dokploy dashboard"
-          echo "2. Test the application at https://app.jerryagenyi.xyz"
-          echo "3. Check backend API at https://api.jerryagenyi.xyz/api"
+          echo "2. Test the application at https://ccip.jerryagenyi.xyz"
+          echo "3. Check backend API at https://ccip-api.jerryagenyi.xyz/api"
           echo ""
           echo "If deployment fails:"
           echo "- Check Docker Compose logs in Dokploy"

@@ -192,10 +192,30 @@ class ActivityController extends Controller
 
         foreach ($request->file('files') as $file) {
             $path = $file->store('activities/' . $id, 's3');
-            
-$attachment = ActivityAttachment::create([                'activity_id' => $id,                'name' => $file->getClientOriginalName(), // Frontend expects 'name'                'file_name' => $file->getClientOriginalName(), // Keep for backward compatibility                'file_path' => $path,                'type' => $file->getClientOriginalExtension(), // Frontend expects 'type'                'file_type' => $file->getClientOriginalExtension(), // Keep for backward compatibility                'size' => $file->getSize(), // Frontend expects 'size'                'file_size' => $file->getSize(), // Keep for backward compatibility                'mime_type' => $file->getMimeType(),                'uploaded_by' => $request->user()->id,            ]);            // Prepare response with frontend-compatible format            $uploadedFiles[] = [                'id' => $attachment->id,                'name' => $attachment->name,                'type' => $attachment->type,                'size' => $attachment->size,                'url' => Storage::disk('s3')->url($attachment->file_path),                'uploadedAt' => $attachment->created_at->toISOString(),                'uploadedBy' => $attachment->uploaded_by,            ];
 
-            $uploadedFiles[] = $attachment;
+            $attachment = ActivityAttachment::create([
+                'activity_id' => $id,
+                'name' => $file->getClientOriginalName(), // Frontend expects 'name'
+                'file_name' => $file->getClientOriginalName(), // Keep for backward compatibility
+                'file_path' => $path,
+                'type' => $file->getClientOriginalExtension(), // Frontend expects 'type'
+                'file_type' => $file->getClientOriginalExtension(), // Keep for backward compatibility
+                'size' => $file->getSize(), // Frontend expects 'size'
+                'file_size' => $file->getSize(), // Keep for backward compatibility
+                'mime_type' => $file->getMimeType(),
+                'uploaded_by' => $request->user()->id,
+            ]);
+
+            // Prepare response with frontend-compatible format
+            $uploadedFiles[] = [
+                'id' => $attachment->id,
+                'name' => $attachment->name,
+                'type' => $attachment->type,
+                'size' => $attachment->size,
+                'url' => Storage::disk('s3')->url($attachment->file_path),
+                'uploadedAt' => $attachment->created_at->toISOString(),
+                'uploadedBy' => $attachment->uploaded_by,
+            ];
         }
 
         return $this->success($uploadedFiles, 'Files uploaded successfully', 201);
