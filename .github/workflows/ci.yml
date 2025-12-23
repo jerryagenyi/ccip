@@ -98,15 +98,10 @@ jobs:
 
       - name: Configure test environment
         run: |
-          # Configure MySQL for testing (matches phpunit.xml.dist config)
-          sed -i 's/DB_CONNECTION=pgsql/DB_CONNECTION=mysql/' .env
-          sed -i 's/DB_HOST=postgres/DB_HOST=127.0.0.1/' .env
-          sed -i 's/DB_PORT=5432/DB_PORT=3306/' .env
-          sed -i 's/DB_DATABASE=ccip/DB_DATABASE=ccip_test/' .env
-          sed -i 's/DB_USERNAME=ccip_user/DB_USERNAME=root/' .env
-          sed -i 's/DB_PASSWORD=change_this_secure_password/DB_PASSWORD=password/' .env
+          # ParaTest handles database setup based on phpunit.xml.dist
+          # Just set Redis host for cache/queue
           sed -i 's/REDIS_HOST=redis/REDIS_HOST=127.0.0.1/' .env || true
-          echo "Using MySQL for testing (configured in .env and phpunit.xml.dist)"
+          echo "Using MySQL for testing (configured in phpunit.xml.dist)"
 
       - name: Run Laravel Pint (linting)
         run: vendor/bin/pint --test
