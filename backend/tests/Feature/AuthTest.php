@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -374,15 +375,13 @@ class AuthTest extends TestCase
         $user = User::factory()->create();
         $oldToken = $user->createToken('auth-token')->plainTextToken;
 
-        $this->withHeaders([
-            'Authorization' => 'Bearer '.$oldToken,
-        ])->postJson('/api/v1/auth/refresh');
+        // Authenticate using Sanctum actingAs
+        Sanctum::actingAs($user, ['*'], $oldToken);
+        $this->postJson('/api/v1/auth/refresh');
 
         // Old token should not work for authenticated requests
         // The refresh endpoint deletes all tokens and creates a new one
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer '.$oldToken,
-        ])->getJson('/api/v1/users/me');
+        $response = $this->withToken($oldToken)->getJson('/api/v1/users/me');
 
         $response->assertStatus(401);
     }
@@ -455,15 +454,12 @@ class AuthTest extends TestCase
         $user = User::factory()->create();
         $token = $user->createToken('auth-token')->plainTextToken;
 
-        // Logout
-        $this->withHeaders([
-            'Authorization' => 'Bearer '.$token,
-        ])->postJson('/api/v1/auth/logout');
+        // Logout using Sanctum actingAs
+        Sanctum::actingAs($user, ['*'], $token);
+        $this->postJson('/api/v1/auth/logout');
 
         // Try to use token after logout - should be invalid
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer '.$token,
-        ])->getJson('/api/v1/users/me');
+        $response = $this->withToken($token)->getJson('/api/v1/users/me');
 
         $response->assertStatus(401);
     }
@@ -506,49 +502,34 @@ class AuthTest extends TestCase
         $token3 = $user->createToken('device-3')->plainTextToken;
 
         // Verify all tokens work before refresh
-        $response1 = $this->withHeaders([
-            'Authorization' => 'Bearer '.$token1,
-        ])->getJson('/api/v1/users/me');
+        $response1 = $this->withToken($token1)->getJson('/api/v1/users/me');
         $response1->assertStatus(200);
 
-        $response2 = $this->withHeaders([
-            'Authorization' => 'Bearer '.$token2,
-        ])->getJson('/api/v1/users/me');
+        $response2 = $this->withToken($token2)->getJson('/api/v1/users/me');
         $response2->assertStatus(200);
 
-        $response3 = $this->withHeaders([
-            'Authorization' => 'Bearer '.$token3,
-        ])->getJson('/api/v1/users/me');
+        $response3 = $this->withToken($token3)->getJson('/api/v1/users/me');
         $response3->assertStatus(200);
 
         // Refresh using one token
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer '.$token1,
-        ])->postJson('/api/v1/auth/refresh');
+        Sanctum::actingAs($user, ['*'], $token1);
+        $response = $this->postJson('/api/v1/auth/refresh');
 
         $response->assertStatus(200);
         $newToken = $response->json('data.token');
 
         // All old tokens should be invalid after refresh
-        $response1 = $this->withHeaders([
-            'Authorization' => 'Bearer '.$token1,
-        ])->getJson('/api/v1/users/me');
+        $response1 = $this->withToken($token1)->getJson('/api/v1/users/me');
         $response1->assertStatus(401);
 
-        $response2 = $this->withHeaders([
-            'Authorization' => 'Bearer '.$token2,
-        ])->getJson('/api/v1/users/me');
+        $response2 = $this->withToken($token2)->getJson('/api/v1/users/me');
         $response2->assertStatus(401);
 
-        $response3 = $this->withHeaders([
-            'Authorization' => 'Bearer '.$token3,
-        ])->getJson('/api/v1/users/me');
+        $response3 = $this->withToken($token3)->getJson('/api/v1/users/me');
         $response3->assertStatus(401);
 
         // New token should work
-        $responseNew = $this->withHeaders([
-            'Authorization' => 'Bearer '.$newToken,
-        ])->getJson('/api/v1/users/me');
+        $responseNew = $this->withToken($newToken)->getJson('/api/v1/users/me');
         $responseNew->assertStatus(200);
     }
 
