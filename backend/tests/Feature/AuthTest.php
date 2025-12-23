@@ -456,21 +456,32 @@ class AuthTest extends TestCase
     public function logout_deletes_current_token()
     {
         $user = User::factory()->create();
-        $user->createToken('auth-token')->plainTextToken;
+        $token = $user->createToken('auth-token')->plainTextToken;
 
         // Verify token exists before logout
         $this->assertDatabaseHas('personal_access_tokens', [
             'tokenable_id' => $user->id,
             'tokenable_type' => User::class,
+            'name' => 'auth-token',
         ]);
 
-        // Logout
-        $this->actingAs($user)->postJson('/api/v1/auth/logout');
+        // Logout - need to create a new token for the authenticated request
+        // because actingAs() doesn't set currentAccessToken()
+        $logoutToken = $user->createToken('logout-token')->plainTextToken;
+        $this->withToken($logoutToken)->postJson('/api/v1/auth/logout');
 
-        // Verify token was deleted
+        // Verify the logout token was deleted
         $this->assertDatabaseMissing('personal_access_tokens', [
             'tokenable_id' => $user->id,
             'tokenable_type' => User::class,
+            'name' => 'logout-token',
+        ]);
+
+        // Verify the original token still exists (logout only deletes current token)
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'tokenable_id' => $user->id,
+            'tokenable_type' => User::class,
+            'name' => 'auth-token',
         ]);
     }
 
