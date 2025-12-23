@@ -130,7 +130,19 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          # ensure a clean node_modules to avoid corrupted cached installs
+          rm -rf node_modules
+          npm ci --no-audit --no-fund
+
+          # rebuild native modules for the current platform
+          npm rebuild || true
+
+          # Fallback: install platform-specific rollup native package if still missing
+          PLATFORM_SUFFIX=$(node -e "const os=require('os'); process.stdout.write(`${os.platform()}-${os.arch()}-gnu`)")
+          PKG="@rollup/rollup-${PLATFORM_SUFFIX}"
+          echo "Attempting to ensure $PKG is present (no-save install allowed as a fallback)"
+          npm i "$PKG" --no-save || true
 
       - name: Run type check
         run: npx vue-tsc --noEmit || true
@@ -207,7 +219,14 @@ jobs:
         
       - name: Install frontend dependencies
         working-directory: frontend
-        run: npm ci
+        run: |
+          rm -rf node_modules
+          npm ci --no-audit --no-fund
+          npm rebuild || true
+          PLATFORM_SUFFIX=$(node -e "const os=require('os'); process.stdout.write(`${os.platform()}-${os.arch()}-gnu`)")
+          PKG="@rollup/rollup-${PLATFORM_SUFFIX}"
+          echo "Attempting to ensure $PKG is present (no-save install allowed as a fallback)"
+          npm i "$PKG" --no-save || true
 
       - name: Install Playwright browsers
         working-directory: frontend
@@ -245,4 +264,3 @@ jobs:
           scan-ref: '.'
           severity: 'CRITICAL,HIGH'
           exit-code: '0'  # Don't fail on vulnerabilities for now
-
