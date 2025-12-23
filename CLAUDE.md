@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Note:** This guide focuses on **local development environment** setup and workflows. For production deployment information, see `docs/DEPLOYMENT_WORKFLOW.md` and `docs/DOKPLOY-COMPLETE-GUIDE.md`.
+
 ## Development Commands
 
 ### Docker (Recommended)
@@ -51,7 +53,11 @@ npm run build
 npm run test              # Unit tests with Vitest
 npm run test:ui           # Vitest UI
 npm run test:coverage     # Coverage report
-npm run test:e2e          # E2E tests with Playwright
+npm run test:e2e          # E2E tests with Playwright (localhost)
+
+# Production Testing (optional - tests against live deployment)
+npm run test:e2e:prod     # E2E tests against production URLs
+npm run test:e2e:prod:headed  # E2E tests with visible browser
 ```
 
 ## Architecture Overview
@@ -87,9 +93,20 @@ npm run test:e2e          # E2E tests with Playwright
 
 Key directories:
 - `app/Http/Controllers/API/` - API controllers
+- `app/Http/Controllers/Controller.php` - Base controller with standardized response methods
 - `app/Models/` - Eloquent models with relationships
 - `database/migrations/` - Database schema
 - `app/Services/` - Business logic services
+
+**API Response Standardization:**
+All API controllers extend `App\Http\Controllers\Controller` which provides:
+- `success($data, $message, $code)` - Standardized success responses
+- `error($message, $code, $errors)` - Standardized error responses
+- `paginated($data, $message)` - Standardized paginated responses
+
+**Service Patterns:**
+- `app/Services/AIService.php` - AI service with graceful fallback to mock data when OpenAI API fails
+- Services handle errors gracefully and return fallback data when external APIs are unavailable
 
 ### Frontend Architecture (Vue 3 + Quasar)
 - **Framework**: Vue 3 Composition API + Quasar for PWA capabilities
@@ -130,6 +147,24 @@ Core entities:
 - API endpoints: `docs/api/`
 
 ## Testing Strategy
-- Backend: PHPUnit with feature tests
-- Frontend: Vitest for unit tests, Playwright for E2E
-- API testing through Postman collections (in docs)
+
+### Local Development
+- **Backend**: PHPUnit with feature tests (`php artisan test`)
+- **Frontend**: Vitest for unit tests, Playwright for E2E (localhost)
+- **API testing**: Postman collections (in docs)
+
+### Production Testing (Optional)
+- **E2E Production Tests**: `npm run test:e2e:prod` - Tests against live deployment
+  - Frontend: `https://ccip.jerryagenyi.xyz`
+  - Backend: `https://ccip-api.jerryagenyi.xyz/api/v1`
+  - Use with caution - only for smoke testing production deployments
+  - Requires production test credentials (see `frontend/tests/e2e/auth-production.spec.ts`)
+
+## Error Handling Patterns
+
+### AIService Fallback
+The `AIService` class implements graceful degradation:
+- Attempts OpenAI API call for semiotic analysis
+- On failure, logs error and returns mock analysis data
+- Ensures application continues functioning even when external AI service is unavailable
+- See `app/Services/AIService.php::getMockAnalysis()` for fallback implementation
