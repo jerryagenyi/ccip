@@ -85,7 +85,10 @@ jobs:
       - name: Install dependencies
         env:
           COMPOSER_PROCESS_TIMEOUT: 600
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
+        run: |
+          # Update lock file for newly added ParaTest package
+          composer update brianium/paratest --no-interaction --no-scripts
+          composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
       - name: Copy environment file
         run: cp .env.example .env
@@ -110,7 +113,7 @@ jobs:
         run: vendor/bin/pint --test
 
       - name: Run PHPUnit tests
-        run: php artisan test
+        run: php artisan test --parallel
 
   # ============================================
   # Frontend Tests (Vue 3 + Quasar)
@@ -203,7 +206,10 @@ jobs:
         working-directory: backend
         env:
           COMPOSER_PROCESS_TIMEOUT: 600
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
+        run: |
+          # Update lock file for newly added ParaTest package
+          composer update brianium/paratest --no-interaction --no-scripts
+          composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
       - name: Setup backend environment
         working-directory: backend
