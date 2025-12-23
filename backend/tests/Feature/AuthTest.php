@@ -35,12 +35,12 @@ class AuthTest extends TestCase
 
         // Debug: dump response if status is not 200
         if ($response->status() !== 200) {
-            var_dump('RESPONSE STATUS: ' . $response->status());
-            var_dump('RESPONSE BODY: ' . $response->getContent());
-            var_dump('EXCEPTION: ' . ($response->exception ?? 'none'));
+            var_dump('RESPONSE STATUS: '.$response->status());
+            var_dump('RESPONSE BODY: '.$response->getContent());
+            var_dump('EXCEPTION: '.($response->exception ?? 'none'));
             if ($response->exception) {
-                var_dump('EXCEPTION MESSAGE: ' . $response->exception->getMessage());
-                var_dump('EXCEPTION TRACE: ' . $response->exception->getTraceAsString());
+                var_dump('EXCEPTION MESSAGE: '.$response->exception->getMessage());
+                var_dump('EXCEPTION TRACE: '.$response->exception->getTraceAsString());
             }
         }
 
