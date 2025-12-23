@@ -20,8 +20,8 @@
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
-        <!-- DB_CONNECTION and DB_DATABASE are set via .env file -->
-        <!-- CI workflow sets these to MySQL, local dev can use SQLite -->
+        <!-- Explicitly set MySQL for CI - default config is pgsql -->
+        <env name="DB_CONNECTION" value="mysql"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
