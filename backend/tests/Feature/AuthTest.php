@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -375,9 +374,8 @@ class AuthTest extends TestCase
         $user = User::factory()->create();
         $oldToken = $user->createToken('auth-token')->plainTextToken;
 
-        // Authenticate using Sanctum actingAs
-        Sanctum::actingAs($user, ['*'], $oldToken);
-        $this->postJson('/api/v1/auth/refresh');
+        // Authenticate as the user and call refresh
+        $this->actingAs($user)->postJson('/api/v1/auth/refresh');
 
         // Old token should not work for authenticated requests
         // The refresh endpoint deletes all tokens and creates a new one
@@ -454,9 +452,8 @@ class AuthTest extends TestCase
         $user = User::factory()->create();
         $token = $user->createToken('auth-token')->plainTextToken;
 
-        // Logout using Sanctum actingAs
-        Sanctum::actingAs($user, ['*'], $token);
-        $this->postJson('/api/v1/auth/logout');
+        // Logout using actingAs
+        $this->actingAs($user)->postJson('/api/v1/auth/logout');
 
         // Try to use token after logout - should be invalid
         $response = $this->withToken($token)->getJson('/api/v1/users/me');
@@ -511,9 +508,8 @@ class AuthTest extends TestCase
         $response3 = $this->withToken($token3)->getJson('/api/v1/users/me');
         $response3->assertStatus(200);
 
-        // Refresh using one token
-        Sanctum::actingAs($user, ['*'], $token1);
-        $response = $this->postJson('/api/v1/auth/refresh');
+        // Refresh using actingAs
+        $response = $this->actingAs($user)->postJson('/api/v1/auth/refresh');
 
         $response->assertStatus(200);
         $newToken = $response->json('data.token');
