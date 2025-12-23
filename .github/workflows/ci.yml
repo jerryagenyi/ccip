@@ -106,9 +106,10 @@ jobs:
           sed -i 's/DB_USERNAME=ccip_user/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=change_this_secure_password/DB_PASSWORD=password/' .env
           sed -i 's/REDIS_HOST=redis/REDIS_HOST=127.0.0.1/' .env || true
-          # Set cache driver to array to avoid cache table dependency
-          sed -i 's/CACHE_DRIVER=.*/CACHE_DRIVER=array/' .env || echo "CACHE_DRIVER=array" >> .env
-          echo "Using MySQL for testing with array cache driver"
+          # Set cache store to array to avoid cache table dependency
+          # Laravel uses CACHE_STORE env var, not CACHE_DRIVER
+          echo "CACHE_STORE=array" >> .env
+          echo "Using MySQL for testing with array cache store"
 
       - name: Run Laravel Pint (linting)
         run: vendor/bin/pint --test
