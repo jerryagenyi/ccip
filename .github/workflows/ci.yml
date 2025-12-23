@@ -95,7 +95,7 @@ jobs:
         run: vendor/bin/pint --test
 
       - name: Run PHPUnit tests
-        run: php artisan test --parallel
+        run: php artisan test --parallel --processes=1
 
   # ============================================
   # Frontend Tests (Vue 3 + Quasar)

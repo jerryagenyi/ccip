@@ -20,10 +20,8 @@
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
-        <!-- Use SQLite for parallel testing to avoid MySQL lock contention -->
-        <!-- Each parallel process gets its own isolated in-memory database -->
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
+        <!-- DB_CONNECTION and DB_DATABASE are set via .env file -->
+        <!-- CI workflow sets these to MySQL, local dev can use SQLite -->
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
