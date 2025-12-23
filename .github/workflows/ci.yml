@@ -98,26 +98,21 @@ jobs:
 
       - name: Configure test environment
         run: |
-          # Set DB_CONNECTION to mysql so Laravel's default config matches phpunit.xml.dist
-          # Other DB settings (host, port, etc.) come from phpunit.xml.dist
+          # Set MySQL configuration for testing (override .env.example defaults)
           sed -i 's/DB_CONNECTION=pgsql/DB_CONNECTION=mysql/' .env
+          sed -i 's/DB_HOST=postgres/DB_HOST=127.0.0.1/' .env
+          sed -i 's/DB_PORT=5432/DB_PORT=3306/' .env
+          sed -i 's/DB_DATABASE=ccip/DB_DATABASE=ccip_test/' .env
+          sed -i 's/DB_USERNAME=ccip_user/DB_USERNAME=root/' .env
+          sed -i 's/DB_PASSWORD=change_this_secure_password/DB_PASSWORD=password/' .env
           sed -i 's/REDIS_HOST=redis/REDIS_HOST=127.0.0.1/' .env || true
-          echo "Using MySQL for testing (DB_CONNECTION in .env, details in phpunit.xml.dist)"
+          echo "Using MySQL for testing (configured .env + phpunit.xml.dist)"
 
       - name: Run Laravel Pint (linting)
         run: vendor/bin/pint --test
 
-      - name: Debug database state
-        run: |
-          echo "=== Checking MySQL connection ==="
-          php artisan db:show || true
-          echo "=== Checking migration status ==="
-          php artisan migrate:status || true
-          echo "=== Testing database connection ==="
-          php -r "require 'vendor/autoload.php'; \$app = require_once 'bootstrap/app.php'; \$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap(); var_dump(DB::connection()->getPdo());" || true
-
-      - name: Run PHPUnit tests with verbose output
-        run: php artisan test --parallel --processes=1 --verbose
+      - name: Run PHPUnit tests
+        run: php artisan test --parallel --processes=1
 
   # ============================================
   # Frontend Tests (Vue 3 + Quasar)
