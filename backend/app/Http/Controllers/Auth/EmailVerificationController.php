@@ -31,4 +31,3 @@ class EmailVerificationController extends Controller
         return $this->success(null, 'Verification email sent');
     }
 }
-

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('assigned_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('assigned_at')->useCurrent();
             $table->timestamps();
-            
+
             $table->unique(['user_id', 'role_id']);
         });
     }

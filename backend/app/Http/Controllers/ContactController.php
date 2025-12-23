@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
@@ -56,18 +55,19 @@ class ContactController extends Controller
     {
         // Get admin email from config or use default
         $adminEmail = config('mail.admin_email', config('mail.from.address', 'admin@ccip.local'));
-        
+
         // If mail is not configured, just log the submission
-        if (!config('mail.mailers.smtp.host')) {
+        if (! config('mail.mailers.smtp.host')) {
             Log::info('Contact form submission (email not configured)', $data);
+
             return;
         }
-        
+
         try {
             // Send notification to admin
             Mail::send('emails.contact', $data, function ($message) use ($data, $adminEmail) {
                 $message->to($adminEmail)
-                    ->subject('New Contact Form Submission: ' . $data['subject'])
+                    ->subject('New Contact Form Submission: '.$data['subject'])
                     ->replyTo($data['email'], $data['name']);
             });
 
@@ -85,4 +85,3 @@ class ContactController extends Controller
         }
     }
 }
-

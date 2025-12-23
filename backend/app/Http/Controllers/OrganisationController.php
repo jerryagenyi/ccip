@@ -17,8 +17,8 @@ class OrganisationController extends Controller
         // Apply filters
         if ($request->has('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
+                $q->where('name', 'like', '%'.$request->search.'%')
+                    ->orWhere('description', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -179,4 +179,3 @@ class OrganisationController extends Controller
         return $this->paginated($activities, 'Activities retrieved successfully');
     }
 }
-

@@ -16,7 +16,7 @@ class HelpController extends Controller
         // Filter by role access
         $query->where(function ($q) use ($user) {
             $q->whereNull('role_access')
-              ->orWhereJsonContains('role_access', $user->role);
+                ->orWhereJsonContains('role_access', $user->role);
         });
 
         // Filter by category
@@ -33,18 +33,18 @@ class HelpController extends Controller
     public function article($id)
     {
         $user = request()->user();
-        
+
         // Try to find by ID or slug
         $article = HelpArticle::where(function ($q) use ($id) {
             $q->where('id', $id)
-              ->orWhere('slug', $id);
+                ->orWhere('slug', $id);
         })
-        ->where('is_published', true)
-        ->where(function ($q) use ($user) {
-            $q->whereNull('role_access')
-              ->orWhereJsonContains('role_access', $user->role);
-        })
-        ->firstOrFail();
+            ->where('is_published', true)
+            ->where(function ($q) use ($user) {
+                $q->whereNull('role_access')
+                    ->orWhereJsonContains('role_access', $user->role);
+            })
+            ->firstOrFail();
 
         // Increment views
         $article->increment('views');
@@ -64,12 +64,12 @@ class HelpController extends Controller
         $articles = HelpArticle::where('is_published', true)
             ->where(function ($q) use ($user) {
                 $q->whereNull('role_access')
-                  ->orWhereJsonContains('role_access', $user->role);
+                    ->orWhereJsonContains('role_access', $user->role);
             })
             ->where(function ($q) use ($query) {
-                $q->where('title', 'like', '%' . $query . '%')
-                  ->orWhere('content', 'like', '%' . $query . '%')
-                  ->orWhere('excerpt', 'like', '%' . $query . '%');
+                $q->where('title', 'like', '%'.$query.'%')
+                    ->orWhere('content', 'like', '%'.$query.'%')
+                    ->orWhere('excerpt', 'like', '%'.$query.'%');
             })
             ->limit(20)
             ->get();
@@ -84,7 +84,7 @@ class HelpController extends Controller
         $categories = HelpArticle::where('is_published', true)
             ->where(function ($q) use ($user) {
                 $q->whereNull('role_access')
-                  ->orWhereJsonContains('role_access', $user->role);
+                    ->orWhereJsonContains('role_access', $user->role);
             })
             ->select('category', DB::raw('count(*) as count'))
             ->groupBy('category')
@@ -99,4 +99,3 @@ class HelpController extends Controller
         return $this->success($categories, 'Categories retrieved successfully');
     }
 }
-

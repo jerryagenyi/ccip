@@ -17,13 +17,13 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
 
-        if (!$user->is_active) {
+        if (! $user->is_active) {
             return $this->error('Your account has been deactivated.', 403);
         }
 
@@ -76,4 +76,3 @@ class AuthController extends Controller
         ], 'Token refreshed');
     }
 }
-

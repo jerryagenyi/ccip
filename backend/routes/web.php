@@ -20,7 +20,7 @@ Route::get('/', function () {
         'status' => 'operational',
         'endpoints' => [
             'api' => '/api/v1',
-            'documentation' => 'See API documentation for available endpoints'
-        ]
+            'documentation' => 'See API documentation for available endpoints',
+        ],
     ]);
 });

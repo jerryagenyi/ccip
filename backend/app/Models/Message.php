@@ -48,4 +48,3 @@ class Message extends Model
         return $this->hasMany(Message::class, 'parent_message_id');
     }
 }
-

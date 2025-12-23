@@ -5,8 +5,8 @@ namespace App\Services;
 use App\Models\Notification;
 use App\Models\NotificationPreference;
 use App\Models\User;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class NotificationService
 {
@@ -18,7 +18,7 @@ class NotificationService
         $preferences = $user->notificationPreferences;
 
         // Create in-app notification
-        if (!$preferences || $preferences->in_app_enabled) {
+        if (! $preferences || $preferences->in_app_enabled) {
             $notification = Notification::create([
                 'user_id' => $user->id,
                 'type' => $type,
@@ -65,7 +65,7 @@ class NotificationService
      */
     protected function shouldSendEmail(?NotificationPreference $preferences, string $type): bool
     {
-        if (!$preferences || !$preferences->email_enabled) {
+        if (! $preferences || ! $preferences->email_enabled) {
             return false;
         }
 
@@ -127,4 +127,3 @@ class NotificationService
         $this->sendNotification($user, 'urgent', $title, $body, $link);
     }
 }
-

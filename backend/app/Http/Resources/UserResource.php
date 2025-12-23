@@ -22,7 +22,7 @@ class UserResource extends JsonResource
             'role' => $this->role,
             'team' => $this->team,
             'status' => $this->status ?? ($this->is_active ? 'Active' : 'Suspended'),
-            'organisation' => $this->whenLoaded('organisation', fn() => [
+            'organisation' => $this->whenLoaded('organisation', fn () => [
                 'id' => (string) $this->organisation->id,
                 'name' => $this->organisation->name,
                 'category' => $this->organisation->category,

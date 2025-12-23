@@ -2,13 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Report;
 use App\Models\Activity;
-use App\Models\Organisation;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Report;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportService
 {
@@ -19,13 +18,13 @@ class ReportService
     {
         try {
             $data = $this->prepareReportData($report);
-            
+
             $pdf = Pdf::loadView('reports.template', [
                 'report' => $report,
                 'data' => $data,
             ]);
 
-            $filename = 'reports/' . $report->id . '_' . time() . '.pdf';
+            $filename = 'reports/'.$report->id.'_'.time().'.pdf';
             $path = Storage::disk('s3')->put($filename, $pdf->output());
 
             $report->update([
@@ -55,8 +54,8 @@ class ReportService
         try {
             $data = $this->prepareReportData($report);
 
-            $filename = 'reports/' . $report->id . '_' . time() . '.xlsx';
-            
+            $filename = 'reports/'.$report->id.'_'.time().'.xlsx';
+
             Excel::store(
                 new \App\Exports\ReportExport($data, $report),
                 $filename,
@@ -89,14 +88,14 @@ class ReportService
     {
         try {
             $data = $this->prepareReportData($report);
-            
-            $filename = 'reports/' . $report->id . '_' . time() . '.csv';
+
+            $filename = 'reports/'.$report->id.'_'.time().'.csv';
             $file = fopen('php://temp', 'r+');
 
             // Write headers
-            if (!empty($data)) {
+            if (! empty($data)) {
                 fputcsv($file, array_keys($data[0]));
-                
+
                 // Write data
                 foreach ($data as $row) {
                     fputcsv($file, $row);
@@ -208,4 +207,3 @@ class ReportService
         return $this->getActivitySummaryData($filters);
     }
 }
-

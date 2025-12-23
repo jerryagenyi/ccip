@@ -52,4 +52,3 @@ class Organisation extends Model
         return $this->hasMany(Activity::class);
     }
 }
-

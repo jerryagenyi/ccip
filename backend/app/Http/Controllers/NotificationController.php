@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notification;
 use App\Models\NotificationPreference;
 use Illuminate\Http\Request;
 
@@ -58,7 +57,7 @@ class NotificationController extends Controller
     {
         $preferences = $request->user()->notificationPreferences;
 
-        if (!$preferences) {
+        if (! $preferences) {
             $preferences = NotificationPreference::create([
                 'user_id' => $request->user()->id,
             ]);
@@ -83,7 +82,7 @@ class NotificationController extends Controller
             'urgent_in_app' => 'sometimes|boolean',
         ]);
 
-        if (!$preferences) {
+        if (! $preferences) {
             $validated['user_id'] = $user->id;
             $preferences = NotificationPreference::create($validated);
         } else {
@@ -93,4 +92,3 @@ class NotificationController extends Controller
         return $this->success($preferences, 'Preferences updated successfully');
     }
 }
-
