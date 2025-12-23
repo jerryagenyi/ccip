@@ -209,6 +209,50 @@ The **Link PR to Story** workflow is now working! See `docs/GITHUB_PROJECTS_SETU
 2. Rename `.disabled` files to `.yml`
 3. Update them to use `GITHUB_PAT` instead of `GITHUB_TOKEN`
 
+## Automated Sync Workflows
+
+Your project is configured with automated workflows to sync sprint status with GitHub Projects:
+
+### What's Configured
+
+1. **Sync Sprint Status** - Updates GitHub Project from `docs/sprint-artifacts/sprint-status.yaml`
+2. **Auto-Link PRs** - Links pull requests to user stories (via `link-pr-to-story.yml`)
+3. **Update Status** - Updates project status when labels change
+
+### How Automated Sync Works
+
+- **Daily sync**: Runs automatically at 9 AM UTC (if enabled)
+- **PR linking**: Auto-detects story IDs (US-XXX) in PRs
+- **Status updates**: Changes when you add/remove status labels
+
+### Manual Sync (If Needed)
+
+**Option A: Via GitHub CLI**
+```bash
+# If workflows are on dev branch:
+gh workflow run .github/workflows/sync-sprint-status.yml --ref dev
+
+# Or use workflow name (once merged to main):
+gh workflow run "Sync Sprint Status to GitHub Projects"
+```
+
+**Option B: Via GitHub UI**
+- Go to: https://github.com/jerryagenyi/ccip/actions
+- Click "Sync Sprint Status to GitHub Projects"
+- Click "Run workflow" → "Run workflow"
+
+**Note:** 
+- Workflows must be committed and pushed to GitHub first!
+- If workflows are on `dev` branch, use: `gh workflow run .github/workflows/sync-sprint-status.yml --ref dev`
+- For best results, merge workflows to `main` branch
+
+### Workflow Files
+
+Edit the workflows in `.github/workflows/`:
+- `sync-sprint-status.yml` - Main sync logic
+- `link-pr-to-story.yml` - PR linking
+- `update-project-status.yml` - Label-based updates
+
 ## Alternative: Use GitHub Issues for Tracking
 
 While project automation is disabled, you can use GitHub Issues effectively:
@@ -249,7 +293,7 @@ While project automation is disabled, you can use GitHub Issues effectively:
 ## References
 
 - **Setup Guide:** `docs/GITHUB_PROJECTS_SETUP.md` - Complete automation setup
-- **Deployment Guide:** `docs/DEPLOYMENT_WORKFLOW.md` - About deploy.yml workflow
+- **Deployment Guide:** `docs/deployment/DEPLOYMENT_WORKFLOW.md` - About deploy.yml workflow
 - Your Project: https://github.com/users/jerryagenyi/projects/2
 - GitHub Projects Docs: https://docs.github.com/en/issues/planning-and-tracking-with-projects
 - Workflow README: `.github/workflows/README.md`

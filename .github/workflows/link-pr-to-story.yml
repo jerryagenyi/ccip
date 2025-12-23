@@ -1,4 +1,4 @@
-name: Link PR to Story in Project
+Vname: Link PR to Story in Project
 
 on:
   pull_request:

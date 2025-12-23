@@ -56,7 +56,17 @@
       "mcp__MCP_DOCKER__browser_wait_for",
       "mcp__MCP_DOCKER__browser_console_messages",
       "mcp__MCP_DOCKER__browser_network_requests",
-      "Bash(npm run test:e2e:prod:*)"
+      "Bash(npm run test:e2e:prod:*)",
+      "Bash(git checkout:*)",
+      "mcp__MCP_DOCKER__pull_request_read",
+      "Bash(git pull:*)",
+      "Bash(gh pr close:*)",
+      "Bash(composer update:*)",
+      "Bash(powershell.exe -Command \"cd backend; composer update brianium/paratest --no-interaction\")",
+      "Bash(powershell.exe -Command:*)",
+      "Bash(docker:*)",
+      "Bash(gh pr view:*)",
+      "Bash(instantiable\" error when running php artisan test --parallel.\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }
