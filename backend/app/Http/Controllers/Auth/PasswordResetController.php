@@ -24,7 +24,7 @@ class PasswordResetController extends Controller
         } catch (\Exception $e) {
             // If email is not configured (e.g., in testing), log the error but still return success
             // This maintains security by not revealing if email exists
-            Log::warning('Password reset email failed to send: ' . $e->getMessage());
+            Log::warning('Password reset email failed to send: '.$e->getMessage());
         }
 
         // Always return success message regardless of whether email exists or was sent
@@ -55,7 +55,7 @@ class PasswordResetController extends Controller
             throw $e;
         } catch (\Exception $e) {
             // Log unexpected errors but return validation error to user
-            Log::error('Password reset failed: ' . $e->getMessage());
+            Log::error('Password reset failed: '.$e->getMessage());
             throw ValidationException::withMessages([
                 'email' => ['Unable to reset password. Please try again or request a new reset link.'],
             ]);
