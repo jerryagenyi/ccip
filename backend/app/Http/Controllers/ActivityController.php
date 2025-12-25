@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
-use AppHttpResourcesActivityResource;use AppHttpResourcesActivityAttachmentResource;
 use App\Models\ActivityAttachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -17,8 +16,8 @@ class ActivityController extends Controller
         // Apply filters
         if ($request->has('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
+                $q->where('title', 'like', '%'.$request->search.'%')
+                    ->orWhere('description', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -38,7 +37,10 @@ class ActivityController extends Controller
         $perPage = $request->get('per_page', 15);
         $activities = $query->latest()->paginate($perPage);
 
-        $data = $activities->getCollection()->transform(fn($activity) => ActivityResource::make($activity));        $activities->setCollection($data);        return $this->paginated($activities, 'Activities retrieved successfully');
+        $data = $activities->getCollection()->transform(fn ($activity) => ActivityResource::make($activity));
+        $activities->setCollection($data);
+
+        return $this->paginated($activities, 'Activities retrieved successfully');
     }
 
     public function store(Request $request)
@@ -86,7 +88,7 @@ class ActivityController extends Controller
         $activity = Activity::findOrFail($id);
 
         // Check permissions
-        if ($activity->created_by !== $request->user()->id && !in_array($request->user()->role, ['admin', 'super_admin'])) {
+        if ($activity->created_by !== $request->user()->id && ! in_array($request->user()->role, ['admin', 'super_admin'])) {
             return $this->error('You do not have permission to update this activity', 403);
         }
 
@@ -173,7 +175,7 @@ class ActivityController extends Controller
     {
         $original = Activity::findOrFail($id);
         $duplicate = $original->replicate();
-        $duplicate->title = $original->title . ' (Copy)';
+        $duplicate->title = $original->title.' (Copy)';
         $duplicate->status = 'draft';
         $duplicate->created_by = $request->user()->id;
         $duplicate->save();
@@ -191,11 +193,31 @@ class ActivityController extends Controller
         $uploadedFiles = [];
 
         foreach ($request->file('files') as $file) {
-            $path = $file->store('activities/' . $id, 's3');
-            
-$attachment = ActivityAttachment::create([                'activity_id' => $id,                'name' => $file->getClientOriginalName(), // Frontend expects 'name'                'file_name' => $file->getClientOriginalName(), // Keep for backward compatibility                'file_path' => $path,                'type' => $file->getClientOriginalExtension(), // Frontend expects 'type'                'file_type' => $file->getClientOriginalExtension(), // Keep for backward compatibility                'size' => $file->getSize(), // Frontend expects 'size'                'file_size' => $file->getSize(), // Keep for backward compatibility                'mime_type' => $file->getMimeType(),                'uploaded_by' => $request->user()->id,            ]);            // Prepare response with frontend-compatible format            $uploadedFiles[] = [                'id' => $attachment->id,                'name' => $attachment->name,                'type' => $attachment->type,                'size' => $attachment->size,                'url' => Storage::disk('s3')->url($attachment->file_path),                'uploadedAt' => $attachment->created_at->toISOString(),                'uploadedBy' => $attachment->uploaded_by,            ];
+            $path = $file->store('activities/'.$id, 's3');
 
-            $uploadedFiles[] = $attachment;
+            $attachment = ActivityAttachment::create([
+                'activity_id' => $id,
+                'name' => $file->getClientOriginalName(), // Frontend expects 'name'
+                'file_name' => $file->getClientOriginalName(), // Keep for backward compatibility
+                'file_path' => $path,
+                'type' => $file->getClientOriginalExtension(), // Frontend expects 'type'
+                'file_type' => $file->getClientOriginalExtension(), // Keep for backward compatibility
+                'size' => $file->getSize(), // Frontend expects 'size'
+                'file_size' => $file->getSize(), // Keep for backward compatibility
+                'mime_type' => $file->getMimeType(),
+                'uploaded_by' => $request->user()->id,
+            ]);
+
+            // Prepare response with frontend-compatible format
+            $uploadedFiles[] = [
+                'id' => $attachment->id,
+                'name' => $attachment->name,
+                'type' => $attachment->type,
+                'size' => $attachment->size,
+                'url' => Storage::disk('s3')->url($attachment->file_path),
+                'uploadedAt' => $attachment->created_at->toISOString(),
+                'uploadedBy' => $attachment->uploaded_by,
+            ];
         }
 
         return $this->success($uploadedFiles, 'Files uploaded successfully', 201);
@@ -213,4 +235,3 @@ $attachment = ActivityAttachment::create([                'activity_id' => $id, 
         return $this->success(null, 'File deleted successfully');
     }
 }
-

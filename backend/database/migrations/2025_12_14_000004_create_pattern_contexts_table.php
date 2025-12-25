@@ -18,9 +18,9 @@ return new class extends Migration
             $table->enum('administrative_level', ['national', 'state', 'lga', 'community'])->nullable();
 
             // Demographic Context
-            $table->jsonb('target_audience')->default('{}');
+            $table->json('target_audience')->nullable();
             $table->string('language', 10)->nullable(); // ISO language code
-            $table->jsonb('cultural_context')->default('{}');
+            $table->json('cultural_context')->nullable();
 
             // Communication Context
             $table->enum('channel', ['radio', 'social_media', 'print', 'community_meeting', 'tv', 'sms', 'other'])->nullable();

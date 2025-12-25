@@ -14,5 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return response()->json([
+        'message' => 'CCIP API',
+        'version' => '1.0',
+        'status' => 'operational',
+        'endpoints' => [
+            'api' => '/api/v1',
+            'documentation' => 'See API documentation for available endpoints',
+        ],
+    ]);
 });

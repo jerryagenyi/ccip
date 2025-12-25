@@ -21,10 +21,10 @@ class OrganisationFactory extends Factory
     public function definition(): array
     {
         $name = fake()->company();
-        
+
         return [
             'name' => $name,
-            'slug' => Str::slug($name) . '-' . fake()->unique()->numberBetween(1000, 9999),
+            'slug' => Str::slug($name).'-'.fake()->unique()->numberBetween(1000, 9999),
             'description' => fake()->paragraph(),
             'logo' => null,
             'website' => fake()->url(),
@@ -63,4 +63,3 @@ class OrganisationFactory extends Factory
         ]);
     }
 }
-

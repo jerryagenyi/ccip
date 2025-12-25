@@ -90,4 +90,3 @@ class ReportTemplateSeeder extends Seeder
         }
     }
 }
-

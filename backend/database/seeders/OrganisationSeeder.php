@@ -92,4 +92,3 @@ class OrganisationSeeder extends Seeder
         ]);
     }
 }
-

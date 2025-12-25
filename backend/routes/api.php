@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +28,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/system/health', function () {
         return response()->json(['status' => 'ok', 'timestamp' => now()]);
     });
+
+    // Public contact form (no authentication required)
+    Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store']);
 
     // Protected routes
     Route::middleware(['auth:sanctum'])->group(function () {
@@ -145,4 +147,3 @@ Route::prefix('v1')->group(function () {
         });
     });
 });
-

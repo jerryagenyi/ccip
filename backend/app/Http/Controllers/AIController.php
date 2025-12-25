@@ -51,7 +51,7 @@ class AIController extends Controller
 
             return $this->success($analysis, 'Semiotic analysis completed');
         } catch (\Exception $e) {
-            return $this->error('AI analysis failed: ' . $e->getMessage(), 500);
+            return $this->error('AI analysis failed: '.$e->getMessage(), 500);
         }
     }
 
@@ -74,7 +74,7 @@ class AIController extends Controller
 
             return $this->success($report, 'AI report generated successfully', 201);
         } catch (\Exception $e) {
-            return $this->error('AI report generation failed: ' . $e->getMessage(), 500);
+            return $this->error('AI report generation failed: '.$e->getMessage(), 500);
         }
     }
 
@@ -93,8 +93,7 @@ class AIController extends Controller
 
             return $this->success($insights, 'Insights generated successfully');
         } catch (\Exception $e) {
-            return $this->error('Insights generation failed: ' . $e->getMessage(), 500);
+            return $this->error('Insights generation failed: '.$e->getMessage(), 500);
         }
     }
 }
-

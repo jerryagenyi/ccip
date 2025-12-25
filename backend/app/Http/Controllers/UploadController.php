@@ -63,7 +63,7 @@ class UploadController extends Controller
         $fileName = $request->file_name;
         $expiresIn = $request->expires_in ?? 5; // default 5 minutes
 
-        $path = $folder . '/' . $fileName;
+        $path = $folder.'/'.$fileName;
         $url = Storage::disk('s3')->temporaryUrl($path, now()->addMinutes($expiresIn));
 
         return $this->success([
@@ -80,4 +80,3 @@ class UploadController extends Controller
         return $this->success(null, 'File deletion endpoint - implement file tracking');
     }
 }
-

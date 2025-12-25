@@ -19,10 +19,10 @@ return new class extends Migration
             $table->text('successful_alternative');
 
             // Context Metadata
-            $table->jsonb('context_metadata')->default('{}');
+            $table->json('context_metadata')->nullable();
 
             // Evidence & Validation
-            $table->jsonb('evidence_sources')->default('[]');
+            $table->json('evidence_sources')->nullable();
             $table->decimal('effectiveness_score', 5, 2)->nullable();
             $table->decimal('confidence_score', 5, 2)->default(50.0);
             $table->integer('usage_count')->default(0);
@@ -34,7 +34,13 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
 
             // Vector embedding for similarity search (Phase 2)
-            $table->vector('embedding', 1536)->nullable();
+            // Only PostgreSQL with pgvector extension supports vector type
+            if (Schema::getConnection()->getDriverName() === 'pgsql') {
+                $table->vector('embedding', 1536)->nullable();
+            } else {
+                // Fallback for MySQL/SQLite - store as JSON (for future migration)
+                $table->json('embedding')->nullable();
+            }
 
             $table->timestamps();
             $table->softDeletes();

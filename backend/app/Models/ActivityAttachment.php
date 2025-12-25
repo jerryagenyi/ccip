@@ -63,8 +63,8 @@ class ActivityAttachment extends Model
     {
         return $query->select('*')->addSelect([
             'url' => function ($query) {
-                $query->selectRaw('CONCAT(?, file_path)', [config('app.url') . '/storage/']);
-            }
+                $query->selectRaw('CONCAT(?, file_path)', [config('app.url').'/storage/']);
+            },
         ]);
     }
 }

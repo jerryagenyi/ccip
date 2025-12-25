@@ -72,7 +72,7 @@ class Activity extends Model
         'organisationId',
         'dateCreated',
         'lastModified',
-        'semioticRiskScore'
+        'semioticRiskScore',
     ];
 
     // Accessors for frontend compatibility
@@ -143,6 +143,7 @@ class Activity extends Model
         if (is_array($status)) {
             return $query->whereIn('status', $status);
         }
+
         return $query->where('status', $status);
     }
 
@@ -151,6 +152,7 @@ class Activity extends Model
         if (is_array($type)) {
             return $query->whereIn('type', $type);
         }
+
         return $query->where('type', $type);
     }
 
@@ -159,6 +161,7 @@ class Activity extends Model
         if (is_array($organisationIds)) {
             return $query->whereIn('organisation_id', $organisationIds);
         }
+
         return $query->where('organisation_id', $organisationIds);
     }
 
@@ -167,23 +170,24 @@ class Activity extends Model
         if (is_array($priority)) {
             return $query->whereIn('priority', $priority);
         }
+
         return $query->where('priority', $priority);
     }
 
     public function scopeSearch($query, $search)
     {
         return $query->where(function ($q) use ($search) {
-            $q->where('title', 'like', '%' . $search . '%')
-              ->orWhere('description', 'like', '%' . $search . '%')
-              ->orWhere('tags', 'like', '%' . $search . '%');
+            $q->where('title', 'like', '%'.$search.'%')
+                ->orWhere('description', 'like', '%'.$search.'%')
+                ->orWhere('tags', 'like', '%'.$search.'%');
         });
     }
 
     // Methods for frontend compatibility
     public function addAttachment($file, $uploadedBy)
     {
-        $path = $file->store('activities/' . $this->id, 'public');
-        
+        $path = $file->store('activities/'.$this->id, 'public');
+
         return $this->attachments()->create([
             'name' => $file->getClientOriginalName(),
             'type' => $file->getClientOriginalExtension(),

@@ -206,7 +206,7 @@ class PasswordResetTest extends TestCase
         // Rate limit is 60/min, so we'll make 65 requests to trigger it
         for ($i = 0; $i < 65; $i++) {
             $response = $this->postJson('/api/v1/auth/forgot-password', [
-                'email' => 'test' . $i . '@example.com',
+                'email' => 'test'.$i.'@example.com',
             ]);
         }
 
@@ -230,8 +230,8 @@ class PasswordResetTest extends TestCase
             $response = $this->postJson('/api/v1/auth/reset-password', [
                 'token' => $token,
                 'email' => 'test@example.com',
-                'password' => 'newpassword' . $i,
-                'password_confirmation' => 'newpassword' . $i,
+                'password' => 'newpassword'.$i,
+                'password_confirmation' => 'newpassword'.$i,
             ]);
         }
 
@@ -289,4 +289,3 @@ class PasswordResetTest extends TestCase
         $this->assertFalse(Hash::check('anotherpassword123', $user->password));
     }
 }
-

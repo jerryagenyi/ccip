@@ -239,6 +239,8 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/quasar-variables.sass';
+
 .auth-login {
   width: 100%;
 }

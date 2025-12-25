@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 class ReportExport implements FromArray, WithHeadings, WithTitle
 {
     protected $data;
+
     protected $report;
 
     public function __construct(array $data, Report $report)
@@ -37,4 +38,3 @@ class ReportExport implements FromArray, WithHeadings, WithTitle
         return substr($this->report->title, 0, 31); // Excel sheet name limit
     }
 }
-

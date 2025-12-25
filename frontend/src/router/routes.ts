@@ -3,9 +3,15 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/LandingLayout.vue'),
+    meta: { requiresAuth: false },
     children: [
-      { path: '', name: 'home', component: () => import('pages/IndexPage.vue') },
+      { 
+        path: '', 
+        name: 'home', 
+        component: () => import('pages/IndexPage.vue'),
+        meta: { requiresAuth: false }
+      },
     ],
   },
   // Authentication routes

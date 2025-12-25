@@ -71,6 +71,31 @@ export function globalGuard(
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) {
+  // Check if user is authenticated
+  const isAuthenticated = !!localStorage.getItem('auth_token');
+  
+  // Debug logging (remove in production)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Route navigation:', {
+      to: to.name,
+      path: to.path,
+      authenticated: isAuthenticated,
+      requiresAuth: to.meta.requiresAuth
+    });
+  }
+  
+  // If authenticated user visits landing page, redirect to dashboard
+  if (to.name === 'home' && isAuthenticated) {
+    next({ name: 'dashboard' });
+    return;
+  }
+  
+  // Allow landing page for unauthenticated users - bypass auth guard
+  if (to.name === 'home' && !isAuthenticated) {
+    next();
+    return;
+  }
+  
   // Run auth guard - it handles authentication and redirects
   authGuard(to, from, next);
 }

@@ -26,4 +26,3 @@ class HelpArticle extends Model
         'is_published' => 'boolean',
     ];
 }
-

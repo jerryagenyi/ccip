@@ -14,7 +14,7 @@ class MessageController extends Controller
         $query = Message::with(['fromUser', 'toUser', 'parent'])
             ->where(function ($q) use ($user) {
                 $q->where('from_user_id', $user->id)
-                  ->orWhere('to_user_id', $user->id);
+                    ->orWhere('to_user_id', $user->id);
             });
 
         // Filter by type
@@ -25,7 +25,7 @@ class MessageController extends Controller
                 $query->where('to_user_id', $user->id);
             } elseif ($request->type === 'unread') {
                 $query->where('to_user_id', $user->id)
-                      ->where('is_read', false);
+                    ->where('is_read', false);
             }
         }
 
@@ -52,9 +52,9 @@ class MessageController extends Controller
         // Create notification for recipient
         $message->toUser->notifications()->create([
             'type' => 'message',
-            'title' => 'New message from ' . $request->user()->name,
+            'title' => 'New message from '.$request->user()->name,
             'body' => $message->subject,
-            'link' => '/messages/' . $message->id,
+            'link' => '/messages/'.$message->id,
         ]);
 
         return $this->success($message->load(['fromUser', 'toUser']), 'Message sent successfully', 201);
@@ -66,12 +66,12 @@ class MessageController extends Controller
         $message = Message::with(['fromUser', 'toUser', 'parent', 'replies.fromUser', 'replies.toUser'])
             ->where(function ($q) use ($user) {
                 $q->where('from_user_id', $user->id)
-                  ->orWhere('to_user_id', $user->id);
+                    ->orWhere('to_user_id', $user->id);
             })
             ->findOrFail($id);
 
         // Mark as read if recipient
-        if ($message->to_user_id === $user->id && !$message->is_read) {
+        if ($message->to_user_id === $user->id && ! $message->is_read) {
             $message->update([
                 'is_read' => true,
                 'read_at' => now(),
@@ -111,7 +111,7 @@ class MessageController extends Controller
         $message = Message::create([
             'from_user_id' => $user->id,
             'to_user_id' => $recipientId,
-            'subject' => 'Re: ' . $parent->subject,
+            'subject' => 'Re: '.$parent->subject,
             'body' => $validated['body'],
             'parent_message_id' => $id,
         ]);
@@ -119,9 +119,9 @@ class MessageController extends Controller
         // Create notification
         $message->toUser->notifications()->create([
             'type' => 'message',
-            'title' => 'New reply from ' . $user->name,
+            'title' => 'New reply from '.$user->name,
             'body' => $message->subject,
-            'link' => '/messages/' . $message->id,
+            'link' => '/messages/'.$message->id,
         ]);
 
         return $this->success($message->load(['fromUser', 'toUser']), 'Reply sent successfully', 201);
@@ -135,4 +135,3 @@ class MessageController extends Controller
         return $this->success(null, 'Message deleted successfully');
     }
 }
-

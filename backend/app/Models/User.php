@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Role;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -105,7 +104,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasRole(string $roleName): bool
     {
-        return $this->roles()->where('name', $roleName)->exists() || 
+        return $this->roles()->where('name', $roleName)->exists() ||
                $this->role === $roleName;
     }
 

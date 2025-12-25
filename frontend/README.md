@@ -96,6 +96,66 @@ Centralized Axios instance with:
 - Error handling
 - Quasar Notify integration
 
+## Testing
+
+### E2E Tests (Playwright)
+
+E2E tests are located in `tests/e2e/` and use Playwright.
+
+#### Running Tests
+
+**Local Development:**
+```bash
+npm run test:e2e
+```
+
+**Production Testing:**
+Test against the live deployment:
+```bash
+BASE_URL=https://ccip.jerryagenyi.xyz API_URL=https://ccip-api.jerryagenyi.xyz/api/v1 npx playwright test tests/e2e/auth-production.spec.ts
+```
+
+**Specific Test Suite:**
+```bash
+# Production auth flow tests
+npx playwright test tests/e2e/auth-production.spec.ts
+
+# CI test suite (localhost)
+npx playwright test tests/e2e/auth-ci-suite.spec.ts
+```
+
+#### Test Coverage
+
+- **Infrastructure Tests**: Frontend/backend connectivity, CORS, API endpoints
+- **Login Flow**: Valid/invalid credentials, form validation
+- **Registration Flow**: Multi-step registration process
+- **Logout Flow**: Token clearing, redirect behavior
+- **Route Guards**: Protected route access, authentication redirects
+- **Token Management**: Storage, retrieval, cleanup
+
+#### Test Credentials
+
+Production tests use seeded admin credentials:
+- Email: `admin@ccip.local`
+- Password: `password`
+
+**Note**: These are test accounts created by database seeders.
+
+### Unit Tests (Vitest)
+
+Unit tests are located in `tests/` and use Vitest.
+
+```bash
+# Run unit tests
+npm run test
+
+# Run with UI
+npm run test:ui
+
+# Coverage report
+npm run test:coverage
+```
+
 ## Next Steps
 
 1. **Design in Figma** - Create UI/UX designs

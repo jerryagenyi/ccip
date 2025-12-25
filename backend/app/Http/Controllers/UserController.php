@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +11,7 @@ class UserController extends Controller
     public function me(Request $request)
     {
         $user = $request->user()->load('organisation', 'notificationPreferences');
+
         return $this->success($user, 'User retrieved successfully');
     }
 
@@ -40,7 +40,7 @@ class UserController extends Controller
 
         $user = $request->user();
 
-        if (!Hash::check($request->current_password, $user->password)) {
+        if (! Hash::check($request->current_password, $user->password)) {
             return $this->error('Current password is incorrect', 422);
         }
 
@@ -72,4 +72,3 @@ class UserController extends Controller
         ], 'Avatar uploaded successfully');
     }
 }
-

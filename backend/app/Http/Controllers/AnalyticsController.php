@@ -158,4 +158,3 @@ class AnalyticsController extends Controller
         return $this->success($comparison, 'Organisation comparison retrieved');
     }
 }
-

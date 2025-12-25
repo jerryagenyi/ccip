@@ -40,6 +40,7 @@ BMAD rules have been installed to: `.cursor/rules/bmad/`
 **Workflows:**
 - @bmad/core/workflows/brainstorming-session - brainstorming-session
 - @bmad/core/workflows/party-mode - party-mode
+- @bmad/core/workflows/brainstorming - brainstorming
 
 ### BMM
 
@@ -87,6 +88,7 @@ BMAD rules have been installed to: `.cursor/rules/bmad/`
 - @bmad/bmm/workflows/testarch-trace - testarch-trace
 - @bmad/bmm/workflows/workflow-init - workflow-init
 - @bmad/bmm/workflows/workflow-status - workflow-status
+- @bmad/bmm/workflows/create-epics-and-stories - create-epics-and-stories
 
 
 ## Quick Reference

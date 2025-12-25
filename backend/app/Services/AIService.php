@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Log;
 class AIService
 {
     protected $apiKey;
+
     protected $apiUrl;
+
     protected $model;
 
     public function __construct()
@@ -24,9 +26,9 @@ class AIService
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiKey,
+                'Authorization' => 'Bearer '.$this->apiKey,
                 'Content-Type' => 'application/json',
-            ])->post($this->apiUrl . '/chat/completions', [
+            ])->post($this->apiUrl.'/chat/completions', [
                 'model' => $this->model,
                 'messages' => [
                     [
@@ -95,15 +97,15 @@ Message Type: {$data['message_type']}
 Target Region: {$data['target_region']}
 Target Language: {$data['target_language']}
 Target Culture: {$data['target_culture']}
-Channels: " . implode(', ', $data['channels']) . "
-Messengers: " . implode(', ', $data['messengers']) . "
+Channels: ".implode(', ', $data['channels']).'
+Messengers: '.implode(', ', $data['messengers']).'
 
 Please provide a JSON response with:
 - risk_score (0-100)
 - cultural_appropriateness (low/medium/high)
 - recommendations (array of strings)
 - potential_issues (array of strings)
-- strengths (array of strings)";
+- strengths (array of strings)';
     }
 
     private function getMockAnalysis(): array
@@ -124,4 +126,3 @@ Please provide a JSON response with:
         ];
     }
 }
-

@@ -17,13 +17,13 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
 
-        if (!$user->is_active) {
+        if (! $user->is_active) {
             return $this->error('Your account has been deactivated.', 403);
         }
 
@@ -44,10 +44,11 @@ class AuthController extends Controller
             'phone_number' => $request->phone_number,
             'organisation_id' => $request->organisation_id,
             'role' => 'user',
+            'email_verified_at' => now(), // Auto-verify for now
         ]);
 
-        // Send email verification notification
-        $user->sendEmailVerificationNotification();
+        // TODO: Configure email settings before enabling email verification
+        // $user->sendEmailVerificationNotification();
 
         $token = $user->createToken('auth-token')->plainTextToken;
 
@@ -75,4 +76,3 @@ class AuthController extends Controller
         ], 'Token refreshed');
     }
 }
-

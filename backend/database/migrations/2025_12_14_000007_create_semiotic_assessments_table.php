@@ -15,25 +15,25 @@ return new class extends Migration
 
             // Assessment Request
             $table->text('message_content');
-            $table->jsonb('target_context');
-            $table->jsonb('planned_message');
+            $table->json('target_context')->nullable();
+            $table->json('planned_message')->nullable();
 
             // Assessment Results
-            $table->jsonb('risk_factors')->nullable();
-            $table->jsonb('mitigation_strategies')->nullable();
-            $table->jsonb('recommended_alternatives')->nullable();
+            $table->json('risk_factors')->nullable();
+            $table->json('mitigation_strategies')->nullable();
+            $table->json('recommended_alternatives')->nullable();
             $table->decimal('overall_risk_score', 5, 2)->nullable();
             $table->enum('risk_level', ['low', 'medium', 'high', 'critical'])->nullable();
 
             // Matched Patterns
-            $table->jsonb('matched_patterns')->default('[]');
+            $table->json('matched_patterns')->nullable();
             $table->integer('total_patterns_matched')->default(0);
             $table->integer('high_risk_patterns')->default(0);
 
             // Metadata
             $table->decimal('confidence_score', 5, 2)->nullable();
             $table->text('assessment_notes')->nullable();
-            $table->jsonb('assessment_metadata')->default('{}');
+            $table->json('assessment_metadata')->nullable();
 
             $table->timestamps();
 

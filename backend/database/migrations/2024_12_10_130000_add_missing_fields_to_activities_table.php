@@ -33,7 +33,7 @@ return new class extends Migration
                 'updated_by',
                 'semiotic_risk_score',
                 'communication_effectiveness',
-                'semiotic_validation'
+                'semiotic_validation',
             ]);
             // Revert location back to JSON if needed
             $table->json('location')->nullable()->change();

@@ -12,6 +12,7 @@ class ReportController extends Controller
     public function templates(Request $request)
     {
         $templates = ReportTemplate::where('is_active', true)->get();
+
         return $this->success($templates, 'Templates retrieved successfully');
     }
 
@@ -126,7 +127,7 @@ class ReportController extends Controller
         $report = Report::where('created_by', $request->user()->id)
             ->findOrFail($id);
 
-        if ($report->status !== 'completed' || !$report->file_path) {
+        if ($report->status !== 'completed' || ! $report->file_path) {
             return $this->error('Report not ready for export', 400);
         }
 
@@ -141,4 +142,3 @@ class ReportController extends Controller
         ], 'Export URL generated');
     }
 }
-
