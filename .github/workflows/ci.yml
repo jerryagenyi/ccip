@@ -135,6 +135,12 @@ jobs:
       - name: Run type check
         run: npx vue-tsc --noEmit || true
 
+      - name: Run ESLint
+        run: npm run lint:check
+
+      - name: Run Prettier check
+        run: npm run format:check
+
       - name: Run unit tests
         run: npm run test -- --run
 

@@ -9,24 +9,50 @@
 
 ## 1. Design System Documentation
 
-### 1.1 Color Palette
-The color system is defined in `src/app/globals.css` using HSL CSS variables, ensuring a consistent and themeable design. The dark theme is the default and primary theme.
+### 1.1 Color Palette & Theme System
+The color system is defined using CSS variables in `src/app.scss`, ensuring a consistent and themeable design. **The dark theme is the default and primary theme**, with full support for light theme switching.
+
+**Theme Modes:**
+- **Dark Theme (Default):** Matches the original UX specification
+- **Light Theme:** Alternative theme for user preference
+- **Auto Mode:** Automatically follows system preference
+
+**Implementation:**
+- Theme state managed via Pinia store (`useThemeStore`)
+- CSS variables switch based on `.dark-theme` / `.light-theme` classes on `:root`
+- Theme toggle available in header/navigation
+- User preference persisted in localStorage
+
+**Dark Theme Colors (Default):**
 
 | Variable | Usage | HSL Value | Hex Value |
 |:---|:---|:---|:---|
-| `--background` | Main page background | `222 47% 11%` | `#111827` |
-| `--foreground` | Main text color | `0 0% 98%` | `#FAFAFA` |
-| `--card` | Card component background | `217 33% 17%` | `#1D283A` |
-| `--primary` | Primary interactive elements, highlights | `234 89% 74%` | `#B5B1F9` |
-| `--primary-foreground` | Text on primary elements | `222 47% 11%` | `#111827` |
-| `--secondary` | Secondary buttons, backgrounds | `217 22% 23%` | `#2D3748` |
-| `--muted` | Subtle backgrounds, borders | `217 33% 22%` | `#2A374A` |
-| `--muted-foreground` | Subtle text | `240 5% 64.9%` | `#A0AEC0` |
-| `--accent` | Secondary accent, gradients | `207 88% 72%` | `#90CDF4` |
-| `--destructive` | Destructive actions (e.g., delete) | `0 62.8% 30.6%` | `#C53030` |
-| `--border` | Component borders | `217 33% 25%` | `#324157` |
-| `--input` | Input field borders | `217 33% 25%` | `#324157` |
-| `--ring` | Focus rings | `234 89% 74%` | `#B5B1F9` |
+| `--ccip-background` | Main page background | `222 47% 11%` | `#111827` |
+| `--ccip-text-primary` | Main text color | `0 0% 98%` | `#FAFAFA` |
+| `--ccip-card` | Card component background | `217 33% 17%` | `#1D283A` |
+| `--ccip-primary` | Primary interactive elements | `234 89% 74%` | `#B5B1F9` |
+| `--ccip-secondary` | Secondary buttons, backgrounds | `217 22% 23%` | `#2D3748` |
+| `--ccip-text-secondary` | Subtle text | `240 5% 64.9%` | `#A0AEC0` |
+| `--ccip-accent` | Secondary accent, gradients | `207 88% 72%` | `#90CDF4` |
+| `--ccip-border` | Component borders | `217 33% 25%` | `#324157` |
+
+**Light Theme Colors:**
+
+| Variable | Usage | Hex Value |
+|:---|:---|:---|
+| `--ccip-background` | Main page background | `#F2F0F7` |
+| `--ccip-text-primary` | Main text color | `#1A202C` |
+| `--ccip-card` | Card component background | `#FFFFFF` |
+| `--ccip-primary` | Primary interactive elements | `#7151B3` |
+| `--ccip-secondary` | Secondary buttons, backgrounds | `#F0F2F5` |
+| `--ccip-text-secondary` | Subtle text | `#718096` |
+| `--ccip-accent` | Secondary accent, gradients | `#53A7EA` |
+| `--ccip-border` | Component borders | `#E2E8F0` |
+
+**Functional Colors (Theme-Independent):**
+- `--ccip-positive`: `#4CAF50` (Success green)
+- `--ccip-negative`: `#E74C3C` (Error red)
+- `--ccip-warning`: `#F59E0B` (Warning amber)
 
 ### 1.2 Typography
 Fonts are configured in `src/app/layout.tsx` using `next/font/google`.
@@ -58,10 +84,11 @@ The prototype uses **ShadCN UI** as its base component library. All components a
 - **Breakpoints:** Uses Tailwind's default breakpoints (`sm`, `md`, `lg`, `xl`). Responsive design is primarily handled via mobile-first classes (e.g., `grid-cols-1 md:grid-cols-2`).
 
 ### 1.6 Accessibility
-- **ARIA:** Standard ARIA attributes are used where appropriate by ShadCN components.
+- **ARIA:** Standard ARIA attributes are used where appropriate by Quasar components.
 - **Keyboard Navigation:** Components are generally keyboard-navigable.
-- **Focus Management:** Focus rings are styled using `--ring` variable.
-- **Color Contrast:** The default theme palette has been designed to meet WCAG 2.1 AA standards for contrast.
+- **Focus Management:** Focus rings are styled using primary color.
+- **Color Contrast:** Both dark and light theme palettes meet WCAG 2.1 AA standards for contrast.
+- **Theme Switching:** Users can toggle between themes to accommodate visual preferences and accessibility needs.
 
 ### 1.7 Offline Capability (PWA)
 - **Service Worker:** Configured via Quasar PWA mode

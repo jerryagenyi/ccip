@@ -7,7 +7,7 @@ set -e
 
 # Configuration
 REPO="jerryagenyi/ccip"
-SPRINT_STATUS="docs/sprint-artifacts/sprint-status.yaml"
+SPRINT_STATUS="_bmad-output/implementation-artifacts/sprint-status.yaml"
 GITHUB_TOKEN="${GITHUB_TOKEN:-}"
 
 # Colors for output

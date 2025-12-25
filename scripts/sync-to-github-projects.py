@@ -3,7 +3,7 @@
 Sync sprint-status.yaml to GitHub Projects via Issues
 
 This script:
-1. Reads docs/sprint-artifacts/sprint-status.yaml
+1. Reads _bmad-output/implementation-artifacts/sprint-status.yaml
 2. Creates GitHub Issues for epics and stories
 3. Links stories to epics
 4. Adds issues to a GitHub Project
@@ -24,7 +24,7 @@ from pathlib import Path
 
 # Configuration
 REPO = "jerryagenyi/ccip"
-SPRINT_STATUS_FILE = "docs/sprint-artifacts/sprint-status.yaml"
+SPRINT_STATUS_FILE = "_bmad-output/implementation-artifacts/sprint-status.yaml"
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
 def read_sprint_status():

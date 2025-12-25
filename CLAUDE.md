@@ -120,10 +120,10 @@ Core entities:
 - **Role-based security** strictly enforced
 
 ## Important Files
-- Product Requirements: `docs/prd.md`
+- Product Requirements: `_bmad-output/planning-artifacts/prd.md`
 - Epic specifications: `docs/epics/epic-XXX-feature-name.md`
 - User stories: `docs/stories/US-XXX-story-name.md`
-- Architecture: `docs/architecture.md`
+- Architecture: `_bmad-output/planning-artifacts/architecture.md`
 - Project Context: `docs/project_context.md` - Critical rules for AI agents
 - Implementation plan: `IMPLEMENTATION_PLAN.md`
 - Backend status: `backend/README.md`

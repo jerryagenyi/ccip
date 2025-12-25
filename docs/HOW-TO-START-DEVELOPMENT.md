@@ -39,7 +39,7 @@ Develop docs/stories/US-001-user-registration-authentication.md
 ### What Happens When You Run Dev Workflow:
 
 1. **Story Discovery:**
-   - Reads `docs/sprint-artifacts/sprint-status.yaml`
+   - Reads `_bmad-output/implementation-artifacts/sprint-status.yaml`
    - Finds first story with status `ready-for-dev`
    - If none found, asks you to choose
 
@@ -61,7 +61,7 @@ Develop docs/stories/US-001-user-registration-authentication.md
 
 Currently all stories are `drafted`. Before development can start, you need to move at least one story to `ready-for-dev`.
 
-**Edit `docs/sprint-artifacts/sprint-status.yaml`:**
+**Edit `_bmad-output/implementation-artifacts/sprint-status.yaml`:**
 ```yaml
 development_status:
   epic-001: backlog

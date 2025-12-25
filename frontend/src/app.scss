@@ -12,8 +12,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-// CCIP Design System Colors
-:root {
+// CCIP Design System Colors - CSS Variables for Theme Support
+// Light Theme (default)
+:root,
+.light-theme {
   --ccip-primary: #7151B3;
   --ccip-secondary: #F0F2F5;
   --ccip-accent: #53A7EA;
@@ -24,12 +26,40 @@ body {
   --ccip-card: #FFFFFF;
   --ccip-text-primary: #1A202C;
   --ccip-text-secondary: #718096;
+  --ccip-text-disabled: #A0AEC0;
+  --ccip-text-hint: #CBD5E0;
+  --ccip-border: #E2E8F0;
+  --ccip-divider: #E2E8F0;
+  --ccip-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --ccip-shadow-2: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --ccip-shadow-3: 0 10px 15px rgba(0, 0, 0, 0.05);
 }
 
-// Global text styles
+// Dark Theme (per UX specification)
+.dark-theme {
+  --ccip-primary: #B5B1F9;  // Adjusted for dark theme visibility
+  --ccip-secondary: #2D3748;  // --secondary from spec
+  --ccip-accent: #90CDF4;  // --accent from spec
+  --ccip-positive: #4CAF50;
+  --ccip-negative: #E74C3C;
+  --ccip-warning: #F59E0B;
+  --ccip-background: #111827;  // --background from spec
+  --ccip-card: #1D283A;  // --card from spec
+  --ccip-text-primary: #FAFAFA;  // --foreground from spec
+  --ccip-text-secondary: #A0AEC0;  // --muted-foreground from spec
+  --ccip-text-disabled: #718096;
+  --ccip-text-hint: #A0AEC0;
+  --ccip-border: #324157;  // --border from spec
+  --ccip-divider: #324157;
+  --ccip-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --ccip-shadow-2: 0 4px 6px rgba(0, 0, 0, 0.25);
+  --ccip-shadow-3: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+// Global text styles (theme-aware)
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
-  color: $text-primary;
+  color: var(--ccip-text-primary);
   line-height: 1.2;
 }
 
@@ -56,7 +86,7 @@ h6 { font-size: 1.125rem; }
   font-size: 0.75rem;
   line-height: 1.375;
   font-weight: 400;
-  color: $text-secondary;
+  color: var(--ccip-text-secondary);
 }
 
 .text-overline {
@@ -72,19 +102,20 @@ img {
   loading: lazy;
 }
 
-// Custom component styles
+// Custom component styles (theme-aware)
 .q-page {
-  background-color: $background;
+  background-color: var(--ccip-background);
+  transition: background-color 0.3s ease;
 }
 
 .q-card {
-  background-color: $card;
+  background-color: var(--ccip-card);
   border-radius: $card-border-radius;
-  box-shadow: $shadow-1;
-  transition: box-shadow 0.3s ease;
+  box-shadow: var(--ccip-shadow-1);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
 
   &:hover {
-    box-shadow: $shadow-2;
+    box-shadow: var(--ccip-shadow-2);
   }
 }
 
@@ -147,22 +178,22 @@ img {
   }
 }
 
-// Custom scrollbar
+// Custom scrollbar (theme-aware)
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: $secondary;
+  background: var(--ccip-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: darken($secondary, 20%);
+  background: var(--ccip-border);
   border-radius: 4px;
 
   &:hover {
-    background: darken($secondary, 30%);
+    background: var(--ccip-text-secondary);
   }
 }
 

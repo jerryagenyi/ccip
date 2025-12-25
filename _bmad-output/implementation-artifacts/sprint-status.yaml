@@ -2,7 +2,7 @@
 # project: ccip
 # project_key: ccip
 # tracking_system: file-system
-# story_location: docs/sprint-artifacts
+# story_location: _bmad-output/implementation-artifacts
 
 # STATUS DEFINITIONS:
 # ==================
@@ -38,7 +38,7 @@ generated: 2025-12-16 07:23
 project: ccip
 project_key: ccip
 tracking_system: file-system
-story_location: docs/sprint-artifacts
+story_location: _bmad-output/implementation-artifacts
 
 development_status:
   # Epic 001: User & Organisation Management
