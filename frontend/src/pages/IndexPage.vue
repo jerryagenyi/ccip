@@ -197,14 +197,13 @@
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
-import { useAuthStore } from '@/stores/useAuthStore';
 import api from '@/services/api';
 
 const router = useRouter();
-const authStore = useAuthStore();
 const $q = useQuasar();
 
-const isAuthenticated = computed(() => authStore.isAuthenticated);
+// Use localStorage directly for auth check to avoid Pinia initialization issues
+const isAuthenticated = computed(() => !!localStorage.getItem('auth_token'));
 
 const features = [
   {
