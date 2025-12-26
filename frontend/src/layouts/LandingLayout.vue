@@ -1,12 +1,13 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <!-- Minimal header for landing page -->
-    <q-header elevated class="bg-white text-dark">
+    <!-- Minimal header for landing page (theme-aware) -->
+    <q-header elevated class="bg-card text-primary">
       <q-toolbar>
         <q-toolbar-title class="text-primary text-weight-bold">
           CCIP
         </q-toolbar-title>
         <q-space />
+        <ThemeToggle />
         <q-btn
           v-if="!isAuthenticated"
           flat
@@ -30,8 +31,8 @@
       <router-view />
     </q-page-container>
 
-    <!-- Simple footer -->
-    <q-footer elevated class="bg-grey-1 text-grey-8">
+    <!-- Simple footer (theme-aware) -->
+    <q-footer elevated class="bg-card text-secondary">
       <q-toolbar>
         <q-toolbar-title class="text-caption">
           © 2025 CCIP. All rights reserved.
@@ -62,6 +63,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { ref, onMounted } from 'vue';
+import ThemeToggle from '@/components/ui/ThemeToggle.vue';
 
 // Check authentication directly from localStorage to avoid Pinia initialization issues
 const isAuthenticated = ref(false);

@@ -12,7 +12,7 @@
 ### PRD Documents Found
 
 **Whole Documents:**
-- `docs/prd.md` (Primary PRD document)
+- `_bmad-output/planning-artifacts/prd.md` (Primary PRD document)
 
 **Status:** ✅ Single PRD document found, no duplicates
 
@@ -21,7 +21,7 @@
 ### Architecture Documents Found
 
 **Whole Documents:**
-- `docs/architecture.md` (Primary Architecture Decision Document - Complete)
+- `_bmad-output/planning-artifacts/architecture.md` (Primary Architecture Decision Document - Complete)
 
 **Archived Documents (Not Used):**
 - `docs/api/archived/technical-docs-backup/technical-docs/architecture-frontend.md`
@@ -64,7 +64,7 @@
 ### UX Design Documents Found
 
 **Whole Documents:**
-- `docs/ux-design.md` (UI/UX Design Specification)
+- `_bmad-output/planning-artifacts/ux-design.md` (UI/UX Design Specification)
 
 **Status:** ✅ Single UX design document found, no duplicates
 
@@ -74,11 +74,11 @@
 
 | Document Type | Primary Location | Count | Status |
 |--------------|------------------|-------|--------|
-| PRD | `docs/prd.md` | 1 | ✅ Ready |
-| Architecture | `docs/architecture.md` | 1 | ✅ Ready |
+| PRD | `_bmad-output/planning-artifacts/prd.md` | 1 | ✅ Ready |
+| Architecture | `_bmad-output/planning-artifacts/architecture.md` | 1 | ✅ Ready |
 | Epics | `docs/epics/` | 8 | ✅ Ready |
 | Stories | `docs/stories/` | 7 | ✅ Ready (Epic 001) |
-| UX Design | `docs/ux-design.md` | 1 | ✅ Ready |
+| UX Design | `_bmad-output/planning-artifacts/ux-design.md` | 1 | ✅ Ready |
 
 **Overall Status:** ✅ All required documents found and organized
 
@@ -340,7 +340,7 @@
 
 ### UX Documentation Status
 
-**UX Document Found:** ✅ `docs/ux-design.md` (UI/UX Design Specification)
+**UX Document Found:** ✅ `_bmad-output/planning-artifacts/ux-design.md` (UI/UX Design Specification)
 
 **Status:** UX documentation exists and is comprehensive
 

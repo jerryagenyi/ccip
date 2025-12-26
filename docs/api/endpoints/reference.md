@@ -890,3 +890,178 @@ Event format:
   "userId": "user_id"
 }
 ```
+
+## 14. Analytics Endpoints
+
+### GET /analytics/activities/status
+- **Description**: Get activity status breakdown for analytics
+- **Headers**: Authorization Bearer token
+- **Query Parameters**:
+  - `organisation_id`: number (optional)
+  - `dateFrom`: string (YYYY-MM-DD, optional)
+  - `dateTo`: string (YYYY-MM-DD, optional)
+- **Response**: Status breakdown object
+  ```json
+  {
+    "success": true,
+    "data": {
+      "draft": number,
+      "submitted": number,
+      "approved": number,
+      "rejected": number,
+      "completed": number
+    }
+  }
+  ```
+
+### GET /analytics/activities/heatmap
+- **Description**: Get activity heatmap data for visualization
+- **Headers**: Authorization Bearer token
+- **Query Parameters**:
+  - `organisation_id`: number (optional)
+  - `year`: number (optional, default: current year)
+  - `month`: number (optional, default: current month)
+- **Response**: Heatmap data object
+  ```json
+  {
+    "success": true,
+    "data": [
+      {
+        "date": "2025-01-15",
+        "count": 5,
+        "status": "completed"
+      }
+    ]
+  }
+  ```
+
+### GET /analytics/engagement
+- **Description**: Get user engagement metrics
+- **Headers**: Authorization Bearer token
+- **Query Parameters**:
+  - `organisation_id`: number (optional)
+  - `period`: "daily" | "weekly" | "monthly" (default: "weekly")
+- **Response**: Engagement metrics object
+  ```json
+  {
+    "success": true,
+    "data": {
+      "active_users": number,
+      "total_activities": number,
+      "messages_sent": number,
+      "reports_generated": number
+    }
+  }
+  ```
+
+### GET /analytics/engagement/trends
+- **Description**: Get engagement trends over time
+- **Headers**: Authorization Bearer token
+- **Query Parameters**:
+  - `period`: "7d" | "30d" | "90d" (default: "30d")
+  - `organisation_id`: number (optional)
+- **Response**: Trend data object
+  ```json
+  {
+    "success": true,
+    "data": [
+      {
+        "date": "2025-01-01",
+        "active_users": 45,
+        "activities_created": 12
+      }
+    ]
+  }
+  ```
+
+### GET /analytics/organisation-comparison
+- **Description**: Compare metrics across organizations
+- **Headers**: Authorization Bearer token
+- **Query Parameters**:
+  - `organisation_ids`: number[] (comma-separated)
+  - `metrics`: string[] (comma-separated, optional)
+- **Response**: Comparison data object
+  ```json
+  {
+    "success": true,
+    "data": [
+      {
+        "organisation_id": 1,
+        "organisation_name": "Health Org A",
+        "total_activities": 45,
+        "completion_rate": 0.87
+      }
+    ]
+  }
+  ```
+
+## 15. Help Center Endpoints
+
+### GET /help/articles
+- **Description**: Get help center articles
+- **Query Parameters**:
+  - `category`: string (optional)
+  - `search`: string (optional)
+  - `page`: number (default: 1)
+  - `perPage`: number (default: 20)
+- **Headers**: Authorization Bearer token (optional)
+- **Response**: Paginated articles list
+
+### GET /help/articles/{id}
+- **Description**: Get specific help article
+- **Headers**: Authorization Bearer token (optional)
+- **Response**: Article object with content
+
+### GET /help/search
+- **Description**: Search help center
+- **Query Parameters**:
+  - `q`: string (search query)
+  - `category`: string (optional)
+- **Headers**: Authorization Bearer token (optional)
+- **Response**: Search results with articles
+
+### GET /help/categories
+- **Description**: Get help center categories
+- **Headers**: Authorization Bearer token (optional)
+- **Response**: Categories list
+  ```json
+  {
+    "success": true,
+    "data": [
+      {
+        "id": 1,
+        "name": "Getting Started",
+        "slug": "getting-started",
+        "description": "Basic guides for new users",
+        "article_count": 15
+      }
+    ]
+  }
+  ```
+
+## System Endpoint Updates
+
+### GET /system/health
+- **Description**: System health check (public endpoint)
+- **Response**: Health status object
+  ```json
+  {
+    "status": "ok",
+    "timestamp": "2025-01-15T10:30:00Z"
+  }
+  ```
+
+### GET /
+- **Description**: API root endpoint (public)
+- **Response**: API information object
+  ```json
+  {
+    "message": "CCIP API",
+    "version": "1.0",
+    "status": "operational",
+    "endpoints": {
+      "api": "/api/v1",
+      "documentation": "See API documentation for available endpoints"
+    }
+  }
+  ```

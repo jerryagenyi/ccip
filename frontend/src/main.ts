@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { Quasar } from 'quasar';
+import { Quasar, Dark } from 'quasar';
 import { createPinia } from 'pinia';
 
 // Import icon libraries
@@ -12,6 +12,7 @@ import 'quasar/src/css/index.sass';
 // and placed in same folder as main.js
 import App from './App.vue';
 import router from './router';
+import { useThemeStore } from './stores/useThemeStore';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -21,6 +22,10 @@ app.use(Quasar, {
 });
 app.use(pinia);
 app.use(router);
+
+// Initialize theme store to set dark theme as default
+const themeStore = useThemeStore();
+themeStore.initTheme();
 
 // Try both possible mount points
 const mountPoint = document.querySelector('#q-app') || document.querySelector('#root');

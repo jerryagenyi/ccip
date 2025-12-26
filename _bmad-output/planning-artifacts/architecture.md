@@ -5,13 +5,13 @@ lastStep: 8
 status: 'complete'
 completedAt: '2025-12-14'
 inputDocuments:
-  - docs/prd.md
+  - _bmad-output/planning-artifacts/prd.md
   - docs/research/ccip-research-foundation.md
   - docs/index.md
   - docs/architecture/overview.md
   - docs/architecture/backend.md
   - docs/architecture/frontend.md
-  - docs/ux-design.md
+  - _bmad-output/planning-artifacts/ux-design.md
   - docs/epics/epic-001-user-organisation-management.md
   - docs/epics/epic-002-activity-tracking.md
   - docs/epics/epic-003-dashboards-analytics.md
@@ -1118,7 +1118,7 @@ ccip/
 **Architecture Decision Workflow:** COMPLETED ✅
 **Total Steps Completed:** 8
 **Date Completed:** 2025-12-14
-**Document Location:** `docs/architecture.md`
+**Document Location:** `_bmad-output/planning-artifacts/architecture.md`
 
 ### Final Architecture Deliverables
 

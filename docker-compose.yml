@@ -11,7 +11,7 @@ services:
       POSTGRES_USER: ${DB_USERNAME:-ccip_user}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-ccip_password}
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "${DB_PORT:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -104,7 +104,11 @@ services:
       - ccip_network
     command: >
       sh -c "
-        composer install &&
+        mkdir -p /var/www/html/bootstrap/cache &&
+        chmod -R 777 /var/www/html/bootstrap/cache &&
+        chmod -R 777 /var/www/html/storage &&
+        composer update --no-scripts &&
+        composer dump-autoload &&
         php artisan key:generate --force &&
         php artisan serve --host=0.0.0.0 --port=8000
       "

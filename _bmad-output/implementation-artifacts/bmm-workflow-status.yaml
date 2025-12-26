@@ -64,7 +64,7 @@ workflow_status: |
           required: true
           agent: "pm"
           command: "prd"
-          status: "docs/prd.md"
+          status: "_bmad-output/planning-artifacts/prd.md"
           output: "PRD focused on new features/changes"
           note: "Must consider existing system constraints"
         - id: "create-ux-design"
@@ -81,7 +81,7 @@ workflow_status: |
           recommended: true
           agent: "architect"
           command: "create-architecture"
-          status: "docs/architecture.md"
+          status: "_bmad-output/planning-artifacts/architecture.md"
           output: "Integration architecture - solution design for THIS project"
           note: "HIGHLY RECOMMENDED: Distills massive brownfield context into focused solution design. Prevents agent confusion."
         - id: "create-epics-and-stories"
@@ -106,7 +106,7 @@ workflow_status: |
           required: true
           agent: "architect"
           command: "implementation-readiness"
-          status: "docs/implementation-readiness-report-2025-12-14.md"
+          status: "_bmad-output/implementation-artifacts/implementation-readiness-report-2025-12-14.md"
           note: "Validates PRD + Architecture + Epics + UX (optional)"
 
     - phase: 3
@@ -117,7 +117,7 @@ workflow_status: |
           required: true
           agent: "sm"
           command: "sprint-planning"
-          status: "docs/sprint-artifacts/sprint-status.yaml"
+          status: "_bmad-output/implementation-artifacts/sprint-status.yaml"
           note: "Creates sprint plan with stories"
 
 discovery_requested:

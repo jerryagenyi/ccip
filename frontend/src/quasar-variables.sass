@@ -1,35 +1,58 @@
 // Quasar SCSS variables
 // Override Quasar's default variables here
 
-// Brand Colors (from prototype)
+// Brand Colors (consistent across themes)
 $primary   : #7151B3  // Primary purple
-$secondary : #F0F2F5  // Light gray
+$secondary : #F0F2F5  // Light gray (used in light theme)
 $accent    : #53A7EA  // Accent blue
 
-// Functional Colors
+// Functional Colors (consistent across themes)
 $positive  : #4CAF50  // Success green
 $negative  : #E74C3C  // Error red
 $info      : #53A7EA  // Info blue (same as accent)
 $warning   : #F59E0B  // Warning amber
 
-// Background Colors
-$background: #F2F0F7  // Main background
-$card      : #FFFFFF  // Card background
+// Light Theme Colors (default fallback)
+$background-light: #F2F0F7  // Main background
+$card-light      : #FFFFFF  // Card background
+$text-primary-light     : #1A202C  // Main text
+$text-secondary-light   : #718096  // Secondary text
+$text-disabled-light    : #A0AEC0  // Disabled text
+$text-hint-light        : #CBD5E0  // Hint text
+$border-color-light     : #E2E8F0
+$divider-color-light    : #E2E8F0
 
-// Text Colors
-$text-primary     : #1A202C  // Main text
-$text-secondary   : #718096  // Secondary text
-$text-disabled    : #A0AEC0  // Disabled text
-$text-hint        : #CBD5E0  // Hint text
+// Dark Theme Colors (per UX specification)
+$background-dark: #111827  // Main background (--background from spec)
+$card-dark      : #1D283A  // Card background (--card from spec)
+$text-primary-dark     : #FAFAFA  // Main text (--foreground from spec)
+$text-secondary-dark   : #A0AEC0  // Secondary text (--muted-foreground from spec)
+$text-disabled-dark    : #718096  // Disabled text
+$text-hint-dark        : #A0AEC0  // Hint text
+$border-color-dark     : #324157  // Border color (--border from spec)
+$divider-color-dark    : #324157
 
-// Border & Divider
-$border-color     : #E2E8F0
-$divider-color    : #E2E8F0
+// Default to light (will be overridden by CSS variables)
+$background: $background-light
+$card      : $card-light
+$text-primary     : $text-primary-light
+$text-secondary   : $text-secondary-light
+$text-disabled    : $text-disabled-light
+$text-hint        : $text-hint-light
+$border-color     : $border-color-light
+$divider-color    : $divider-color-light
 
-// Shadows
-$shadow-1         : 0 1px 3px rgba(0, 0, 0, 0.1)
-$shadow-2         : 0 4px 6px rgba(0, 0, 0, 0.07)
-$shadow-3         : 0 10px 15px rgba(0, 0, 0, 0.05)
+// Shadows (theme-aware)
+$shadow-1-light   : 0 1px 3px rgba(0, 0, 0, 0.1)
+$shadow-2-light   : 0 4px 6px rgba(0, 0, 0, 0.07)
+$shadow-3-light   : 0 10px 15px rgba(0, 0, 0, 0.05)
+$shadow-1-dark    : 0 1px 3px rgba(0, 0, 0, 0.3)
+$shadow-2-dark    : 0 4px 6px rgba(0, 0, 0, 0.25)
+$shadow-3-dark    : 0 10px 15px rgba(0, 0, 0, 0.2)
+
+$shadow-1: $shadow-1-light
+$shadow-2: $shadow-2-light
+$shadow-3: $shadow-3-light
 
 // Border Radius
 $generic-border-radius: 8px

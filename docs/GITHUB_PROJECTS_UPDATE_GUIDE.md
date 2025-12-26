@@ -215,7 +215,7 @@ Your project is configured with automated workflows to sync sprint status with G
 
 ### What's Configured
 
-1. **Sync Sprint Status** - Updates GitHub Project from `docs/sprint-artifacts/sprint-status.yaml`
+1. **Sync Sprint Status** - Updates GitHub Project from `_bmad-output/implementation-artifacts/sprint-status.yaml`
 2. **Auto-Link PRs** - Links pull requests to user stories (via `link-pr-to-story.yml`)
 3. **Update Status** - Updates project status when labels change
 

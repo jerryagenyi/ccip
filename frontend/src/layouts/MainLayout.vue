@@ -12,6 +12,7 @@
         />
         <q-toolbar-title>CCIP</q-toolbar-title>
         <q-space />
+        <ThemeToggle />
         <NotificationCenter />
         <UserMenu />
       </q-toolbar>
@@ -87,6 +88,7 @@ import { ref } from 'vue';
 import AppFooter from '@/components/AppFooter.vue';
 import NotificationCenter from '@/components/layout/NotificationCenter.vue';
 import UserMenu from '@/components/layout/UserMenu.vue';
+import ThemeToggle from '@/components/ui/ThemeToggle.vue';
 
 const leftDrawerOpen = ref(false);
 </script>

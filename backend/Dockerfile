@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.4-fpm-alpine
 
 # Install system dependencies
 RUN apk add --no-cache \
@@ -44,6 +44,7 @@ RUN composer dump-autoload --optimize --no-scripts
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
+    && mkdir -p /var/www/html/bootstrap/cache \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
 # Expose port
