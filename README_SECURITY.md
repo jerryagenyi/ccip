@@ -18,6 +18,22 @@
 
 ## Quick Security Commands
 
+**Windows (PowerShell):**
+```powershell
+# Run security scan
+.\scripts\security-scan.ps1
+
+# Check container status
+docker-compose ps
+
+# View container logs
+docker-compose logs backend
+
+# Scan specific image
+trivy image ccip-backend:latest
+```
+
+**Linux/macOS (Bash):**
 ```bash
 # Run security scan
 ./scripts/security-scan.sh
