@@ -47,6 +47,9 @@ RUN chown -R www-data:www-data /var/www/html \
     && mkdir -p /var/www/html/bootstrap/cache \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
+# Switch to non-root user
+USER www-data
+
 # Expose port
 EXPOSE 8000
 

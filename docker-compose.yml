@@ -68,6 +68,10 @@ services:
       dockerfile: Dockerfile
     container_name: ccip_backend
     restart: unless-stopped
+    # Note: Development uses bind mounts, so we run as root for file permissions
+    # Production (docker-compose.production.yml) uses non-root user with named volumes
+    security_opt:
+      - no-new-privileges:true
     environment:
       APP_ENV: ${APP_ENV:-local}
       APP_DEBUG: ${APP_DEBUG:-true}
@@ -105,8 +109,8 @@ services:
     command: >
       sh -c "
         mkdir -p /var/www/html/bootstrap/cache &&
-        chmod -R 777 /var/www/html/bootstrap/cache &&
-        chmod -R 777 /var/www/html/storage &&
+        chmod -R 755 /var/www/html/bootstrap/cache &&
+        chmod -R 755 /var/www/html/storage &&
         composer update --no-scripts &&
         composer dump-autoload &&
         php artisan key:generate --force &&
@@ -120,6 +124,8 @@ services:
       dockerfile: Dockerfile
     container_name: ccip_frontend
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
     environment:
       VITE_API_URL: ${VITE_API_URL:-http://localhost:8000/api}
     ports:

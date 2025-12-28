@@ -1,0 +1,61 @@
+name: Docker Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'docker-compose*.yml'
+      - '**/Dockerfile*'
+      - 'backend/**'
+      - 'frontend/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'docker-compose*.yml'
+      - '**/Dockerfile*'
+      - 'backend/**'
+      - 'frontend/**'
+  schedule:
+    # Run weekly security scans
+    - cron: '0 0 * * 0'
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Scan Docker Images for Vulnerabilities
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build images
+        run: |
+          docker-compose build --no-cache backend frontend || true
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'image'
+          scan-ref: 'ccip-backend:latest,ccip-frontend:latest'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+          ignore-unfixed: false
+      
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+      
+      - name: Scan docker-compose files
+        run: |
+          docker run --rm -v "$PWD:/workspace" \
+            aquasec/trivy:latest config /workspace \
+            --severity CRITICAL,HIGH \
+            --exit-code 1 || true
+
