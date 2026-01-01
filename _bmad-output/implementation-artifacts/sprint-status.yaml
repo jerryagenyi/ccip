@@ -1,5 +1,5 @@
 # generated: 2025-12-16 07:23
-# last_updated: 2025-01-01 (Auth testing completed)
+# last_updated: 2025-01-01 (Auth testing completed, BMAD framework updated, all changes pushed to main)
 # project: ccip
 # project_key: ccip
 # tracking_system: file-system
@@ -44,14 +44,16 @@ story_location: _bmad-output/implementation-artifacts
 development_status:
   # Epic 001: User & Organisation Management
   epic-001: in-progress
-  US-001-user-registration-authentication: in-progress
-    # Frontend Testing Completed (2025-01-01)
-    # ✅ Login form: API calls to /api/v1/auth/login working
-    # ✅ Registration form: Multi-step flow working (Personal Info → Organisation → Account Setup → Review)
-    # ✅ Password reset form: Loaded successfully
+  US-001-user-registration-authentication: review
+    # ✅ Frontend Testing Completed (2025-01-01)
+    # ✅ Pinia initialization bug fixed (added to Quasar boot array)
+    # ✅ Login form: API calls to /api/v1/auth/login working correctly
+    # ✅ Registration form: Multi-step flow functional (Personal Info → Organisation → Account Setup → Review)
+    # ✅ Password reset form: Loading and displaying correctly
+    # ✅ All changes committed and pushed to main (commits 129b2fa, bc383ca)
     # ⚠️ Backend integration: Requires running Laravel server on localhost:8000
-    # ⚠️ ThemeToggle: Temporarily disabled due to Pinia initialization timing issue
-    # 📝 Next: Backend integration testing with full API running
+    # ⚠️ ThemeToggle: Temporarily disabled due to Pinia initialization timing issue (needs lazy store initialization)
+    # 📝 Next: Backend integration testing with full API running + ThemeToggle fix
   US-002-role-based-access-control: drafted
   US-003-organisation-hierarchy: drafted
   US-004-user-profile-management: drafted
