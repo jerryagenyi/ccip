@@ -2,26 +2,47 @@
 # Production startup script for Laravel backend
 # Runs all necessary initialization commands before starting services
 
-set -e
+# Don't use set -e - we want to continue even if some commands fail
+# set -e
 
 echo "=== CCIP Backend Production Startup ==="
 echo "Starting initialization at $(date)"
 
-# Wait for database to be ready
+# Wait for database to be ready (with timeout)
 echo "Waiting for database connection..."
-until php artisan tinker --execute="DB::connection()->getPdo();" > /dev/null 2>&1; do
-    echo "Database not ready, waiting 2 seconds..."
+MAX_DB_WAIT=60
+DB_WAIT_COUNT=0
+until php artisan tinker --execute="try { DB::connection()->getPdo(); echo 'OK'; } catch (Exception \$e) { exit(1); }" > /dev/null 2>&1; do
+    DB_WAIT_COUNT=$((DB_WAIT_COUNT + 1))
+    if [ $DB_WAIT_COUNT -ge $MAX_DB_WAIT ]; then
+        echo "❌ Database connection timeout after $MAX_DB_WAIT attempts"
+        echo "⚠️ Continuing anyway - migrations may fail"
+        break
+    fi
+    echo "Database not ready, waiting 2 seconds... ($DB_WAIT_COUNT/$MAX_DB_WAIT)"
     sleep 2
 done
-echo "✅ Database connection established"
+if [ $DB_WAIT_COUNT -lt $MAX_DB_WAIT ]; then
+    echo "✅ Database connection established"
+fi
 
-# Wait for Redis to be ready (simple check - try to set a test key)
+# Wait for Redis to be ready (with timeout)
 echo "Waiting for Redis connection..."
-until php artisan tinker --execute="Cache::put('test', 'ok', 1);" > /dev/null 2>&1; do
-    echo "Redis not ready, waiting 2 seconds..."
+MAX_REDIS_WAIT=30
+REDIS_WAIT_COUNT=0
+until php artisan tinker --execute="try { Cache::put('test', 'ok', 1); echo 'OK'; } catch (Exception \$e) { exit(1); }" > /dev/null 2>&1; do
+    REDIS_WAIT_COUNT=$((REDIS_WAIT_COUNT + 1))
+    if [ $REDIS_WAIT_COUNT -ge $MAX_REDIS_WAIT ]; then
+        echo "❌ Redis connection timeout after $MAX_REDIS_WAIT attempts"
+        echo "⚠️ Continuing anyway - cache may not work"
+        break
+    fi
+    echo "Redis not ready, waiting 2 seconds... ($REDIS_WAIT_COUNT/$MAX_REDIS_WAIT)"
     sleep 2
 done
-echo "✅ Redis connection established"
+if [ $REDIS_WAIT_COUNT -lt $MAX_REDIS_WAIT ]; then
+    echo "✅ Redis connection established"
+fi
 
 # Set proper permissions
 echo "Setting storage permissions..."
@@ -31,8 +52,13 @@ echo "✅ Permissions set"
 
 # Run database migrations
 echo "Running database migrations..."
-php artisan migrate --force || echo "⚠️ Migration failed, continuing..."
-echo "✅ Migrations completed"
+if php artisan migrate --force; then
+    echo "✅ Migrations completed successfully"
+else
+    echo "⚠️ Migration failed - check logs"
+    # Show migration status for debugging
+    php artisan migrate:status || true
+fi
 
 # Clear and cache configuration
 echo "Clearing and caching configuration..."
