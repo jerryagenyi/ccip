@@ -61,11 +61,16 @@ RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /usr/local/etc/php
     sed -i 's/;listen.owner = www-data/listen.owner = www-data/' /usr/local/etc/php-fpm.d/www.conf && \
     sed -i 's/;listen.group = www-data/listen.group = www-data/' /usr/local/etc/php-fpm.d/www.conf
 
-# Switch to non-root user (www-data user exists in php:8.4-fpm-alpine)
-USER www-data
+# Copy startup script
+COPY start-production.sh /start-production.sh
+RUN chmod +x /start-production.sh
+
+# Note: We run as root initially to allow migrations and setup
+# The docker-compose.production.yml will set user: "www-data:www-data" 
+# but we need root for the startup script, so we'll handle user switching in the script
 
 # Expose port 80 for Nginx
 EXPOSE 80
 
-# Start both PHP-FPM and Nginx
-CMD sh -c "php-fpm -D && nginx -g 'daemon off;'"
+# Start with production script
+CMD ["/start-production.sh"]

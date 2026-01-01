@@ -54,7 +54,8 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - "80"
-    user: "www-data:www-data"
+    # Note: user is not set here - startup script runs as root for migrations,
+    # then PHP-FPM and Nginx drop to their respective non-root users
     security_opt:
       - no-new-privileges:true
     deploy:
