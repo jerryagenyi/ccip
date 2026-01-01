@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
-import { Quasar, Dark } from 'quasar';
-import { createPinia } from 'pinia';
+import { Quasar } from 'quasar';
 
 // Import icon libraries
 import '@quasar/extras/material-icons/material-icons.css';
@@ -12,26 +11,30 @@ import 'quasar/src/css/index.sass';
 // and placed in same folder as main.js
 import App from './App.vue';
 import router from './router';
-import { useThemeStore } from './stores/useThemeStore';
 
+// Create app
 const app = createApp(App);
-const pinia = createPinia();
+
+// Pinia is initialized via Quasar boot file (src/boot/pinia.ts)
+// which runs before this point
 
 app.use(Quasar, {
   plugins: {}, // import Quasar plugins and add here
 });
-app.use(pinia);
+
 app.use(router);
 
-// Initialize theme store to set dark theme as default
-const themeStore = useThemeStore();
-themeStore.initTheme();
-
-// Try both possible mount points
-const mountPoint = document.querySelector('#q-app') || document.querySelector('#root');
+// Quasar CLI automatically injects #q-app in the HTML template
+// Mount the app to #q-app
+const mountPoint = document.querySelector('#q-app');
 if (mountPoint) {
   app.mount(mountPoint);
 } else {
-  console.error('Could not find Vue app mount point (#q-app or #root)');
+  // Fallback: create mount point if it doesn't exist (shouldn't happen with Quasar CLI)
+  const fallbackMount = document.createElement('div');
+  fallbackMount.id = 'q-app';
+  document.body.appendChild(fallbackMount);
+  app.mount(fallbackMount);
+  console.warn('Created #q-app mount point - this should not happen with Quasar CLI');
 }
 

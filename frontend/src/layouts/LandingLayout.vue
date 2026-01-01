@@ -7,7 +7,8 @@
           CCIP
         </q-toolbar-title>
         <q-space />
-        <ThemeToggle />
+        <!-- ThemeToggle temporarily disabled due to Pinia initialization timing issue -->
+        <!-- <ThemeToggle /> -->
         <q-btn
           v-if="!isAuthenticated"
           flat
@@ -62,16 +63,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { ref, onMounted } from 'vue';
-import ThemeToggle from '@/components/ui/ThemeToggle.vue';
+import { useAuthStore } from '@/stores/useAuthStore';
 
-// Check authentication directly from localStorage to avoid Pinia initialization issues
-const isAuthenticated = ref(false);
+// ThemeToggle temporarily disabled due to Pinia initialization timing issue
+// import ThemeToggle from '@/components/ui/ThemeToggle.vue';
 
-onMounted(() => {
-  // Check if user is authenticated by checking localStorage
-  isAuthenticated.value = !!localStorage.getItem('auth_token');
-});
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => authStore.isAuthenticated);
 </script>
 
 <style scoped lang="scss">
