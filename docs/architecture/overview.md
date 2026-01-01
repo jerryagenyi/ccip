@@ -22,30 +22,48 @@ CCIP (Crisis Communication Intelligence Platform) is a system that combines orga
 
 | Component | Technology | Version | Purpose |
 |-----------|------------|---------|---------|
-| **Frontend** | Vue 3 + Quasar | 3.4+ / 2.14+ | Cross-platform PWA with responsive design |
-| **Backend** | Laravel | 11.x | Robust API framework with business logic |
-| **Database** | PostgreSQL | 16+ | Primary data store with JSONB and pgvector |
-| **ML/AI** | Python + FastAPI | 3.11+ / 0.109+ | High-performance semiotic analysis service |
-| **Caching** | Redis | 7+ | Performance and session management |
+| **Frontend** | Vue 3 + Quasar | 3.5 / 2.18 | Cross-platform PWA with responsive design |
+| **Frontend Language** | TypeScript | 5.9 | Type-safe development |
+| **Frontend Build** | Vite | 7.1 | Modern build tool and dev server |
+| **Frontend State** | Pinia | - | State management (14 stores) |
+| **Frontend Components** | Vue 3 Components | 72 components | Component-based architecture |
+| **Backend** | Laravel | 11 | Robust API framework with business logic |
+| **Backend Language** | PHP | 8.2 | Server-side runtime |
+| **Database** | PostgreSQL | 16 | Primary data store with JSONB and pgvector |
+| **Caching** | Redis | 7 | Performance and session management |
 | **Storage** | S3-compatible | - | Secure media and evidence storage |
 | **Authentication** | Laravel Sanctum | - | Token-based API authentication |
+| **OAuth** | Google OAuth | - | Social authentication |
+| **Testing (Frontend)** | Vitest, Playwright | - | Unit and E2E testing |
+| **Testing (Backend)** | PHPUnit | - | Backend unit and feature testing |
+| **ML/AI** | Python + FastAPI | 3.11+ / 0.109+ | High-performance semiotic analysis service |
 
 ## High-Level Architecture
+
+**Architecture Pattern:** Multi-part architecture (Frontend + Backend)
+**API Design:** API-first RESTful design
+**PWA Strategy:** Offline-first capabilities
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    CLIENT LAYER                               │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
-│  │   Vue 3     │  │   Quasar    │  │      PWA            │  │
-│  │ Components  │  │   UI Kit    │  │   Service Worker    │  │
-│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+│  │   Vue 3.5   │  │ Quasar 2.18 │  │      PWA            │  │
+│  │ TypeScript  │  │   UI Kit    │  │   Service Worker    │  │
+│  │ 72 Components│  │             │  │  Offline-First     │  │
+│  │ 14 Pinia    │  │             │  │                     │  │
+│  │   Stores    │  └─────────────┘  └─────────────────────┘  │
+│  └─────────────┘                                             │
 └─────────────────────────────────────────────────────────────┘
                               │
                     ┌─────────▼─────────┐
                     │  API GATEWAY      │
-                    │    Laravel        │
+                    │  Laravel 11       │
+                    │  PHP 8.2          │
                     │                   │
                     │ • Authentication  │
+                    │   (Sanctum + OAuth)│
+                    │ • Service Layer  │
                     │ • Business Logic  │
                     │ • Data Validation  │
                     └─────────┬─────────┘
@@ -54,7 +72,7 @@ CCIP (Crisis Communication Intelligence Platform) is a system that combines orga
           │                   │                   │
     ┌─────▼─────┐      ┌─────▼─────┐      ┌─────▼─────┐
     │PostgreSQL │      │   Redis   │      │MinIO/S3   │
-    │Database  │      │  Cache    │      │ Storage   │
+    │    16     │      │     7     │      │ Storage   │
     └───────────┘      └───────────┘      └───────────┘
                               │
                     ┌─────────▼─────────┐
@@ -96,15 +114,21 @@ CCIP (Crisis Communication Intelligence Platform) is a system that combines orga
 
 ### Frontend Application
 - [Frontend Architecture Details](frontend/)
-- Vue 3 Composition API for reactive components
-- Quasar for cross-platform UI components
-- Pinia for state management
-- PWA capabilities for offline field operations
+- Vue 3.5 Composition API for reactive components (72 components)
+- Quasar 2.18 for cross-platform UI components
+- TypeScript 5.9 for type-safe development
+- Vite 7.1 for build tooling and development
+- Pinia stores (14 stores) for state management
+- PWA architecture with offline-first capabilities
+- Component-based Vue 3 architecture
 
 ### Backend API
 - [Backend Architecture Details](backend/)
 - Laravel 11 with RESTful API design
+- PHP 8.2 runtime
+- Service layer pattern for business logic
 - Sanctum for token-based authentication
+- Google OAuth integration
 - Queue system for async processing
 - Comprehensive audit logging
 

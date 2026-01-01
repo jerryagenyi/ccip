@@ -18,31 +18,35 @@ _This file contains critical rules and patterns that AI agents must follow when 
 ## Technology Stack & Versions
 
 ### Frontend
-- **Framework**: Vue 3.4.21 (Composition API only)
-- **UI Library**: Quasar 2.14.2
-- **Language**: TypeScript (strict mode enabled)
-- **State Management**: Pinia 2.1.7
+- **Framework**: Vue 3.5 (Composition API only)
+- **UI Library**: Quasar 2.18
+- **Language**: TypeScript 5.9 (strict mode enabled)
+- **State Management**: Pinia (14 stores)
 - **Routing**: Vue Router 4.3.0
 - **HTTP Client**: Axios 1.6.7
-- **Build Tool**: Vite 5.1.0
-- **Testing**: Vitest 1.0.0 (unit), Playwright 1.40.0 (E2E)
+- **Build Tool**: Vite 7.1
+- **Testing**: Vitest (unit), Playwright (E2E)
+- **Components**: 72 Vue 3 components
+- **Architecture**: Component-based Vue 3 architecture, PWA with offline-first capabilities
 - **Path Alias**: `@/` maps to `src/`
 
 ### Backend
-- **Framework**: Laravel 10.10
-- **Language**: PHP 8.2+
-- **Database**: PostgreSQL 16+ (with JSONB and pgvector)
-- **Authentication**: Laravel Sanctum 3.2
+- **Framework**: Laravel 11
+- **Language**: PHP 8.2
+- **Database**: PostgreSQL 16 (with JSONB and pgvector)
+- **Authentication**: Laravel Sanctum (tokens), Google OAuth
 - **Permissions**: Spatie Laravel Permission 5.10
 - **File Storage**: S3-compatible (MinIO for dev, AWS S3 for prod)
-- **Caching**: Redis (via Predis 2.0)
-- **Testing**: PHPUnit 10.x
+- **Caching**: Redis 7 (via Predis 2.0)
+- **Architecture**: Service layer pattern in Laravel
+- **Testing**: PHPUnit
 - **Code Style**: Laravel Pint 1.0
 
 ### Infrastructure
 - **Containerization**: Docker Compose
 - **API Versioning**: All endpoints under `/api/v1`
 - **PWA**: Enabled via Quasar PWA mode
+- **Architecture Pattern**: Multi-part architecture (Frontend + Backend), API-first RESTful design
 
 ## Critical Implementation Rules
 

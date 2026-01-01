@@ -21,8 +21,8 @@
         no-error-icon
         :rules="emailRules"
         lazy-rules
-        :loading="authStore.loading"
-        :disable="authStore.loading"
+        :loading="loading"
+        :disable="loading"
       >
         <template v-slot:prepend>
           <q-icon name="email" />
@@ -38,8 +38,8 @@
         no-error-icon
         :rules="passwordRules"
         lazy-rules
-        :loading="authStore.loading"
-        :disable="authStore.loading"
+        :loading="loading"
+        :disable="loading"
       >
         <template v-slot:prepend>
           <q-icon name="lock" />
@@ -59,7 +59,7 @@
           v-model="form.remember"
           label="Remember me"
           color="primary"
-          :disable="authStore.loading"
+          :disable="loading"
         />
         <q-btn
           flat
@@ -69,7 +69,7 @@
           color="primary"
           size="sm"
           @click="goToForgotPassword"
-          :disable="authStore.loading"
+          :disable="loading"
         />
       </div>
 
@@ -78,25 +78,12 @@
         type="submit"
         color="primary"
         class="full-width q-mt-lg"
+        label="Sign In"
+        :loading="loading"
+        :disable="loading || !isValid"
         size="md"
-        :loading="authStore.loading"
-        :disable="!isValid || authStore.loading"
-      >
-        Sign In
-      </q-btn>
-
-      <!-- Error Message -->
-      <q-banner
-        v-if="authStore.error"
-        class="bg-negative text-white q-mt-md"
-        dense
-        rounded
-      >
-        <template v-slot:avatar>
-          <q-icon name="error" />
-        </template>
-        {{ authStore.error }}
-      </q-banner>
+        padding="sm"
+      />
     </q-form>
 
     <!-- Divider -->
@@ -172,6 +159,7 @@ const form = reactive<LoginCredentials & { remember?: boolean }>({
 
 // UI state
 const showPassword = ref(false);
+const loading = computed(() => authStore.loading);
 
 // Validation rules
 const emailRules = [
@@ -229,9 +217,8 @@ const fillDemoCredentials = () => {
   form.password = 'demo123';
 };
 
-// Lifecycle
+// Check if already authenticated on mount
 onMounted(() => {
-  // Check if already authenticated
   if (authStore.isAuthenticated) {
     router.push('/dashboard');
   }
@@ -271,4 +258,3 @@ onMounted(() => {
   }
 }
 </style>
-

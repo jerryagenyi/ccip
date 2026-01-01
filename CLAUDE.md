@@ -32,6 +32,9 @@ php artisan migrate
 # Development
 php artisan serve
 
+# Code Style (PSR-12)
+php artisan pint          # Format code with Laravel Pint
+
 # Testing
 php artisan test
 ```
@@ -46,6 +49,12 @@ npm install
 # Development
 npm run dev
 
+# Linting & Formatting
+npm run lint              # ESLint check + auto-fix
+npm run lint:check        # ESLint check only (no fix)
+npm run format            # Prettier format
+npm run format:check      # Prettier check only
+
 # Build for production
 npm run build
 
@@ -54,6 +63,10 @@ npm run test              # Unit tests with Vitest
 npm run test:ui           # Vitest UI
 npm run test:coverage     # Coverage report
 npm run test:e2e          # E2E tests with Playwright (localhost)
+npm run test:e2e:headed   # E2E with visible browser
+npm run test:e2e:ui       # E2E UI mode
+npm run test:e2e:debug    # E2E debug mode
+npm run test:e2e:codegen  # Playwright code generator
 
 # Production Testing (optional - tests against live deployment)
 npm run test:e2e:prod     # E2E tests against production URLs
@@ -72,6 +85,7 @@ npm run test:e2e:prod:headed  # E2E tests with visible browser
 1. **BMAD Method Development**: All features follow Epic → Story → Implementation workflow
  - Epic specifications in `docs/epics/epic-XXX-feature-name.md`
  - User stories in `docs/stories/US-XXX-story-name.md`
+ - Sprint status tracked in `_bmad-output/implementation-artifacts/sprint-status.yaml`
  - Always check relevant epics and stories before implementation
 
 2. **Hierarchical Organization System**:
@@ -159,6 +173,11 @@ Core entities:
   - Backend: `https://ccip-api.jerryagenyi.xyz/api/v1`
   - Use with caution - only for smoke testing production deployments
   - Requires production test credentials (see `frontend/tests/e2e/auth-production.spec.ts`)
+
+**Playwright Setup:**
+- `npm run playwright:install` - Install Playwright browsers
+- `npm run playwright:install:deps` - Install system dependencies for Playwright
+- `npm run playwright:report` - View HTML test report
 
 ## Error Handling Patterns
 

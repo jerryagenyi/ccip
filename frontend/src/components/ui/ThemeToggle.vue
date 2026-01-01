@@ -32,10 +32,9 @@ const toggleTheme = () => {
 <style scoped lang="scss">
 .theme-toggle {
   transition: transform 0.2s ease;
-  
+
   &:hover {
     transform: scale(1.1);
   }
 }
 </style>
-

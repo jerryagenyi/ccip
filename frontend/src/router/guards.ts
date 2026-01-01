@@ -16,7 +16,7 @@ export function authGuard(
 
   // If route requires auth and user is not authenticated
   if (to.meta.requiresAuth && !isAuthenticated) {
-    const redirect = to.fullPath !== '/auth/login' ? to.fullPath : undefined;
+    const redirect = !to.fullPath.includes('/auth/login') ? to.fullPath : undefined;
     next({
       name: 'auth-login',
       query: redirect ? { redirect } : undefined

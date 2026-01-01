@@ -52,8 +52,8 @@ export default route(function (/* { store, ssrContext } */) {
     ),
   });
 
-  // Apply global guard
-  Router.beforeEach(globalGuard);
+  // Note: Guards are applied in boot/router.ts to avoid double application
+  // Router.beforeEach(globalGuard);
 
   // Add navigation tracking for analytics (optional)
   Router.afterEach((to) => {

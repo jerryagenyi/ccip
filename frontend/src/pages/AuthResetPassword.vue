@@ -34,7 +34,7 @@
             outlined
           />
           <div>
-            <q-btn type="submit" color="primary" label="Reset Password" class="full-width" :loading="loading" />
+            <q-btn type="submit" color="primary" label="Reset Password" class="full-width" :loading="authStore.loading" />
             <q-btn flat label="Back to Login" to="/auth/login" class="full-width q-mt-sm" />
           </div>
         </q-form>
@@ -46,17 +46,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { api } from '@/services/api';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { Notify } from 'quasar';
 
 const route = useRoute();
 const router = useRouter();
+const authStore = useAuthStore();
 
 const token = ref(route.query.token as string || '');
 const email = ref('');
 const password = ref('');
 const passwordConfirmation = ref('');
-const loading = ref(false);
 
 onMounted(() => {
   // Get token from URL query if present
@@ -66,9 +66,8 @@ onMounted(() => {
 });
 
 const onSubmit = async () => {
-  loading.value = true;
   try {
-    await api.post('/auth/reset-password', {
+    await authStore.resetPassword({
       token: token.value,
       email: email.value,
       password: password.value,
@@ -81,8 +80,6 @@ const onSubmit = async () => {
     router.push('/auth/login');
   } catch (error) {
     // Error handled by API interceptor
-  } finally {
-    loading.value = false;
   }
 };
 </script>

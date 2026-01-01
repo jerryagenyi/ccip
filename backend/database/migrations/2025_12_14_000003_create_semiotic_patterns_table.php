@@ -34,13 +34,8 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
 
             // Vector embedding for similarity search (Phase 2)
-            // Only PostgreSQL with pgvector extension supports vector type
-            if (Schema::getConnection()->getDriverName() === 'pgsql') {
-                $table->vector('embedding', 1536)->nullable();
-            } else {
-                // Fallback for MySQL/SQLite - store as JSON (for future migration)
-                $table->json('embedding')->nullable();
-            }
+            // For now, use JSON as fallback (vector columns require pgvector extension)
+            $table->json('embedding')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -49,6 +44,11 @@ return new class extends Migration
             $table->index(['pattern_type', 'status']);
             $table->index(['is_global', 'status']);
         });
+
+        // Add vector column via raw SQL for PostgreSQL if pgvector is available (Phase 2)
+        // if (Schema::getConnection()->getDriverName() === 'pgsql') {
+        //     DB::statement('ALTER TABLE semiotic_patterns ADD COLUMN embedding vector(1536) NULL');
+        // }
     }
 
     public function down(): void

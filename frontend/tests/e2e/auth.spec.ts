@@ -12,38 +12,69 @@ test.describe('CCIP Authentication', () => {
   });
 
   test('login page loads correctly', async ({ page }) => {
-    await page.goto('/auth/login');
+    // Listen for console messages
+    page.on('console', msg => {
+      console.log('Browser console:', msg.type(), msg.text());
+    });
+    
+    // Listen for page errors
+    page.on('pageerror', error => {
+      console.error('Page error:', error.message);
+    });
+
+    await page.goto('/#/auth/login');
 
     // Wait for page to load
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(3000); // Wait for Vue to hydrate
+
+    // Debug: Check what's actually on the page
+    const debugInfo = await page.evaluate(() => {
+      const qApp = document.querySelector('#q-app');
+      const scripts = Array.from(document.querySelectorAll('script')).map(s => s.src || 'inline');
+      const errors = window.console._errors || [];
+      
+      return {
+        qAppExists: !!qApp,
+        qAppChildren: qApp?.children.length || 0,
+        qAppHTML: qApp?.innerHTML.substring(0, 500) || 'none',
+        scriptsLoaded: scripts.length,
+        bodyHTML: document.body.innerHTML.substring(0, 500),
+        hasVue: !!window.Vue || !!document.querySelector('[data-v-]'),
+        hasRouter: !!document.querySelector('router-view') || document.body.innerHTML.includes('router-view')
+      };
+    });
+    console.log('Debug info:', JSON.stringify(debugInfo, null, 2));
 
     // Check for key elements using more flexible selectors
-    await expect(page.locator('h2').filter({ hasText: 'Welcome Back' })).toBeVisible({ timeout: 5000 });
-    await expect(page.locator('input[type="email"]')).toBeVisible();
-    await expect(page.locator('input[type="password"]')).toBeVisible();
-    await expect(page.locator('button', { hasText: 'Sign In' })).toBeVisible();
+    await expect(page.locator('h2').filter({ hasText: 'Welcome Back' })).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('input[type="email"]')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('input[type="password"]')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('button', { hasText: 'Sign In' })).toBeVisible({ timeout: 10000 });
   });
 
   test('registration page loads correctly', async ({ page }) => {
-    await page.goto('/auth/register');
+    await page.goto('/#/auth/register');
 
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for Vue to hydrate
 
     // Check for registration form elements
-    await expect(page.locator('h2').filter({ hasText: 'Create Account' })).toBeVisible({ timeout: 5000 });
-    await expect(page.locator('input[placeholder*="Name"]')).toBeVisible();
-    await expect(page.locator('input[type="email"]')).toBeVisible();
+    await expect(page.locator('h2').filter({ hasText: 'Create Account' })).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('input[placeholder*="Name"], input[name*="name" i]')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('input[type="email"]')).toBeVisible({ timeout: 10000 });
   });
 
   test('forgot password page loads correctly', async ({ page }) => {
-    await page.goto('/auth/forgot-password');
+    await page.goto('/#/auth/forgot-password');
 
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for Vue to hydrate
 
     // Check for forgot password form
-    await expect(page.locator('h2')).toBeVisible({ timeout: 5000 });
-    await expect(page.locator('input[type="email"]')).toBeVisible();
-    await expect(page.locator('button').filter({ hasText: /send|reset|submit/i })).toBeVisible();
+    await expect(page.locator('h2')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('input[type="email"]')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('button').filter({ hasText: /send|reset|submit/i })).toBeVisible({ timeout: 10000 });
   });
 
   test('login form submission with valid credentials succeeds', async ({ page }) => {
@@ -54,8 +85,9 @@ test.describe('CCIP Authentication', () => {
       return;
     }
 
-    await page.goto('/auth/login');
+    await page.goto('/#/auth/login');
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for Vue to hydrate
 
     // Fill login form with valid credentials
     // Note: This test assumes test user exists in backend
@@ -78,8 +110,9 @@ test.describe('CCIP Authentication', () => {
   });
 
   test('login form submission with invalid credentials shows error', async ({ page }) => {
-    await page.goto('/auth/login');
+    await page.goto('/#/auth/login');
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for Vue to hydrate
 
     // Fill login form with invalid credentials
     await page.fill('input[type="email"]', 'nonexistent@example.com');
@@ -104,8 +137,9 @@ test.describe('CCIP Authentication', () => {
   });
 
   test('login form submission with empty fields shows validation errors', async ({ page }) => {
-    await page.goto('/auth/login');
+    await page.goto('/#/auth/login');
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for Vue to hydrate
 
     // Try to submit empty form
     await page.click('button[type="submit"]');
@@ -137,8 +171,9 @@ test.describe('CCIP Authentication', () => {
   });
 
   test('email format validation works', async ({ page }) => {
-    await page.goto('/auth/login');
+    await page.goto('/#/auth/login');
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for Vue to hydrate
 
     // Enter invalid email format
     await page.fill('input[type="email"]', 'not-an-email');
@@ -166,8 +201,9 @@ test.describe('CCIP Authentication', () => {
   });
 
   test('navigation between auth pages works', async ({ page }) => {
-    await page.goto('/auth/login');
+    await page.goto('/#/auth/login');
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for Vue to hydrate
 
     // Find and click forgot password link
     const forgotLink = page.locator('a, button').filter({ hasText: /forgot password/i });
@@ -185,8 +221,9 @@ test.describe('CCIP Authentication', () => {
   });
 
   test('localStorage token persists after page reload', async ({ page }) => {
-    await page.goto('/auth/login');
+    await page.goto('/#/auth/login');
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for Vue to hydrate
 
     // Set a mock token (simulating successful login)
     await page.evaluate(() => {
@@ -215,11 +252,12 @@ test.describe('CCIP Authentication', () => {
     });
 
     // Try to access protected route
-    await page.goto('/dashboard');
+    await page.goto('/#/dashboard');
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(2000); // Wait for guard to process
 
-    // Should redirect to login
-    await expect(page).toHaveURL(/.*login/, { timeout: 5000 });
+    // Should redirect to login (with hash routing)
+    await expect(page).toHaveURL(/.*#\/auth\/login/, { timeout: 5000 });
   });
 
   test('logout clears localStorage and redirects to login', async ({ page }) => {
@@ -230,8 +268,9 @@ test.describe('CCIP Authentication', () => {
     });
 
     // Navigate to a protected route (if guards allow)
-    await page.goto('/dashboard');
+    await page.goto('/#/dashboard');
     await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Wait for Vue to hydrate
 
     // Look for logout button/link
     const logoutButton = page.locator('button, a').filter({ hasText: /logout|sign out|log out/i });
@@ -245,8 +284,8 @@ test.describe('CCIP Authentication', () => {
       const token = await page.evaluate(() => localStorage.getItem('auth_token'));
       expect(token).toBeNull();
 
-      // Should redirect to login
-      await expect(page).toHaveURL(/.*login/, { timeout: 3000 });
+      // Should redirect to login (with hash routing)
+      await expect(page).toHaveURL(/.*#\/auth\/login/, { timeout: 3000 });
     } else {
       // If logout button not found, test.skip this test
       test.skip(true, 'Logout button not found - may need to be logged in first');

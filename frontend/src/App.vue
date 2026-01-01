@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
-// Main app component
+// Temporarily remove theme store to test if it's causing the Pinia error
+// Will re-enable after fixing the mounting issue
 </script>
 
