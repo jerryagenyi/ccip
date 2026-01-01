@@ -282,14 +282,19 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     // Set token to refresh 5 minutes before expiry
-    // This assumes the token expires in 1 hour
+    // TODO: Read actual token expiry from JWT payload or backend config
+    // Currently assumes 1-hour token expiry (Laravel Sanctum default)
+    // Future improvement: Parse JWT to get actual expiry time
+    const refreshInterval = 55 * 60 * 1000; // 55 minutes (5 min before 1-hour expiry)
+    
     refreshTokenTimeout.value = setTimeout(async () => {
       try {
         await refreshToken();
       } catch (err) {
         console.error('Auto token refresh failed:', err);
+        // If refresh fails, user will be logged out on next API call
       }
-    }, 55 * 60 * 1000); // 55 minutes
+    }, refreshInterval);
   }
 
   async function updateProfile(profileData: Partial<User>) {
