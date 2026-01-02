@@ -1,6 +1,6 @@
 # Production Deployment Override for Dokploy
 # Usage: docker-compose -f docker-compose.yml -f docker-compose.prod.yml -p ccip-prod up -d
-#
+# 
 # This file overrides base docker-compose.yml for production:
 # - Uses dokploy-network (external)
 # - Traefik labels for ccip.* domains (no -dev suffix)
@@ -41,18 +41,10 @@ services:
       - "traefik.http.services.ccip-minio-websecure.loadbalancer.server.port=9001"
 
   redis:
-    image: redis:7-alpine
-    command: redis-server --requirepass ${REDIS_PASSWORD}
     volumes:
       - redis_data:/data
     networks:
       - dokploy-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
 
   backend:
     build:
