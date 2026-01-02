@@ -32,7 +32,11 @@ $text-hint-dark        : #A0AEC0  // Hint text
 $border-color-dark     : #324157  // Border color (--border from spec)
 $divider-color-dark    : #324157
 
-// Default to light (will be overridden by CSS variables)
+// IMPORTANT: Quasar SCSS variables are compiled at build time
+// To have dark mode work by default, we rely on CSS custom properties
+// in app.scss which can change at runtime
+
+// Use light theme as SCSS base (will be overridden by CSS variables)
 $background: $background-light
 $card      : $card-light
 $text-primary     : $text-primary-light
@@ -50,6 +54,7 @@ $shadow-1-dark    : 0 1px 3px rgba(0, 0, 0, 0.3)
 $shadow-2-dark    : 0 4px 6px rgba(0, 0, 0, 0.25)
 $shadow-3-dark    : 0 10px 15px rgba(0, 0, 0, 0.2)
 
+// Default shadows
 $shadow-1: $shadow-1-light
 $shadow-2: $shadow-2-light
 $shadow-3: $shadow-3-light

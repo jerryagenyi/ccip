@@ -1,18 +1,61 @@
 // App-wide styles
 @import 'quasar/src/css/index.sass';
 
-// Base styles
+// ============================================
+// DARK MODE DEFAULT STYLES
+// ============================================
+// Per UX specification, dark mode is the default.
+// These styles apply when Quasar's Dark mode is active (body--dark class)
+// or by default since ThemeStore initializes to dark mode.
+
+body.body--dark {
+  background-color: #111827 !important;
+  color: #FAFAFA !important;
+}
+
+body.body--dark .q-layout,
+body.body--dark .q-page,
+body.body--dark .q-card {
+  background-color: #1D283A !important;
+  color: #FAFAFA !important;
+}
+
+body.body--dark .q-header,
+body.body--dark .q-drawer {
+  background-color: #1D283A !important;
+}
+
+body.body--dark .q-field__native,
+body.body--dark .q-input {
+  color: #FAFAFA !important;
+}
+
+body.body--dark .q-field__label {
+  color: #A0AEC0 !important;
+}
+
+body.body--dark .q-btn {
+  color: #FAFAFA !important;
+}
+
+body.body--dark .q-table {
+  background-color: #1D283A !important;
+  color: #FAFAFA !important;
+}
+
+body.body--dark .q-table tbody tr {
+  background-color: #1D283A !important;
+}
+
+body.body--dark .q-table th {
+  color: #A0AEC0 !important;
+}
+
+// ============================================
+// BASE STYLES
+// ============================================
 body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
 }
-
-// Custom variables
-$primary: #7151B3;
-$secondary: #F0F2F5;
-$accent: #53A7EA;
-$positive: #4CAF50;
-$negative: #E74C3C;
-$info: #53A7EA;
-$warning: #F59E0B;
