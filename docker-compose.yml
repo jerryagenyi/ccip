@@ -1,3 +1,7 @@
+# CCIP Docker Compose Configuration
+# Base configuration for all environments
+# Override with docker-compose.override.yml (local) or docker-compose.prod.yml (production)
+
 name: CCIP
 
 services:
