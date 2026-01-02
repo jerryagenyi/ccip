@@ -14,4 +14,4 @@ export default boot(({ app }) => {
   if (typeof window !== 'undefined') {
     window.__pinia = pinia;
   }
-};
+});

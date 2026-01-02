@@ -84,7 +84,10 @@
       "mcp__plugin_playwright_playwright__browser_evaluate",
       "mcp__plugin_playwright_playwright__browser_take_screenshot",
       "Bash(rm:*)",
-      "mcp__plugin_context7_context7__query-docs"
+      "mcp__plugin_context7_context7__query-docs",
+      "Bash(npm run test:e2e:*)",
+      "Bash(git rebase:*)",
+      "Bash(git stash push:*)"
     ]
   }
 }
