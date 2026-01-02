@@ -374,6 +374,10 @@ const handleContactSubmit = async () => {
   }
 }
 
+body.body--dark .section-title {
+  color: #FAFAFA !important;
+}
+
 .section-subtitle {
   font-size: 1.125rem;
   color: #666;
@@ -381,9 +385,17 @@ const handleContactSubmit = async () => {
   margin: 0 auto;
 }
 
+body.body--dark .section-subtitle {
+  color: #A0AEC0 !important;
+}
+
 // Features Section
 .features-section {
   background-color: #fafafa;
+}
+
+body.body--dark .features-section {
+  background-color: #1D283A !important;
 }
 
 .feature-card {
@@ -396,9 +408,18 @@ const handleContactSubmit = async () => {
   }
 }
 
+body.body--dark .feature-card {
+  background-color: #1D283A !important;
+  border-color: #374151 !important;
+}
+
 // FAQ Section
 .faq-section {
   background-color: #ffffff;
+}
+
+body.body--dark .faq-section {
+  background-color: #111827 !important;
 }
 
 // Contact Section
@@ -406,9 +427,17 @@ const handleContactSubmit = async () => {
   background-color: #fafafa;
 }
 
+body.body--dark .contact-section {
+  background-color: #1D283A !important;
+}
+
 // CTA Section
 .cta-section {
   background-color: #ffffff;
+}
+
+body.body--dark .cta-section {
+  background-color: #111827 !important;
 }
 </style>
 

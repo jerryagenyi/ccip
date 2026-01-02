@@ -2,11 +2,10 @@
 @import 'quasar/src/css/index.sass';
 
 // ============================================
-// DARK MODE DEFAULT STYLES
+// DARK MODE STYLES
 // ============================================
 // Per UX specification, dark mode is the default.
 // These styles apply when Quasar's Dark mode is active (body--dark class)
-// or by default since ThemeStore initializes to dark mode.
 
 body.body--dark {
   background-color: #111827 !important;
@@ -14,7 +13,11 @@ body.body--dark {
 }
 
 body.body--dark .q-layout,
-body.body--dark .q-page,
+body.body--dark .q-page {
+  background-color: #111827 !important;
+  color: #FAFAFA !important;
+}
+
 body.body--dark .q-card {
   background-color: #1D283A !important;
   color: #FAFAFA !important;
@@ -49,6 +52,59 @@ body.body--dark .q-table tbody tr {
 
 body.body--dark .q-table th {
   color: #A0AEC0 !important;
+}
+
+// ============================================
+// LIGHT MODE STYLES
+// ============================================
+
+body.body--light {
+  background-color: #FFFFFF !important;
+  color: #1D283A !important;
+}
+
+body.body--light .q-layout,
+body.body--light .q-page {
+  background-color: #FFFFFF !important;
+  color: #1D283A !important;
+}
+
+body.body--light .q-card {
+  background-color: #FFFFFF !important;
+  color: #1D283A !important;
+  border: 1px solid #E5E7EB !important;
+}
+
+body.body--light .q-header,
+body.body--light .q-drawer {
+  background-color: #FFFFFF !important;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+body.body--light .q-field__native,
+body.body--light .q-input {
+  color: #1D283A !important;
+}
+
+body.body--light .q-field__label {
+  color: #6B7280 !important;
+}
+
+body.body--light .q-btn {
+  color: #7151B3 !important;
+}
+
+body.body--light .q-table {
+  background-color: #FFFFFF !important;
+  color: #1D283A !important;
+}
+
+body.body--light .q-table tbody tr {
+  background-color: #FFFFFF !important;
+}
+
+body.body--light .q-table th {
+  color: #6B7280 !important;
 }
 
 // ============================================
