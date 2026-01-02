@@ -1,0 +1,116 @@
+# Dev/Staging Deployment Override for Dokploy
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml -p ccip-dev up -d
+# 
+# This file overrides base docker-compose.yml for dev deployment:
+# - Uses dokploy-network (external)
+# - Traefik labels for ccip-dev.* domains
+# - Production Dockerfiles (Dockerfile.prod)
+# - Debug mode enabled
+# - Dev database name
+
+services:
+  database:
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-ccip_dev}
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - postgres_dev_backups:/backups
+    networks:
+      - dokploy-network
+
+  minio:
+    environment:
+      MINIO_BROWSER_REDIRECT_URL: ${MINIO_CONSOLE_URL:-https://ccip-dev-minio.jerryagenyi.xyz}
+    volumes:
+      - minio_dev_data:/data
+    networks:
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=dokploy-network"
+      # HTTP router (Cloudflare handles HTTPS redirect)
+      - "traefik.http.routers.ccip-dev-minio-web.rule=Host(`ccip-dev-minio.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-dev-minio-web.entrypoints=web"
+      - "traefik.http.routers.ccip-dev-minio-web.service=ccip-dev-minio-web"
+      - "traefik.http.services.ccip-dev-minio-web.loadbalancer.server.port=9001"
+      # HTTPS router
+      - "traefik.http.routers.ccip-dev-minio-websecure.rule=Host(`ccip-dev-minio.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-dev-minio-websecure.entrypoints=websecure"
+      - "traefik.http.routers.ccip-dev-minio-websecure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.ccip-dev-minio-websecure.service=ccip-dev-minio-websecure"
+      - "traefik.http.services.ccip-dev-minio-websecure.loadbalancer.server.port=9001"
+
+  redis:
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - dokploy-network
+
+  backend:
+    build:
+      dockerfile: Dockerfile.prod
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: ${APP_URL:-https://ccip-dev-api.jerryagenyi.xyz}
+      DB_DATABASE: ${DB_DATABASE:-ccip_dev}
+      SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS:-ccip-dev-api.jerryagenyi.xyz,ccip-dev.jerryagenyi.xyz}
+      SESSION_DOMAIN: ${SESSION_DOMAIN:-jerryagenyi.xyz}
+    volumes:
+      - backend_dev_storage:/var/www/html/storage
+    networks:
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=dokploy-network"
+      # HTTP router (Cloudflare handles HTTPS redirect)
+      - "traefik.http.routers.ccip-dev-backend-web.rule=Host(`ccip-dev-api.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-dev-backend-web.entrypoints=web"
+      - "traefik.http.routers.ccip-dev-backend-web.service=ccip-dev-backend-web"
+      - "traefik.http.services.ccip-dev-backend-web.loadbalancer.server.port=80"
+      # HTTPS router
+      - "traefik.http.routers.ccip-dev-backend-websecure.rule=Host(`ccip-dev-api.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-dev-backend-websecure.entrypoints=websecure"
+      - "traefik.http.routers.ccip-dev-backend-websecure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.ccip-dev-backend-websecure.service=ccip-dev-backend-websecure"
+      - "traefik.http.services.ccip-dev-backend-websecure.loadbalancer.server.port=80"
+
+  frontend:
+    build:
+      dockerfile: Dockerfile.prod
+      args:
+        VITE_API_URL: ${VITE_API_URL:-https://ccip-dev-api.jerryagenyi.xyz/api}
+        VITE_APP_URL: ${VITE_APP_URL:-https://ccip-dev.jerryagenyi.xyz}
+    networks:
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=dokploy-network"
+      # HTTP router (Cloudflare handles HTTPS redirect)
+      - "traefik.http.routers.ccip-dev-frontend-web.rule=Host(`ccip-dev.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-dev-frontend-web.entrypoints=web"
+      - "traefik.http.routers.ccip-dev-frontend-web.service=ccip-dev-frontend-web"
+      - "traefik.http.services.ccip-dev-frontend-web.loadbalancer.server.port=80"
+      # HTTPS router
+      - "traefik.http.routers.ccip-dev-frontend-websecure.rule=Host(`ccip-dev.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-dev-frontend-websecure.entrypoints=websecure"
+      - "traefik.http.routers.ccip-dev-frontend-websecure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.ccip-dev-frontend-websecure.service=ccip-dev-frontend-websecure"
+      - "traefik.http.services.ccip-dev-frontend-websecure.loadbalancer.server.port=80"
+
+# Dev deployment volumes (isolated from production)
+volumes:
+  postgres_dev_data:
+    driver: local
+  postgres_dev_backups:
+    driver: local
+  minio_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+  backend_dev_storage:
+    driver: local
+
+networks:
+  dokploy-network:
+    external: true
