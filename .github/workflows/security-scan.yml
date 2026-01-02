@@ -2,22 +2,22 @@ name: Docker Security Scan
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, dev ]
     paths:
       - 'docker-compose*.yml'
       - '**/Dockerfile*'
       - 'backend/**'
       - 'frontend/**'
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, dev ]
     paths:
       - 'docker-compose*.yml'
       - '**/Dockerfile*'
       - 'backend/**'
       - 'frontend/**'
   schedule:
-    # Run weekly security scans
-    - cron: '0 0 * * 0'
+    # Temporarily disabled - requires Docker image build setup in CI
+    # - cron: '0 0 * * 0'
 
 jobs:
   security-scan:
