@@ -20,6 +20,8 @@ module.exports = configure(function (ctx) {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
     boot: [
+      'pinia',  // MUST be first - stores depend on it
+      'theme',  // Initialize theme after Pinia is ready
       'axios',
       'router'
     ],
