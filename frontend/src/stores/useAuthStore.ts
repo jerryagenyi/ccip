@@ -14,10 +14,20 @@ import type {
 export const useAuthStore = defineStore('auth', () => {
   // State
   const user = ref<User | null>(null);
-  const token = ref<string | null>(localStorage.getItem('auth_token'));
+  // Defer localStorage access to avoid issues during store definition
+  const token = ref<string | null>(null);
   const loading = ref(false);
   const error = ref<string | null>(null);
   const refreshTokenTimeout = ref<NodeJS.Timeout | null>(null);
+  
+  // Initialize token from localStorage lazily
+  if (typeof window !== 'undefined' && localStorage) {
+    try {
+      token.value = localStorage.getItem('auth_token');
+    } catch (e) {
+      // Ignore if localStorage is not available
+    }
+  }
 
   // Getters
   const isAuthenticated = computed(() => !!token.value && !!user.value);
@@ -52,18 +62,19 @@ export const useAuthStore = defineStore('auth', () => {
     return permissions[role] || [];
   });
 
-  const hasPermission = computed(() => (permission: string) => {
+  // Functions instead of computed to avoid Pinia access during definition
+  const hasPermission = (permission: string) => {
     const perms = userPermissions.value;
     return perms.includes('*') || perms.includes(permission);
-  });
+  };
 
-  const hasRole = computed(() => (role: string | string[]) => {
+  const hasRole = (role: string | string[]) => {
     if (!user.value?.role) return false;
     if (Array.isArray(role)) {
       return role.includes(user.value.role);
     }
     return user.value.role === role;
-  });
+  };
 
   // Actions
   async function login(credentials: LoginCredentials) {
@@ -271,14 +282,19 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     // Set token to refresh 5 minutes before expiry
-    // This assumes the token expires in 1 hour
+    // TODO: Read actual token expiry from JWT payload or backend config
+    // Currently assumes 1-hour token expiry (Laravel Sanctum default)
+    // Future improvement: Parse JWT to get actual expiry time
+    const refreshInterval = 55 * 60 * 1000; // 55 minutes (5 min before 1-hour expiry)
+    
     refreshTokenTimeout.value = setTimeout(async () => {
       try {
         await refreshToken();
       } catch (err) {
         console.error('Auto token refresh failed:', err);
+        // If refresh fails, user will be logged out on next API call
       }
-    }, 55 * 60 * 1000); // 55 minutes
+    }, refreshInterval);
   }
 
   async function updateProfile(profileData: Partial<User>) {
@@ -337,8 +353,8 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  // Auto-initialize
-  initialize();
+  // Don't auto-initialize - let components call this after Pinia is ready
+  // initialize();
 
   return {
     // State

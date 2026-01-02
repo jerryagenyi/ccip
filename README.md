@@ -47,6 +47,22 @@ A purpose-built platform for tracking, reporting, and analyzing public health cr
 - ✅ File upload and management
 - ✅ Help system with articles
 
+### Windows Setup
+
+**New to Windows?** See [WINDOWS_SETUP.md](./docs/WINDOWS_SETUP.md) for detailed Windows installation instructions.
+
+**Quick Windows Install:**
+```powershell
+# Install Trivy (security scanner)
+.\scripts\install-trivy-windows.ps1
+
+# Or manually with Chocolatey (run as Administrator)
+choco install trivy -y
+
+# Or with Scoop
+scoop install trivy
+```
+
 ### Quick Start
 ```bash
 # Clone the repository

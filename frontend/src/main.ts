@@ -12,6 +12,7 @@ import 'quasar/src/css/index.sass';
 import App from './App.vue';
 import router from './router';
 
+// Create app
 const app = createApp(App);
 
 app.use(Quasar, {
@@ -25,6 +26,10 @@ const mountPoint = document.querySelector('#q-app') || document.querySelector('#
 if (mountPoint) {
   app.mount(mountPoint);
 } else {
-  console.error('Could not find Vue app mount point (#q-app or #root)');
+  // Fallback: create mount point if it doesn't exist (shouldn't happen with Quasar CLI)
+  const fallbackMount = document.createElement('div');
+  fallbackMount.id = 'q-app';
+  document.body.appendChild(fallbackMount);
+  app.mount(fallbackMount);
+  console.warn('Created #q-app mount point - this should not happen with Quasar CLI');
 }
-

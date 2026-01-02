@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Root API endpoint
+Route::get('/', [App\Http\Controllers\ApiRootController::class, 'index']);
+
 Route::prefix('v1')->group(function () {
     // Public routes
     Route::prefix('auth')->group(function () {

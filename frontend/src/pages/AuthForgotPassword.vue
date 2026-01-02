@@ -14,7 +14,7 @@
             outlined
           />
           <div>
-            <q-btn type="submit" color="primary" label="Send Reset Link" class="full-width" :loading="loading" />
+            <q-btn type="submit" color="primary" label="Send Reset Link" class="full-width" :loading="authStore.loading" />
             <q-btn flat label="Back to Login" to="/auth/login" class="full-width q-mt-sm" />
           </div>
         </q-form>
@@ -25,24 +25,21 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { api } from '@/services/api';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { Notify } from 'quasar';
 
+const authStore = useAuthStore();
 const email = ref('');
-const loading = ref(false);
 
 const onSubmit = async () => {
-  loading.value = true;
   try {
-    await api.post('/auth/forgot-password', { email: email.value });
+    await authStore.forgotPassword(email.value);
     Notify.create({
       type: 'positive',
       message: 'Password reset link sent to your email',
     });
   } catch (error) {
     // Error handled by API interceptor
-  } finally {
-    loading.value = false;
   }
 };
 </script>

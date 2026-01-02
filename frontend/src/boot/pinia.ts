@@ -9,9 +9,9 @@ const pinia = createPinia();
 export default boot(({ app }) => {
   // Install Pinia plugin
   app.use(pinia);
-  
+
   // Make pinia instance available globally for store access outside components
   if (typeof window !== 'undefined') {
     window.__pinia = pinia;
   }
-});
+};

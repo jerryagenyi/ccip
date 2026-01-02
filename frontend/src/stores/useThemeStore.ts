@@ -16,8 +16,9 @@ export const useThemeStore = defineStore('theme', () => {
     return 'dark';
   };
   
+  // Use computed/lazy initialization to avoid accessing Dark.isActive during store definition
   const themeMode = ref<ThemeMode>(getStoredTheme());
-  const isDark = ref(Dark.isActive);
+  const isDark = ref(false); // Initialize to false, will be set by initTheme()
 
   // Initialize theme on store creation
   const initTheme = () => {
@@ -80,19 +81,27 @@ export const useThemeStore = defineStore('theme', () => {
   };
 
   // Watch for system theme changes when in auto mode
-  if (typeof window !== 'undefined') {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', (e) => {
-      if (themeMode.value === 'auto') {
-        Dark.set(e.matches);
-        isDark.value = Dark.isActive;
-        updateDocumentClass();
-      }
-    });
-  }
+  // Set up listener lazily to avoid issues during store definition
+  const setupMediaQueryListener = () => {
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      mediaQuery.addEventListener('change', (e) => {
+        if (themeMode.value === 'auto') {
+          Dark.set(e.matches);
+          isDark.value = Dark.isActive;
+          updateDocumentClass();
+        }
+      });
+    }
+  };
+  
+  // Expose setup function to be called after Pinia is ready
+  const setupListeners = () => {
+    setupMediaQueryListener();
+  };
 
-  // Initialize on store creation
-  initTheme();
+  // Don't initialize on store creation - let App.vue call initTheme() after Pinia is ready
+  // initTheme();
 
   return {
     themeMode,
@@ -100,6 +109,7 @@ export const useThemeStore = defineStore('theme', () => {
     setThemeMode,
     toggleTheme,
     initTheme,
+    setupListeners,
   };
 });
 

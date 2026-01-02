@@ -3,6 +3,14 @@
 </template>
 
 <script setup lang="ts">
-// Main app component
+import { onMounted } from 'vue';
+import { useThemeStore } from '@/stores/useThemeStore';
+
+// Initialize theme store after Pinia is ready (lazy initialization)
+onMounted(() => {
+  const themeStore = useThemeStore();
+  themeStore.initTheme();
+  themeStore.setupListeners();
+});
 </script>
 
