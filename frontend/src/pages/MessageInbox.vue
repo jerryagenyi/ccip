@@ -216,7 +216,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .message-inbox-page {
-  background-color: #f5f5f5;
+  background-color: var(--ccip-bg-page);
 }
 
 .message-unread {

@@ -427,7 +427,7 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .activity-detail-page {
-  background-color: #f5f5f5;
+  background-color: var(--ccip-bg-page);
 }
 
 .activity-description {

@@ -32,23 +32,15 @@ const toggleTheme = () => {
 <style lang="scss">
 .theme-toggle {
   transition: transform 0.2s ease;
-  color: #FAFAFA !important;
+  color: var(--ccip-primary) !important;
   
   &:hover {
     transform: scale(1.1);
-    background-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: var(--ccip-card-hover) !important;
   }
   
   :deep(.q-icon) {
     color: inherit !important;
-  }
-}
-
-body.body--light .theme-toggle {
-  color: #7151B3 !important;
-  
-  &:hover {
-    background-color: rgba(113, 81, 179, 0.1) !important;
   }
 }
 </style>

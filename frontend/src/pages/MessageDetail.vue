@@ -228,7 +228,7 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .message-detail-page {
-  background-color: #f5f5f5;
+  background-color: var(--ccip-bg-page);
 }
 
 .message-body {

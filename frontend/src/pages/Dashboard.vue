@@ -295,7 +295,7 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .dashboard-page {
-  background-color: #f5f5f5;
+  background-color: var(--ccip-bg-page);
 }
 
 .metric-card {

@@ -13,13 +13,13 @@
                 viewBox="0 0 60 60"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class="q-mx-auto"
+                class="q-mx-auto auth-logo-svg"
               >
-                <circle cx="30" cy="30" r="28" stroke="#7151B3" stroke-width="2" fill="none"/>
-                <path d="M30 15 L40 25 L40 40 L30 50 L20 40 L20 25 Z" fill="#7151B3"/>
-                <path d="M30 25 L35 30 L30 35 L25 30 Z" fill="white"/>
-                <path d="M30 5 L40 15 L30 20 L20 15 Z" fill="#53A7EA" opacity="0.8"/>
-                <path d="M30 40 L40 45 L30 55 L20 45 Z" fill="#53A7EA" opacity="0.8"/>
+                <circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="2" fill="none" class="logo-stroke"/>
+                <path d="M30 15 L40 25 L40 40 L30 50 L20 40 L20 25 Z" fill="currentColor" class="logo-fill"/>
+                <path d="M30 25 L35 30 L30 35 L25 30 Z" fill="currentColor" class="logo-white"/>
+                <path d="M30 5 L40 15 L30 20 L20 15 Z" fill="currentColor" class="logo-accent" opacity="0.8"/>
+                <path d="M30 40 L40 45 L30 55 L20 45 Z" fill="currentColor" class="logo-accent" opacity="0.8"/>
               </svg>
             </div>
             <h1 class="text-h4 text-weight-medium q-ma-none">
@@ -92,7 +92,7 @@
 
 .auth-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, $background 0%, darken($background, 10%) 100%);
+  background: var(--ccip-gradient-subtle);
   position: relative;
   overflow: hidden;
 }
@@ -106,9 +106,9 @@
 }
 
 .auth-content {
-  background: $card;
+  background: var(--ccip-card);
   border-radius: $card-border-radius;
-  box-shadow: $shadow-3;
+  box-shadow: var(--ccip-shadow-lg);
   padding: 2rem;
 }
 
@@ -118,8 +118,26 @@
   }
 }
 
+.auth-logo-svg {
+  .logo-stroke {
+    color: var(--ccip-primary);
+  }
+  
+  .logo-fill {
+    color: var(--ccip-primary);
+  }
+  
+  .logo-white {
+    color: var(--ccip-text-inverse);
+  }
+  
+  .logo-accent {
+    color: var(--ccip-accent);
+  }
+}
+
 .text-gradient {
-  background: linear-gradient(135deg, $primary 0%, $accent 100%);
+  background: var(--ccip-gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -128,7 +146,7 @@
 .footer-links {
   .q-btn {
     &:hover {
-      color: $primary;
+      color: var(--ccip-primary);
     }
   }
 }
@@ -144,7 +162,7 @@
 .decoration-circle-3 {
   position: absolute;
   border-radius: 50%;
-  background: $primary;
+  background: var(--ccip-primary);
 }
 
 .decoration-circle-1 {
@@ -152,7 +170,7 @@
   height: 300px;
   top: -150px;
   right: -150px;
-  background: radial-gradient(circle, $primary 0%, transparent 70%);
+  background: radial-gradient(circle, var(--ccip-primary) 0%, transparent 70%);
 }
 
 .decoration-circle-2 {
@@ -160,7 +178,7 @@
   height: 200px;
   top: 20%;
   right: -100px;
-  background: radial-gradient(circle, $accent 0%, transparent 70%);
+  background: radial-gradient(circle, var(--ccip-accent) 0%, transparent 70%);
 }
 
 .decoration-circle-3 {
@@ -168,7 +186,7 @@
   height: 150px;
   bottom: 20%;
   right: 10%;
-  background: radial-gradient(circle, $info 0%, transparent 70%);
+  background: radial-gradient(circle, var(--ccip-info) 0%, transparent 70%);
 }
 
 // Responsive

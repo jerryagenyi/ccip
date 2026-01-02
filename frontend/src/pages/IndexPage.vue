@@ -320,7 +320,7 @@ const handleContactSubmit = async () => {
 
 // Hero Section
 .hero-section {
-  background: linear-gradient(135deg, #7b2cbf 0%, #9d4edd 100%);
+  background: var(--ccip-gradient-hero);
   padding: 80px 20px;
   text-align: center;
   position: relative;
@@ -345,7 +345,7 @@ const handleContactSubmit = async () => {
 .hero-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: white;
+  color: var(--ccip-text-inverse);
   margin-bottom: 1rem;
   line-height: 1.2;
 
@@ -356,7 +356,8 @@ const handleContactSubmit = async () => {
 
 .hero-subtitle {
   font-size: 1.125rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--ccip-text-inverse);
+  opacity: 0.9;
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.6;
@@ -367,36 +368,30 @@ const handleContactSubmit = async () => {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: #1a1a1a;
+  color: var(--ccip-text-primary);
 
   @media (min-width: 768px) {
     font-size: 2.5rem;
   }
 }
 
-body.body--dark .section-title {
-  color: #FAFAFA !important;
-}
+
 
 .section-subtitle {
   font-size: 1.125rem;
-  color: #666;
+  color: var(--ccip-text-secondary);
   max-width: 600px;
   margin: 0 auto;
 }
 
-body.body--dark .section-subtitle {
-  color: #A0AEC0 !important;
-}
+
 
 // Features Section
 .features-section {
-  background-color: #fafafa;
+  background-color: var(--ccip-bg-section);
 }
 
-body.body--dark .features-section {
-  background-color: #1D283A !important;
-}
+
 
 .feature-card {
   height: 100%;
@@ -408,36 +403,47 @@ body.body--dark .features-section {
   }
 }
 
-body.body--dark .feature-card {
-  background-color: #1D283A !important;
-  border-color: #374151 !important;
-}
+
 
 // FAQ Section
 .faq-section {
-  background-color: #ffffff;
+  background-color: var(--ccip-bg-white);
 }
 
-body.body--dark .faq-section {
-  background-color: #111827 !important;
-}
+
 
 // Contact Section
 .contact-section {
-  background-color: #fafafa;
+  background-color: var(--ccip-bg-section);
 }
 
-body.body--dark .contact-section {
-  background-color: #1D283A !important;
-}
 
-// CTA Section
+
+// CTA Section - uses CSS variables for dynamic theming
 .cta-section {
-  background-color: #ffffff;
+  background-color: var(--ccip-card);
 }
 
-body.body--dark .cta-section {
-  background-color: #111827 !important;
+// Hero Section Buttons - use CSS variables for dynamic theming
+.hero-section {
+  // White background buttons use primary color for text (automatically theme-aware)
+  .q-btn.bg-white {
+    // Text color already handled by global .q-btn.bg-white rule using --ccip-primary
+    // This ensures proper contrast in both themes
+  }
+  
+  // Outline buttons - white text on purple gradient (works in both themes)
+  .q-btn--outline {
+    background-color: transparent !important;
+    border-color: var(--ccip-text-inverse) !important;
+    color: var(--ccip-text-inverse) !important;
+    
+    :deep(.q-btn__content),
+    :deep(.q-btn__label),
+    :deep(.q-icon) {
+      color: var(--ccip-text-inverse) !important;
+    }
+  }
 }
 </style>
 

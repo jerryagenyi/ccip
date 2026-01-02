@@ -37,24 +37,14 @@ const appVersion = '1.0.0';
 .app-footer {
   padding: 1rem;
   text-align: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: #fafafa;
+  border-top: 1px solid var(--ccip-border);
+  background-color: var(--ccip-bg-section);
 }
 
 .footer-text {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--ccip-text-secondary);
   margin: 0;
-}
-
-/* Dark mode support (if using Quasar dark mode) */
-.body--dark .app-footer {
-  background-color: #1a1a1a;
-  border-top-color: rgba(255, 255, 255, 0.1);
-}
-
-.body--dark .footer-text {
-  color: #9ca3af;
 }
 </style>
 

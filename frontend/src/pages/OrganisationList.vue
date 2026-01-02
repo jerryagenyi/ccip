@@ -328,6 +328,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .organisation-list-page {
-  background-color: #f5f5f5;
+  background-color: var(--ccip-bg-page);
 }
 </style>

@@ -15,48 +15,431 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-// CCIP Design System Colors - CSS Variables for Theme Support
-// Light Theme (default)
+// CCIP Design System - Complete CSS Variable System
+// Single source of truth for ALL colors - no hardcoded values in components
+
+// ===========================================
+// LIGHT THEME
+// ===========================================
 :root,
 .light-theme {
+  // Brand Colors
   --ccip-primary: #7151B3;
-  --ccip-secondary: #F0F2F5;
+  --ccip-primary-hover: #5e3d96;
+  --ccip-primary-light: #9c83d4;
+  --ccip-primary-text: #FFFFFF;
+
+  --ccip-secondary: #64748b;
+  --ccip-secondary-light: #94a3b8;
+  --ccip-secondary-dark: #475569;
+
   --ccip-accent: #53A7EA;
+  --ccip-accent-light: #7cb9f0;
+  --ccip-accent-dark: #3b8dbd;
+
+  // Functional Colors
   --ccip-positive: #4CAF50;
+  --ccip-positive-light: #6dcf78;
+  --ccip-positive-dark: #388e3c;
+
   --ccip-negative: #E74C3C;
+  --ccip-negative-light: #f36e6e;
+  --ccip-negative-dark: #c0392b;
+
   --ccip-warning: #F59E0B;
+  --ccip-warning-light: #f7b548;
+  --ccip-warning-dark: #d97706;
+
+  --ccip-info: #53A7EA;
+
+  // Background & Surface Colors
   --ccip-background: #F2F0F7;
-  --ccip-card: #FFFFFF;
+  --ccip-background-alt: #ffffff;
+  --ccip-surface: #ffffff;
+  --ccip-card: #ffffff;
+  --ccip-card-hover: #f8fafc;
+  --ccip-card-border: #e2e8f0;
+
+  // Text Colors
   --ccip-text-primary: #1A202C;
   --ccip-text-secondary: #718096;
-  --ccip-text-disabled: #A0AEC0;
-  --ccip-text-hint: #CBD5E0;
-  --ccip-border: #E2E8F0;
-  --ccip-divider: #E2E8F0;
-  --ccip-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --ccip-shadow-2: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --ccip-shadow-3: 0 10px 15px rgba(0, 0, 0, 0.05);
+  --ccip-text-muted: #a0aec0;
+  --ccip-text-disabled: #cbd5e0;
+  --ccip-text-hint: #e2e8f0;
+  --ccip-text-inverse: #ffffff;
+
+  // Border & Divider Colors
+  --ccip-border: #e2e8f0;
+  --ccip-border-light: #f1f5f9;
+  --ccip-border-dark: #cbd5e1;
+  --ccip-divider: #e2e8f0;
+
+  // Shadow Colors (rgba for transparency support)
+  --ccip-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --ccip-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --ccip-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --ccip-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+  // Overlay Colors
+  --ccip-overlay: rgba(0, 0, 0, 0.5);
+  --ccip-overlay-light: rgba(0, 0, 0, 0.3);
+
+  // Gradient Definitions
+  --ccip-gradient-primary: linear-gradient(135deg, #7151B3 0%, #53A7EA 100%);
+  --ccip-gradient-hero: linear-gradient(135deg, #7b2cbf 0%, #9d4edd 100%);
+  --ccip-gradient-subtle: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+
+  // Common Backgrounds
+  --ccip-bg-page: #f5f5f5;
+  --ccip-bg-section: #fafafa;
+  --ccip-bg-white: #ffffff;
 }
 
-// Dark Theme (per UX specification)
+// ===========================================
+// DARK THEME
+// ===========================================
 .dark-theme {
-  --ccip-primary: #B5B1F9;  // Adjusted for dark theme visibility
-  --ccip-secondary: #2D3748;  // --secondary from spec
-  --ccip-accent: #90CDF4;  // --accent from spec
+  // Brand Colors
+  --ccip-primary: #B5B1F9;
+  --ccip-primary-hover: #9d9ae8;
+  --ccip-primary-light: #d4d1fa;
+  --ccip-primary-text: #111827;
+
+  --ccip-secondary: #2D3748;
+  --ccip-secondary-light: #4a5568;
+  --ccip-secondary-dark: #1a202c;
+
+  --ccip-accent: #90CDF4;
+  --ccip-accent-light: #bde4fe;
+  --ccip-accent-dark: #63b3ed;
+
+  // Functional Colors (same for both themes)
   --ccip-positive: #4CAF50;
+  --ccip-positive-light: #6dcf78;
+  --ccip-positive-dark: #388e3c;
+
   --ccip-negative: #E74C3C;
+  --ccip-negative-light: #f36e6e;
+  --ccip-negative-dark: #c0392b;
+
   --ccip-warning: #F59E0B;
-  --ccip-background: #111827;  // --background from spec
-  --ccip-card: #1D283A;  // --card from spec
-  --ccip-text-primary: #FAFAFA;  // --foreground from spec
-  --ccip-text-secondary: #A0AEC0;  // --muted-foreground from spec
-  --ccip-text-disabled: #718096;
-  --ccip-text-hint: #A0AEC0;
-  --ccip-border: #324157;  // --border from spec
-  --ccip-divider: #324157;
-  --ccip-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --ccip-shadow-2: 0 4px 6px rgba(0, 0, 0, 0.25);
-  --ccip-shadow-3: 0 10px 15px rgba(0, 0, 0, 0.2);
+  --ccip-warning-light: #f7b548;
+  --ccip-warning-dark: #d97706;
+
+  --ccip-info: #90CDF4;
+
+  // Background & Surface Colors
+  --ccip-background: #111827;
+  --ccip-background-alt: #0f172a;
+  --ccip-surface: #1d283a;
+  --ccip-card: #1d283a;
+  --ccip-card-hover: #243452;
+  --ccip-card-border: #374151;
+
+  // Text Colors
+  --ccip-text-primary: #fafafa;
+  --ccip-text-secondary: #a0aec0;
+  --ccip-text-muted: #718096;
+  --ccip-text-disabled: #4a5568;
+  --ccip-text-hint: #2d3748;
+  --ccip-text-inverse: #111827;
+
+  // Border & Divider Colors
+  --ccip-border: #374151;
+  --ccip-border-light: #4b5563;
+  --ccip-border-dark: #1f2937;
+  --ccip-divider: #374151;
+
+  // Shadow Colors (darker for dark theme)
+  --ccip-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --ccip-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --ccip-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --ccip-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.6);
+
+  // Overlay Colors
+  --ccip-overlay: rgba(0, 0, 0, 0.7);
+  --ccip-overlay-light: rgba(0, 0, 0, 0.5);
+
+  // Gradient Definitions
+  --ccip-gradient-primary: linear-gradient(135deg, #b5b1f9 0%, #90cdf4 100%);
+  --ccip-gradient-hero: linear-gradient(135deg, #9d4edd 0%, #7b2cbf 100%);
+  --ccip-gradient-subtle: linear-gradient(135deg, #1d283a 0%, #111827 100%);
+
+  // Common Backgrounds
+  --ccip-bg-page: #1a202c;
+  --ccip-bg-section: #111827;
+  --ccip-bg-white: #1d283a;
+}
+
+// ===========================================
+// UTILITY CLASSES
+// ===========================================
+
+// Background Classes
+.bg-primary { background-color: var(--ccip-primary) !important; }
+.bg-secondary { background-color: var(--ccip-secondary) !important; }
+.bg-accent { background-color: var(--ccip-accent) !important; }
+.bg-positive { background-color: var(--ccip-positive) !important; }
+.bg-negative { background-color: var(--ccip-negative) !important; }
+.bg-warning { background-color: var(--ccip-warning) !important; }
+.bg-card { background-color: var(--ccip-card) !important; }
+.bg-background { background-color: var(--ccip-background) !important; }
+.bg-page { background-color: var(--ccip-bg-page) !important; }
+.bg-section { background-color: var(--ccip-bg-section) !important; }
+.bg-white { background-color: var(--ccip-bg-white) !important; }
+.bg-surface { background-color: var(--ccip-surface) !important; }
+
+// Text Color Classes
+.text-primary { color: var(--ccip-primary) !important; }
+.text-secondary { color: var(--ccip-text-secondary) !important; }
+.text-accent { color: var(--ccip-accent) !important; }
+.text-positive { color: var(--ccip-positive) !important; }
+.text-negative { color: var(--ccip-negative) !important; }
+.text-warning { color: var(--ccip-warning) !important; }
+.text-muted { color: var(--ccip-text-muted) !important; }
+.text-inverse { color: var(--ccip-text-inverse) !important; }
+
+// Border Classes
+.border-primary { border-color: var(--ccip-primary) !important; }
+.border-secondary { border-color: var(--ccip-border) !important; }
+.border-accent { border-color: var(--ccip-accent) !important; }
+
+// ===========================================
+// QUASAR COMPONENT OVERRIDES
+// Use CSS variables instead of Quasar's static colors
+// ===========================================
+
+// Buttons - Primary
+.q-btn.bg-primary {
+  background-color: var(--ccip-primary) !important;
+  color: var(--ccip-primary-text) !important;
+
+  &:hover {
+    background-color: var(--ccip-primary-hover) !important;
+  }
+
+  &:before {
+    background-color: transparent !important;
+  }
+}
+
+// Buttons - Secondary
+.q-btn.bg-secondary {
+  background-color: var(--ccip-secondary) !important;
+}
+
+// Buttons - White (for dark theme)
+.q-btn.bg-white {
+  background-color: var(--ccip-bg-white) !important;
+  color: var(--ccip-text-primary) !important;
+}
+
+// Buttons - Flat (text buttons)
+.q-btn.flat.text-primary {
+  color: var(--ccip-primary) !important;
+}
+
+// Card Component
+.q-card {
+  background-color: var(--ccip-card) !important;
+  border: 1px solid var(--ccip-border) !important;
+
+  &:hover {
+    box-shadow: var(--ccip-shadow-md) !important;
+  }
+}
+
+// Input Component
+.q-field {
+  .q-field__control {
+    background-color: var(--ccip-surface) !important;
+    color: var(--ccip-text-primary) !important;
+
+    &:before {
+      border-color: var(--ccip-border) !important;
+    }
+  }
+
+  &.q-field--focused {
+    .q-field__control:before {
+      border-color: var(--ccip-primary) !important;
+    }
+  }
+}
+
+// Menu Component
+.q-menu {
+  background-color: var(--ccip-card) !important;
+  border: 1px solid var(--ccip-border) !important;
+}
+
+// Dialog Component
+.q-dialog {
+  .q-dialog__inner {
+    background-color: var(--ccip-card) !important;
+    border: 1px solid var(--ccip-border) !important;
+  }
+}
+
+// Table Component
+.q-table {
+  background-color: var(--ccip-surface) !important;
+
+  thead tr {
+    background-color: var(--ccip-bg-section) !important;
+  }
+
+  tbody tr {
+    background-color: var(--ccip-card) !important;
+
+    &:hover {
+      background-color: var(--ccip-card-hover) !important;
+    }
+  }
+}
+
+// Tab Component
+.q-tabs {
+  .q-tab--active {
+    color: var(--ccip-primary) !important;
+  }
+}
+
+// Chip/Tag Component
+.q-chip {
+  background-color: var(--ccip-secondary) !important;
+  color: var(--ccip-text-primary) !important;
+
+  &.bg-primary {
+    background-color: var(--ccip-primary) !important;
+    color: var(--ccip-primary-text) !important;
+  }
+
+  &.bg-positive {
+    background-color: var(--ccip-positive) !important;
+  }
+
+  &.bg-negative {
+    background-color: var(--ccip-negative) !important;
+  }
+
+  &.bg-warning {
+    background-color: var(--ccip-warning) !important;
+  }
+}
+
+// Badge Component
+.q-badge {
+  background-color: var(--ccip-primary) !important;
+  color: var(--ccip-primary-text) !important;
+}
+
+// Separator/Divider
+.q-separator {
+  background-color: var(--ccip-divider) !important;
+  border-color: var(--ccip-divider) !important;
+}
+
+// Tooltip
+.q-tooltip {
+  background-color: var(--ccip-text-primary) !important;
+  color: var(--ccip-text-inverse) !important;
+}
+
+// Progress Bar
+.q-progress {
+  .q-progress__inner {
+    background-color: var(--ccip-primary) !important;
+  }
+}
+
+// Radio & Checkbox
+.q-radio {
+  &.q-radio--checked {
+    .q-radio__check {
+      background-color: var(--ccip-primary) !important;
+    }
+  }
+}
+
+.q-checkbox {
+  &.q-checkbox--checked {
+    .q-checkbox__check {
+      background-color: var(--ccip-primary) !important;
+    }
+  }
+}
+
+// Switch
+.q-switch {
+  &.q-switch--checked {
+    .q-switch__thumb {
+      background-color: var(--ccip-primary) !important;
+    }
+
+    .q-switch__track {
+      background-color: var(--ccip-primary-light) !important;
+    }
+  }
+}
+
+// Slider
+.q-slider {
+  .q-slider__track {
+    background-color: var(--ccip-border) !important;
+  }
+
+  .q-slider__active-track {
+    background-color: var(--ccip-primary) !important;
+  }
+
+  .q-slider__thumb {
+    background-color: var(--ccip-primary) !important;
+  }
+}
+
+// Avatar
+.q-avatar {
+  &.bg-primary {
+    background-color: var(--ccip-primary) !important;
+    color: var(--ccip-primary-text) !important;
+  }
+}
+
+// Banner/Alert
+.q-banner {
+  background-color: var(--ccip-surface) !important;
+
+  &.bg-positive {
+    background-color: var(--ccip-positive) !important;
+  }
+
+  &.bg-negative {
+    background-color: var(--ccip-negative) !important;
+  }
+
+  &.bg-warning {
+    background-color: var(--ccip-warning) !important;
+  }
+
+  &.bg-info {
+    background-color: var(--ccip-info) !important;
+  }
+}
+
+// Input (textarea, input)
+.q-textarea, .q-input {
+  textarea, input {
+    background-color: var(--ccip-surface) !important;
+    color: var(--ccip-text-primary) !important;
+  }
+}
+
+// Select
+.q-select {
+  .q-field__native {
+    color: var(--ccip-text-primary) !important;
+  }
 }
 
 // Global text styles (theme-aware)

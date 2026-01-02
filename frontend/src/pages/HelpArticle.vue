@@ -162,7 +162,7 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .help-article-page {
-  background-color: #f5f5f5;
+  background-color: var(--ccip-bg-page);
 }
 
 .help-article-content {
@@ -183,14 +183,14 @@ onMounted(async () => {
   }
   
   :deep(code) {
-    background-color: #f5f5f5;
+    background-color: var(--ccip-bg-page);
     padding: 2px 6px;
     border-radius: 3px;
     font-family: monospace;
   }
   
   :deep(pre) {
-    background-color: #f5f5f5;
+    background-color: var(--ccip-bg-page);
     padding: 1em;
     border-radius: 4px;
     overflow-x: auto;

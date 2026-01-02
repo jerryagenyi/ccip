@@ -257,7 +257,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .help-search-page {
-  background-color: #f5f5f5;
+  background-color: var(--ccip-bg-page);
 }
 
 .category-active {

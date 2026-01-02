@@ -37,8 +37,9 @@ body.body--dark .q-field__label {
   color: #A0AEC0 !important;
 }
 
-body.body--dark .q-btn {
-  color: #FAFAFA !important;
+// Use CSS variables for dynamic theming instead of hardcoded values
+body.body--dark .q-btn:not(.bg-primary):not(.bg-white) {
+  color: var(--ccip-text-primary) !important;
 }
 
 body.body--dark .q-table {
@@ -90,8 +91,9 @@ body.body--light .q-field__label {
   color: #6B7280 !important;
 }
 
-body.body--light .q-btn {
-  color: #7151B3 !important;
+// Use CSS variables for dynamic theming instead of hardcoded values
+body.body--light .q-btn:not(.bg-primary):not(.bg-white) {
+  color: var(--ccip-primary) !important;
 }
 
 body.body--light .q-table {

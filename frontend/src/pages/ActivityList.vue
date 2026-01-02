@@ -398,6 +398,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .activity-list-page {
-  background-color: #f5f5f5;
+  background-color: var(--ccip-bg-page);
 }
 </style>

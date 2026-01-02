@@ -32,7 +32,7 @@
 
 <style scoped lang="scss">
 .error-not-found-page {
-  background-color: #f5f5f5;
+  background-color: var(--ccip-bg-page);
   min-height: 100vh;
 }
 

@@ -289,7 +289,7 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .analytics-page {
-  background-color: #f5f5f5;
+  background-color: var(--ccip-bg-page);
 }
 
 .status-item {

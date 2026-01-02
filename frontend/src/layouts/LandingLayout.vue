@@ -72,15 +72,11 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-// Landing layout styles - minimal and clean (using global styles for body class targeting)
+// Landing layout styles - using CSS variables for automatic theme support
 
 .header-theme {
-  background-color: #1D283A !important;
-}
-
-body.body--light .header-theme {
-  background-color: #FFFFFF !important;
-  border-bottom: 1px solid #E5E7EB;
+  background-color: var(--ccip-bg-white) !important;
+  border-bottom: 1px solid var(--ccip-border);
 }
 
 .toolbar-theme {
@@ -88,61 +84,33 @@ body.body--light .header-theme {
 }
 
 .header-title {
-  color: #FAFAFA !important;
-}
-
-body.body--light .header-title {
-  color: #1D283A !important;
+  color: var(--ccip-text-primary) !important;
 }
 
 .sign-in-btn {
-  color: #FAFAFA !important;
-}
-
-body.body--light .sign-in-btn {
-  color: #7151B3 !important;
+  color: var(--ccip-primary) !important;
 }
 
 .sign-in-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-body.body--light .sign-in-btn:hover {
-  background-color: rgba(113, 81, 179, 0.1) !important;
+  background-color: var(--ccip-card-hover) !important;
 }
 
 .footer-theme {
-  background-color: #1D283A !important;
-}
-
-body.body--light .footer-theme {
-  background-color: #FFFFFF !important;
-  border-top: 1px solid #E5E7EB;
+  background-color: var(--ccip-bg-white) !important;
+  border-top: 1px solid var(--ccip-border);
 }
 
 .footer-text {
-  color: #FAFAFA !important;
-}
-
-body.body--light .footer-text {
-  color: #6B7280 !important;
+  color: var(--ccip-text-secondary) !important;
 }
 
 .footer-link {
-  color: #FAFAFA !important;
-}
-
-body.body--light .footer-link {
-  color: #6B7280 !important;
+  color: var(--ccip-text-secondary) !important;
 }
 
 .footer-link:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-body.body--light .footer-link:hover {
-  background-color: rgba(113, 81, 179, 0.1) !important;
-  color: #7151B3 !important;
+  background-color: var(--ccip-card-hover) !important;
+  color: var(--ccip-primary) !important;
 }
 </style>
 
