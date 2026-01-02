@@ -198,6 +198,7 @@ body {
 .text-warning { color: var(--ccip-warning) !important; }
 .text-muted { color: var(--ccip-text-muted) !important; }
 .text-inverse { color: var(--ccip-text-inverse) !important; }
+.text-white { color: var(--ccip-text-inverse) !important; }
 
 // Border Classes
 .border-primary { border-color: var(--ccip-primary) !important; }
@@ -210,9 +211,18 @@ body {
 // ===========================================
 
 // Buttons - Primary
-.q-btn.bg-primary {
+// Override Quasar's text-white class when used with bg-primary
+// Attribute selector has highest specificity to override Quasar defaults
+.q-btn[class*="bg-primary"] {
   background-color: var(--ccip-primary) !important;
   color: var(--ccip-primary-text) !important;
+
+  // Override Quasar's text-white on all child elements
+  .q-btn__content,
+  .q-btn__label,
+  .q-icon {
+    color: var(--ccip-primary-text) !important;
+  }
 
   &:hover {
     background-color: var(--ccip-primary-hover) !important;
@@ -226,6 +236,27 @@ body {
 // Buttons - Secondary
 .q-btn.bg-secondary {
   background-color: var(--ccip-secondary) !important;
+}
+
+// Buttons - Functional Colors
+.q-btn[class*="bg-positive"] {
+  background-color: var(--ccip-positive) !important;
+  color: var(--ccip-text-inverse) !important;
+}
+
+.q-btn[class*="bg-negative"] {
+  background-color: var(--ccip-negative) !important;
+  color: var(--ccip-text-inverse) !important;
+}
+
+.q-btn[class*="bg-warning"] {
+  background-color: var(--ccip-warning) !important;
+  color: var(--ccip-text-inverse) !important;
+}
+
+.q-btn[class*="bg-info"] {
+  background-color: var(--ccip-info) !important;
+  color: var(--ccip-text-inverse) !important;
 }
 
 // Buttons - White (for dark theme)

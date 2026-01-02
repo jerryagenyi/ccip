@@ -130,7 +130,7 @@
                               size="24px"
                             >
                               <div class="absolute-full flex flex-center">
-                                <span class="text-white text-weight-bold">{{ value }}</span>
+                                <span class="text-inverse text-weight-bold">{{ value }}</span>
                               </div>
                             </q-linear-progress>
                           </div>
