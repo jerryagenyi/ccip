@@ -76,7 +76,7 @@ services:
     environment:
       POSTGRES_DB: ccip_production
       POSTGRES_USER: ccip_user
-      POSTGRES_PASSWORD: vJ7#mK9$qL2@pN5r
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-CHANGE_THIS_STRONG_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -89,7 +89,7 @@ services:
   redis:
     image: redis:7-alpine
     container_name: ccip_redis
-    command: redis-server --requirepass rY5@kP8#mX2*wL9v
+    command: redis-server --requirepass ${REDIS_PASSWORD:-CHANGE_THIS_STRONG_PASSWORD}
     volumes:
       - redis_data:/data
     restart: unless-stopped
@@ -104,7 +104,7 @@ services:
     container_name: ccip_minio
     environment:
       MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: K2#mN8$pQ5@xR7w
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-CHANGE_THIS_STRONG_PASSWORD}
     volumes:
       - minio_data:/data
     command: server /data --console-address ":9001"
@@ -126,7 +126,7 @@ services:
       DB_PORT=5432
       DB_DATABASE=ccip_production
       DB_USERNAME=ccip_user
-      DB_PASSWORD=vJ7#mK9$qL2@pN5r
+      DB_PASSWORD=${DB_PASSWORD:-CHANGE_THIS_STRONG_PASSWORD}
 
       # Laravel
       APP_NAME=CCIP
@@ -139,13 +139,13 @@ services:
       CACHE_DRIVER=redis
       REDIS_HOST=redis
       REDIS_PORT=6379
-      REDIS_PASSWORD=rY5@kP8#mX2*wL9v
+      REDIS_PASSWORD=${REDIS_PASSWORD:-CHANGE_THIS_STRONG_PASSWORD}
       QUEUE_CONNECTION=redis
 
       # Storage (MinIO)
       FILESYSTEM_DISK=s3
       AWS_ACCESS_KEY_ID=ccip_minio_access
-      AWS_SECRET_ACCESS_KEY=S4@bT7!kW9*mL2p
+      AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-CHANGE_THIS_SECRET_KEY}
       AWS_DEFAULT_REGION=us-east-1
       AWS_BUCKET=ccip-storage
       AWS_ENDPOINT=http://minio:9000
@@ -154,7 +154,7 @@ services:
       # Security
       SANCTUM_STATEFUL_DOMAINS=api.jerryagenyi.xyz,jerryagenyi.xyz
       SESSION_DOMAIN=jerryagenyi.xyz
-      JWT_SECRET=tG3&bH6!jZ9*pM4n
+      JWT_SECRET=${JWT_SECRET:-CHANGE_THIS_STRONG_SECRET}
       CORS_ALLOW_ALL_ORIGINS=false
       CORS_ALLOWED_ORIGINS=https://app.jerryagenyi.xyz
 
@@ -221,7 +221,7 @@ REDIS_PASSWORD=rY5@kP8#mX2*wL9v
 # ===== MINIO =====
 MINIO_ROOT_PASSWORD=K2#mN8$pQ5@xR7w
 MINIO_ACCESS_KEY=ccip_minio_access
-MINIO_SECRET_KEY=S4@bT7!kW9*mL2p
+MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-CHANGE_THIS_SECRET_KEY}
 MINIO_BUCKET=ccip-storage
 ```
 
@@ -365,7 +365,7 @@ REDIS_PASSWORD=rY5@kP8#mX2*wL9v
 # MINIO
 MINIO_ROOT_PASSWORD=K2#mN8$pQ5@xR7w
 MINIO_ACCESS_KEY=ccip_minio_access
-MINIO_SECRET_KEY=S4@bT7!kW9*mL2p
+MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-CHANGE_THIS_SECRET_KEY}
 
 # JWT
 JWT_SECRET=tG3&bH6!jZ9*pM4n

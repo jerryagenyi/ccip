@@ -69,18 +69,26 @@ Cache::put('queue-test-data', \$testData, 300);
 echo 'Queue test data stored in cache for verification.' . PHP_EOL;
 "
 
-# Check Redis info
+# Check Redis info (using environment variable for password)
+REDIS_PASSWORD=${REDIS_PASSWORD:-}
+if [ -z "$REDIS_PASSWORD" ]; then
+    echo "⚠️  REDIS_PASSWORD not set, testing without authentication..."
+    AUTH_FLAG=""
+else
+    AUTH_FLAG="-a $REDIS_PASSWORD"
+fi
+
 echo ""
 echo "📊 Redis Server Information:"
-docker exec ccip-redis redis-cli --no-auth-warning -a rY5@kP8#mX2*wL9v info server | head -10
+docker exec ccip-redis redis-cli --no-auth-warning $AUTH_FLAG info server | head -10
 
 echo ""
 echo "📈 Redis Memory Usage:"
-docker exec ccip-redis redis-cli --no-auth-warning -a rY5@kP8#mX2*wL9v info memory | grep used_memory_human
+docker exec ccip-redis redis-cli --no-auth-warning $AUTH_FLAG info memory | grep used_memory_human
 
 echo ""
 echo "🔑 Redis Authentication Test:"
-if docker exec ccip-redis redis-cli --no-auth-warning -a rY5@kP8#mX2*wL9v ping | grep -q PONG; then
+if docker exec ccip-redis redis-cli --no-auth-warning $AUTH_FLAG ping | grep -q PONG; then
     echo "✅ Redis authentication working"
 else
     echo "❌ Redis authentication failed"

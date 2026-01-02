@@ -6,8 +6,8 @@ echo ""
 
 # Configuration
 MINIO_CONTAINER="ccip_minio"
-CURRENT_USER="minioadmin"
-CURRENT_PASS="K2#mN8$pQ5@xR7w"
+CURRENT_USER=${MINIO_ROOT_USER:-minioadmin}
+CURRENT_PASS=${MINIO_ROOT_PASSWORD:-}
 
 # Generate secure new credentials
 echo "🔐 Generating secure new credentials..."
@@ -84,7 +84,7 @@ NEW_PASS="$NEW_PASS"
 echo "Updating MinIO credentials..."
 docker exec -i ccip_minio sh << 'EOS'
 # Set new console credentials
-mc alias set local http://localhost:9000 minioadmin K2#mN8$pQ5@xR7w
+mc alias set local http://localhost:9000 $CURRENT_USER $CURRENT_PASS
 mc admin user add local $NEW_USER $NEW_PASS
 mc admin policy set local readwrite user=$NEW_USER
 

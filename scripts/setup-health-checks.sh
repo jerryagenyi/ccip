@@ -251,8 +251,15 @@ fi
 CONTAINER_STATUS=$(docker inspect -f '{{.State.Status}}' $REDIS_CONTAINER)
 echo "Container Status: $CONTAINER_STATUS"
 
-# Test Redis connection
-REDIS_PING=$(docker exec $REDIS_CONTAINER redis-cli --no-auth-warning -a rY5@kP8#mX2*wL9v ping)
+# Test Redis connection (using environment variable for password)
+REDIS_PASSWORD=${REDIS_PASSWORD:-}
+if [ -z "$REDIS_PASSWORD" ]; then
+    AUTH_FLAG=""
+else
+    AUTH_FLAG="-a $REDIS_PASSWORD"
+fi
+
+REDIS_PING=$(docker exec $REDIS_CONTAINER redis-cli --no-auth-warning $AUTH_FLAG ping)
 if [[ "$REDIS_PING" == "PONG" ]]; then
     echo "✅ Redis is responding"
 else
@@ -262,17 +269,17 @@ fi
 # Get Redis info
 echo ""
 echo "📊 Redis Server Information:"
-docker exec $REDIS_CONTAINER redis-cli --no-auth-warning -a rY5@kP8#mX2*wL9v info server | head -10
+docker exec $REDIS_CONTAINER redis-cli --no-auth-warning $AUTH_FLAG info server | head -10
 
 # Get memory usage
 echo ""
 echo "💾 Memory Information:"
-docker exec $REDIS_CONTAINER redis-cli --no-auth-warning -a rY5@kP8#mX2*wL9v info memory | grep -E "(used_memory_human|maxmemory_human)"
+docker exec $REDIS_CONTAINER redis-cli --no-auth-warning $AUTH_FLAG info memory | grep -E "(used_memory_human|maxmemory_human)"
 
 # Get connection info
 echo ""
 echo "🔌 Connection Information:"
-docker exec $REDIS_CONTAINER redis-cli --no-auth-warning -a rY5@kP8#mX2*wL9v info clients | grep -E "(connected_clients|blocked_clients)"
+docker exec $REDIS_CONTAINER redis-cli --no-auth-warning $AUTH_FLAG info clients | grep -E "(connected_clients|blocked_clients)"
 
 # Check memory usage
 MEMORY_USAGE=$(docker stats --no-stream --format "{{.MemUsage}}" $REDIS_CONTAINER)
