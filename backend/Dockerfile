@@ -42,7 +42,8 @@ COPY . .
 RUN composer dump-autoload --optimize --no-scripts
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html \
+RUN mkdir -p /var/www/html/storage \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && mkdir -p /var/www/html/bootstrap/cache \
     && chmod -R 755 /var/www/html/bootstrap/cache
