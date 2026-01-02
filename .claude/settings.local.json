@@ -87,7 +87,9 @@
       "mcp__plugin_context7_context7__query-docs",
       "Bash(npm run test:e2e:*)",
       "Bash(git rebase:*)",
-      "Bash(git stash push:*)"
+      "Bash(git stash push:*)",
+      "Bash(git branch:*)",
+      "mcp__MCP_DOCKER__sequentialthinking"
     ]
   }
 }
