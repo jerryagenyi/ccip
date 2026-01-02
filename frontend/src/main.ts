@@ -15,18 +15,14 @@ import router from './router';
 // Create app
 const app = createApp(App);
 
-// Pinia is initialized via Quasar boot file (src/boot/pinia.ts)
-// which runs before this point
-
 app.use(Quasar, {
   plugins: {}, // import Quasar plugins and add here
 });
 
 app.use(router);
 
-// Quasar CLI automatically injects #q-app in the HTML template
-// Mount the app to #q-app
-const mountPoint = document.querySelector('#q-app');
+// Try both possible mount points
+const mountPoint = document.querySelector('#q-app') || document.querySelector('#root');
 if (mountPoint) {
   app.mount(mountPoint);
 } else {
@@ -37,4 +33,3 @@ if (mountPoint) {
   app.mount(fallbackMount);
   console.warn('Created #q-app mount point - this should not happen with Quasar CLI');
 }
-

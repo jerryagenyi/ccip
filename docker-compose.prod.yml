@@ -1,22 +1,44 @@
-# Production compose file - Domain routing managed by Dokploy Domains UI
+# Production Deployment Override for Dokploy
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.prod.yml -p ccip-prod up -d
+#
+# This file overrides base docker-compose.yml for production:
+# - Uses dokploy-network (external)
+# - Traefik labels for ccip.* domains (no -dev suffix)
+# - Production Dockerfiles (Dockerfile.prod)
+# - Debug mode disabled
+# - Production database name
+
 services:
   database:
-    image: postgres:15
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-ccip_production}
-      POSTGRES_USER: ${POSTGRES_USER:-ccip_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE:-ccip_production}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - postgres_backups:/backups
     networks:
       - dokploy-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ccip_user -d ccip_production"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+
+  minio:
+    environment:
+      MINIO_BROWSER_REDIRECT_URL: ${MINIO_CONSOLE_URL:-https://ccip-minio.jerryagenyi.xyz}
+    volumes:
+      - minio_data:/data
+    networks:
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=dokploy-network"
+      # HTTP router (Cloudflare handles HTTPS redirect)
+      - "traefik.http.routers.ccip-minio-web.rule=Host(`ccip-minio.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-minio-web.entrypoints=web"
+      - "traefik.http.routers.ccip-minio-web.service=ccip-minio-web"
+      - "traefik.http.services.ccip-minio-web.loadbalancer.server.port=9001"
+      # HTTPS router
+      - "traefik.http.routers.ccip-minio-websecure.rule=Host(`ccip-minio.jerryagenyi.xyz`)"
+      - "traefik.http.routers.ccip-minio-websecure.entrypoints=websecure"
+      - "traefik.http.routers.ccip-minio-websecure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.ccip-minio-websecure.service=ccip-minio-websecure"
+      - "traefik.http.services.ccip-minio-websecure.loadbalancer.server.port=9001"
 
   redis:
     image: redis:7-alpine
@@ -32,83 +54,20 @@ services:
       timeout: 3s
       retries: 5
 
-  minio:
-    image: minio/minio:latest
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-      MINIO_BROWSER_REDIRECT_URL: https://ccip-minio.jerryagenyi.xyz
-    volumes:
-      - minio_data:/data
-    command: server /data --console-address ":9001"
-    ports:
-      - "9000"
-      - "9001"
-    networks:
-      - dokploy-network
-    restart: unless-stopped
-
   backend:
     build:
-      context: ./backend
       dockerfile: Dockerfile.prod
-    ports:
-      - "80"
-    # Note: user is not set here - startup script runs as root for migrations,
-    # then PHP-FPM and Nginx drop to their respective non-root users
-    security_opt:
-      - no-new-privileges:true
-    deploy:
-      resources:
-        limits:
-          cpus: '2'
-          memory: 1G
     environment:
-      # Database
-      DB_HOST: database
-      DB_PORT: 5432
-      DB_DATABASE: ${POSTGRES_DB:-ccip_production}
-      DB_USERNAME: ${POSTGRES_USER:-ccip_user}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-
-      # Laravel
-      APP_NAME: CCIP
       APP_ENV: production
       APP_DEBUG: "false"
-      APP_URL: https://ccip-api.jerryagenyi.xyz
-      APP_KEY: base64:4EAd6nXaE1RKYumGiHXMiVEXYUcMvBzImUx6BpUeiI8=
-
-      # Cache/Queue
-      CACHE_DRIVER: redis
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      QUEUE_CONNECTION: redis
-
-      # Storage (MinIO)
-      FILESYSTEM_DISK: s3
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_DEFAULT_REGION: us-east-1
-      AWS_BUCKET: ccip-storage
-      AWS_ENDPOINT: http://minio:9000
-      AWS_USE_PATH_STYLE_ENDPOINT: true
-
-      # Security
-      SANCTUM_STATEFUL_DOMAINS: ccip-api.jerryagenyi.xyz,ccip.jerryagenyi.xyz
-      SESSION_DOMAIN: jerryagenyi.xyz
-      SESSION_DRIVER: file
-      JWT_SECRET: ${JWT_SECRET}
-
+      APP_URL: ${APP_URL:-https://ccip-api.jerryagenyi.xyz}
+      DB_DATABASE: ${DB_DATABASE:-ccip_production}
+      SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS:-ccip-api.jerryagenyi.xyz,ccip.jerryagenyi.xyz}
+      SESSION_DOMAIN: ${SESSION_DOMAIN:-jerryagenyi.xyz}
     volumes:
       - backend_storage:/var/www/html/storage
-    depends_on:
-      - database
-      - redis
-      - minio
     networks:
       - dokploy-network
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=dokploy-network"
@@ -126,25 +85,12 @@ services:
 
   frontend:
     build:
-      context: ./frontend
       dockerfile: Dockerfile.prod
       args:
-        VITE_API_URL: https://ccip-api.jerryagenyi.xyz/api/v1
-        VITE_APP_URL: https://ccip.jerryagenyi.xyz
-    ports:
-      - "80"
-    security_opt:
-      - no-new-privileges:true
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 512M
-    depends_on:
-      - backend
+        VITE_API_URL: ${VITE_API_URL:-https://ccip-api.jerryagenyi.xyz/api}
+        VITE_APP_URL: ${VITE_APP_URL:-https://ccip.jerryagenyi.xyz}
     networks:
       - dokploy-network
-    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=dokploy-network"
@@ -160,13 +106,18 @@ services:
       - "traefik.http.routers.ccip-frontend-websecure.service=ccip-frontend-websecure"
       - "traefik.http.services.ccip-frontend-websecure.loadbalancer.server.port=80"
 
+# Production volumes
 volumes:
   postgres_data:
+    driver: local
   postgres_backups:
-  redis_data:
+    driver: local
   minio_data:
+    driver: local
+  redis_data:
+    driver: local
   backend_storage:
-  backend_logs:
+    driver: local
 
 networks:
   dokploy-network:

@@ -1,15 +1,17 @@
-import { boot } from 'quasar/wrappers';
-import { createPinia, setActivePinia } from 'pinia';
+// Quasar boot file for Pinia initialization
+// This MUST run before any other boot files that use stores
 
-// Initialize Pinia in a boot file to ensure it's available before stores are used
-let piniaInstance: ReturnType<typeof createPinia> | null = null;
+import { boot } from 'quasar/wrappers';
+import { createPinia } from 'pinia';
+
+const pinia = createPinia();
 
 export default boot(({ app }) => {
-  if (!piniaInstance) {
-    piniaInstance = createPinia();
-    app.use(piniaInstance);
-    // Set as active Pinia instance for the app
-    setActivePinia(piniaInstance);
-  }
-});
+  // Install Pinia plugin
+  app.use(pinia);
 
+  // Make pinia instance available globally for store access outside components
+  if (typeof window !== 'undefined') {
+    window.__pinia = pinia;
+  }
+};

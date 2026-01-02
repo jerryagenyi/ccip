@@ -34,7 +34,12 @@ export const useThemeStore = defineStore('theme', () => {
   };
 
   // Update document class for CSS variable support
+  // Note: Quasar's Dark.set() automatically manages body--dark/body--light classes
+  // This function only handles custom documentElement classes for CSS variables
   const updateDocumentClass = () => {
+    if (typeof document === 'undefined') return;
+    
+    // Update documentElement for custom CSS variables (if needed in future)
     if (Dark.isActive) {
       document.documentElement.classList.add('dark-theme');
       document.documentElement.classList.remove('light-theme');

@@ -1,0 +1,62 @@
+# Local Development Override
+# This file is automatically loaded by Docker Compose
+# when running: docker-compose up
+# 
+# Provides local development-specific settings:
+# - Exposed ports for direct access
+# - Live code mounting (hot reload)
+# - Debug mode enabled
+# - No Traefik labels (not needed locally)
+
+services:
+  # Expose database port for local access
+  database:
+    ports:
+      - "${DB_PORT:-5433}:5432"
+
+  # Expose MinIO ports for local access
+  minio:
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+
+  # Expose Redis port for local access
+  redis:
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+
+  # Backend with local development settings
+  backend:
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    volumes:
+      - ./backend:/var/www/html
+      - backend_vendor:/var/www/html/vendor
+    environment:
+      APP_DEBUG: "true"
+    command: >
+      sh -c "
+        mkdir -p /var/www/html/bootstrap/cache &&
+        chmod -R 777 /var/www/html/bootstrap/cache &&
+        chmod -R 777 /var/www/html/storage &&
+        composer update --no-scripts &&
+        composer dump-autoload &&
+        php artisan key:generate --force &&
+        php artisan serve --host=0.0.0.0 --port=8000
+      "
+
+  # Frontend with local development settings
+  frontend:
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+    command: npm run dev -- --host 0.0.0.0
+
+# Local development volumes
+volumes:
+  backend_vendor:
+    driver: local
+  frontend_node_modules:
+    driver: local

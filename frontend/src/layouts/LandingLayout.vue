@@ -1,9 +1,9 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <!-- Minimal header for landing page (theme-aware) -->
-    <q-header elevated class="bg-card text-primary">
-      <q-toolbar>
-        <q-toolbar-title class="text-primary text-weight-bold">
+    <q-header elevated class="header-theme">
+      <q-toolbar class="toolbar-theme">
+        <q-toolbar-title class="text-weight-bold header-title">
           CCIP
         </q-toolbar-title>
         <q-space />
@@ -13,7 +13,7 @@
           flat
           dense
           label="Sign In"
-          color="primary"
+          class="sign-in-btn"
           @click="$router.push('/auth/login')"
         />
         <q-btn
@@ -21,7 +21,7 @@
           flat
           dense
           label="Dashboard"
-          color="primary"
+          class="sign-in-btn"
           @click="$router.push('/dashboard')"
         />
       </q-toolbar>
@@ -32,9 +32,9 @@
     </q-page-container>
 
     <!-- Simple footer (theme-aware) -->
-    <q-footer elevated class="bg-card text-secondary">
+    <q-footer elevated class="footer-theme">
       <q-toolbar>
-        <q-toolbar-title class="text-caption">
+        <q-toolbar-title class="text-caption footer-text">
           © 2025 CCIP. All rights reserved.
         </q-toolbar-title>
         <q-btn
@@ -42,18 +42,16 @@
           dense
           no-caps
           label="Privacy Policy"
-          color="grey-7"
           size="sm"
-          class="q-mx-xs"
+          class="q-mx-xs footer-link"
         />
         <q-btn
           flat
           dense
           no-caps
           label="Terms"
-          color="grey-7"
           size="sm"
-          class="q-mx-xs"
+          class="q-mx-xs footer-link"
         />
       </q-toolbar>
     </q-footer>
@@ -69,7 +67,78 @@ const authStore = useAuthStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 </script>
 
-<style scoped lang="scss">
-// Landing layout styles - minimal and clean
+<style lang="scss">
+// Landing layout styles - minimal and clean (using global styles for body class targeting)
+
+.header-theme {
+  background-color: #1D283A !important;
+}
+
+body.body--light .header-theme {
+  background-color: #FFFFFF !important;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.toolbar-theme {
+  min-height: 50px;
+}
+
+.header-title {
+  color: #FAFAFA !important;
+}
+
+body.body--light .header-title {
+  color: #1D283A !important;
+}
+
+.sign-in-btn {
+  color: #FAFAFA !important;
+}
+
+body.body--light .sign-in-btn {
+  color: #7151B3 !important;
+}
+
+.sign-in-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.body--light .sign-in-btn:hover {
+  background-color: rgba(113, 81, 179, 0.1) !important;
+}
+
+.footer-theme {
+  background-color: #1D283A !important;
+}
+
+body.body--light .footer-theme {
+  background-color: #FFFFFF !important;
+  border-top: 1px solid #E5E7EB;
+}
+
+.footer-text {
+  color: #FAFAFA !important;
+}
+
+body.body--light .footer-text {
+  color: #6B7280 !important;
+}
+
+.footer-link {
+  color: #FAFAFA !important;
+}
+
+body.body--light .footer-link {
+  color: #6B7280 !important;
+}
+
+.footer-link:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.body--light .footer-link:hover {
+  background-color: rgba(113, 81, 179, 0.1) !important;
+  color: #7151B3 !important;
+}
 </style>
 
