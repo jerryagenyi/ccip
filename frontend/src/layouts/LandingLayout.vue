@@ -59,12 +59,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useAuthStore } from '@/stores/useAuthStore';
+import { ref, onMounted } from 'vue';
 import ThemeToggle from '@/components/ui/ThemeToggle.vue';
 
-const authStore = useAuthStore();
-const isAuthenticated = computed(() => authStore.isAuthenticated);
+// Check authentication directly from localStorage to avoid Pinia initialization issues
+const isAuthenticated = ref(false);
+
+onMounted(() => {
+  // Check if user is authenticated by checking localStorage
+  isAuthenticated.value = !!localStorage.getItem('auth_token');
+});
 </script>
 
 <style lang="scss">
