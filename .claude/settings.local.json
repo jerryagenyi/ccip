@@ -89,7 +89,12 @@
       "Bash(git rebase:*)",
       "Bash(git stash push:*)",
       "Bash(git branch:*)",
-      "mcp__MCP_DOCKER__sequentialthinking"
+      "mcp__MCP_DOCKER__sequentialthinking",
+      "Bash(git stash pop:*)",
+      "Bash(git stash:*)",
+      "mcp__plugin_serena_serena__list_dir",
+      "mcp__plugin_serena_serena__activate_project",
+      "Skill(agents:bmm-pm)"
     ]
   }
 }

@@ -178,7 +178,7 @@
         <h3 class="text-h5 text-weight-bold q-mb-md">
           Ready to get started?
         </h3>
-        <p class="text-body1 text-grey-7 q-mb-lg">
+        <p class="text-body1 text-secondary q-mb-lg">
           Join organisations worldwide using CCIP to improve their risk communication activities
         </p>
         <q-btn
@@ -422,6 +422,15 @@ const handleContactSubmit = async () => {
 // CTA Section - uses CSS variables for dynamic theming
 .cta-section {
   background-color: var(--ccip-card);
+  
+  // Ensure all text in CTA section uses theme-aware colors
+  h3, h4, h5, h6 {
+    color: var(--ccip-text-primary);
+  }
+  
+  p {
+    color: var(--ccip-text-secondary);
+  }
 }
 
 // Hero Section Buttons - use CSS variables for dynamic theming

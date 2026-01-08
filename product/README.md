@@ -4,6 +4,8 @@ Welcome to the CCIP (Crisis Communication Intelligence Platform) product documen
 
 ## 📚 Documentation Structure
 
+This folder contains product-specific documentation. For business and visa application materials, see the [`innovator-founder-visa/`](../innovator-founder-visa/) folder at the root level.
+
 ### Requirements (`requirements/`)
 - **[Product Requirements Document v2.0](requirements/product_requirements_document_v2.0.md)** - Comprehensive requirements specification
 - **[Concept Note Template](requirements/concept_note_template.md)** - Template for creating concept notes
