@@ -412,4 +412,13 @@ The strategic review confirms that:
 
 ---
 
+## Related Documents
+
+- **Strategic Review**: See [`pm-strategic-review.md`](./pm-strategic-review.md) for positioning decisions
+- **Action Items**: See [`action-items.md`](./action-items.md) for next steps
+- **Case Study**: See [`ebola-2014-case-study.md`](./ebola-2014-case-study.md) for proof of concept
+- **Semiotic Intelligence**: See [`semiotic-intelligence-primer.md`](./semiotic-intelligence-primer.md) for technical differentiator
+
+---
+
 **End of Summary**
