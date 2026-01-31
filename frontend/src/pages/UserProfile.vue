@@ -234,7 +234,10 @@
           type="password"
           outlined
           dense
-          :rules="[val => !!val || 'New password is required', val => val.length >= 8 || 'Password must be at least 8 characters']"
+          :rules="[
+            val => !!val || 'New password is required',
+            val => val.length >= 8 || 'Password must be at least 8 characters',
+          ]"
           class="q-mb-md"
         />
         <q-input
@@ -245,13 +248,18 @@
           dense
           :rules="[
             val => !!val || 'Please confirm password',
-            val => val === passwordFormData.newPassword || 'Passwords do not match'
+            val => val === passwordFormData.newPassword || 'Passwords do not match',
           ]"
           class="q-mb-md"
         />
         <template #actions>
           <q-btn flat label="Cancel" @click="showChangePasswordDialog = false" />
-          <q-btn color="primary" label="Change Password" type="submit" :loading="changingPassword" />
+          <q-btn
+            color="primary"
+            label="Change Password"
+            type="submit"
+            :loading="changingPassword"
+          />
         </template>
       </q-form>
     </BaseDialog>

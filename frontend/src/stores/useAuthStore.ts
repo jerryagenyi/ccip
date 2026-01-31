@@ -8,7 +8,7 @@ import type {
   AuthState,
   ForgotPasswordRequest,
   ResetPasswordRequest,
-  ApiResponse
+  ApiResponse,
 } from '@/types';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', () => {
   const loading = ref(false);
   const error = ref<string | null>(null);
   const refreshTokenTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
-  
+
   // Initialize token from localStorage lazily
   if (typeof window !== 'undefined' && localStorage) {
     try {
@@ -40,23 +40,42 @@ export const useAuthStore = defineStore('auth', () => {
     const permissions = {
       super_admin: ['*'],
       admin: [
-        'users.read', 'users.create', 'users.update', 'users.delete',
-        'activities.read', 'activities.create', 'activities.update', 'activities.delete',
-        'organisations.read', 'organisations.create', 'organisations.update', 'organisations.delete',
-        'reports.read', 'reports.create', 'reports.delete',
-        'system.read', 'system.update'
+        'users.read',
+        'users.create',
+        'users.update',
+        'users.delete',
+        'activities.read',
+        'activities.create',
+        'activities.update',
+        'activities.delete',
+        'organisations.read',
+        'organisations.create',
+        'organisations.update',
+        'organisations.delete',
+        'reports.read',
+        'reports.create',
+        'reports.delete',
+        'system.read',
+        'system.update',
       ],
       sub_admin: [
-        'activities.read', 'activities.create', 'activities.update',
-        'users.read', 'users.update',
-        'reports.read', 'reports.create',
-        'organisations.read'
+        'activities.read',
+        'activities.create',
+        'activities.update',
+        'users.read',
+        'users.update',
+        'reports.read',
+        'reports.create',
+        'organisations.read',
       ],
       user: [
-        'activities.read', 'activities.create', 'activities.update',
-        'profile.read', 'profile.update',
-        'reports.read'
-      ]
+        'activities.read',
+        'activities.create',
+        'activities.update',
+        'profile.read',
+        'profile.update',
+        'reports.read',
+      ],
     };
 
     return permissions[role] || [];
@@ -169,9 +188,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (!token.value) throw new Error('No token to refresh');
 
     try {
-      const response = await api.post<ApiResponse<{ token: string }>>(
-        API_ENDPOINTS.AUTH.REFRESH
-      );
+      const response = await api.post<ApiResponse<{ token: string }>>(API_ENDPOINTS.AUTH.REFRESH);
 
       token.value = response.data.data.token;
       localStorage.setItem('auth_token', token.value);
@@ -191,10 +208,9 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<any>>(
-        API_ENDPOINTS.AUTH.FORGOT_PASSWORD,
-        { email }
-      );
+      const response = await api.post<ApiResponse<any>>(API_ENDPOINTS.AUTH.FORGOT_PASSWORD, {
+        email,
+      });
       return response.data;
     } catch (err: any) {
       error.value = err.response?.data?.message || 'Failed to send reset email';
@@ -209,10 +225,7 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<any>>(
-        API_ENDPOINTS.AUTH.RESET_PASSWORD,
-        data
-      );
+      const response = await api.post<ApiResponse<any>>(API_ENDPOINTS.AUTH.RESET_PASSWORD, data);
       return response.data;
     } catch (err: any) {
       error.value = err.response?.data?.message || 'Failed to reset password';
@@ -227,10 +240,7 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<any>>(
-        API_ENDPOINTS.AUTH.VERIFY_EMAIL,
-        { token }
-      );
+      const response = await api.post<ApiResponse<any>>(API_ENDPOINTS.AUTH.VERIFY_EMAIL, { token });
 
       // Refresh user data after verification
       if (isAuthenticated.value) {
@@ -251,9 +261,7 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<any>>(
-        API_ENDPOINTS.AUTH.RESEND_VERIFICATION
-      );
+      const response = await api.post<ApiResponse<any>>(API_ENDPOINTS.AUTH.RESEND_VERIFICATION);
       return response.data;
     } catch (err: any) {
       error.value = err.response?.data?.message || 'Failed to resend verification email';
@@ -286,7 +294,7 @@ export const useAuthStore = defineStore('auth', () => {
     // Currently assumes 1-hour token expiry (Laravel Sanctum default)
     // Future improvement: Parse JWT to get actual expiry time
     const refreshInterval = 55 * 60 * 1000; // 55 minutes (5 min before 1-hour expiry)
-    
+
     refreshTokenTimeout.value = setTimeout(async () => {
       try {
         await refreshToken();
@@ -317,19 +325,20 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  async function changePassword(currentPassword: string, password: string, passwordConfirmation: string) {
+  async function changePassword(
+    currentPassword: string,
+    password: string,
+    passwordConfirmation: string
+  ) {
     loading.value = true;
     error.value = null;
 
     try {
-      const response = await api.put<ApiResponse<any>>(
-        API_ENDPOINTS.USERS.CHANGE_PASSWORD,
-        {
-          currentPassword,
-          password,
-          password_confirmation: passwordConfirmation
-        }
-      );
+      const response = await api.put<ApiResponse<any>>(API_ENDPOINTS.USERS.CHANGE_PASSWORD, {
+        currentPassword,
+        password,
+        password_confirmation: passwordConfirmation,
+      });
 
       return response.data;
     } catch (err: any) {
@@ -389,4 +398,3 @@ export const useAuthStore = defineStore('auth', () => {
     initialize,
   };
 });
-

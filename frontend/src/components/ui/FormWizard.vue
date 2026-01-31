@@ -30,19 +30,9 @@
 
       <template v-slot:navigation>
         <q-stepper-navigation>
-          <q-btn
-            v-if="currentStep > 1"
-            :color="color"
-            label="Back"
-            @click="previousStep"
-          />
+          <q-btn v-if="currentStep > 1" :color="color" label="Back" @click="previousStep" />
           <q-space />
-          <q-btn
-            v-if="currentStep < steps.length"
-            :color="color"
-            label="Next"
-            @click="nextStep"
-          />
+          <q-btn v-if="currentStep < steps.length" :color="color" label="Next" @click="nextStep" />
           <q-btn
             v-else
             :color="color"
@@ -109,7 +99,7 @@ const emit = defineEmits<{
 
 const currentStep = computed({
   get: () => props.modelValue || 1,
-  set: (value) => {
+  set: value => {
     emit('update:modelValue', value);
     emit('step-change', value);
   },
@@ -137,4 +127,3 @@ function onFinish() {
   width: 100%;
 }
 </style>
-

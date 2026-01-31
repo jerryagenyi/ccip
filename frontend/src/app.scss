@@ -9,7 +9,16 @@
 
 // Typography
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    sans-serif;
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -19,20 +28,20 @@ body {
 // Light Theme (default)
 :root,
 .light-theme {
-  --ccip-primary: #7151B3;
-  --ccip-secondary: #F0F2F5;
-  --ccip-accent: #53A7EA;
-  --ccip-positive: #4CAF50;
-  --ccip-negative: #E74C3C;
-  --ccip-warning: #F59E0B;
-  --ccip-background: #F2F0F7;
-  --ccip-card: #FFFFFF;
-  --ccip-text-primary: #1A202C;
+  --ccip-primary: #7151b3;
+  --ccip-secondary: #f0f2f5;
+  --ccip-accent: #53a7ea;
+  --ccip-positive: #4caf50;
+  --ccip-negative: #e74c3c;
+  --ccip-warning: #f59e0b;
+  --ccip-background: #f2f0f7;
+  --ccip-card: #ffffff;
+  --ccip-text-primary: #1a202c;
   --ccip-text-secondary: #718096;
-  --ccip-text-disabled: #A0AEC0;
-  --ccip-text-hint: #CBD5E0;
-  --ccip-border: #E2E8F0;
-  --ccip-divider: #E2E8F0;
+  --ccip-text-disabled: #a0aec0;
+  --ccip-text-hint: #cbd5e0;
+  --ccip-border: #e2e8f0;
+  --ccip-divider: #e2e8f0;
   --ccip-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.1);
   --ccip-shadow-2: 0 4px 6px rgba(0, 0, 0, 0.07);
   --ccip-shadow-3: 0 10px 15px rgba(0, 0, 0, 0.05);
@@ -40,19 +49,19 @@ body {
 
 // Dark Theme (per UX specification)
 .dark-theme {
-  --ccip-primary: #B5B1F9;  // Adjusted for dark theme visibility
-  --ccip-secondary: #2D3748;  // --secondary from spec
-  --ccip-accent: #90CDF4;  // --accent from spec
-  --ccip-positive: #4CAF50;
-  --ccip-negative: #E74C3C;
-  --ccip-warning: #F59E0B;
-  --ccip-background: #111827;  // --background from spec
-  --ccip-card: #1D283A;  // --card from spec
-  --ccip-text-primary: #FAFAFA;  // --foreground from spec
-  --ccip-text-secondary: #A0AEC0;  // --muted-foreground from spec
+  --ccip-primary: #b5b1f9; // Adjusted for dark theme visibility
+  --ccip-secondary: #2d3748; // --secondary from spec
+  --ccip-accent: #90cdf4; // --accent from spec
+  --ccip-positive: #4caf50;
+  --ccip-negative: #e74c3c;
+  --ccip-warning: #f59e0b;
+  --ccip-background: #111827; // --background from spec
+  --ccip-card: #1d283a; // --card from spec
+  --ccip-text-primary: #fafafa; // --foreground from spec
+  --ccip-text-secondary: #a0aec0; // --muted-foreground from spec
   --ccip-text-disabled: #718096;
-  --ccip-text-hint: #A0AEC0;
-  --ccip-border: #324157;  // --border from spec
+  --ccip-text-hint: #a0aec0;
+  --ccip-border: #324157; // --border from spec
   --ccip-divider: #324157;
   --ccip-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.3);
   --ccip-shadow-2: 0 4px 6px rgba(0, 0, 0, 0.25);
@@ -60,18 +69,35 @@ body {
 }
 
 // Global text styles (theme-aware)
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 600;
   color: var(--ccip-text-primary);
   line-height: 1.2;
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.5rem; }
-h5 { font-size: 1.25rem; }
-h6 { font-size: 1.125rem; }
+h1 {
+  font-size: 2.5rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.75rem;
+}
+h4 {
+  font-size: 1.5rem;
+}
+h5 {
+  font-size: 1.25rem;
+}
+h6 {
+  font-size: 1.125rem;
+}
 
 .text-body1 {
   font-size: 1rem;
@@ -115,7 +141,9 @@ img {
   background-color: var(--ccip-card);
   border-radius: $card-border-radius;
   box-shadow: var(--ccip-shadow-1);
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
 
   &:hover {
     box-shadow: var(--ccip-shadow-2);
@@ -134,7 +162,8 @@ img {
   }
 }
 
-.q-menu, .q-dialog {
+.q-menu,
+.q-dialog {
   border-radius: $card-border-radius;
 }
 
@@ -147,7 +176,9 @@ img {
 }
 
 .card-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
@@ -199,4 +230,3 @@ img {
     background: var(--ccip-text-secondary);
   }
 }
-

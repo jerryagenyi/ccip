@@ -3,12 +3,7 @@
     <div class="q-pa-md">
       <!-- Header -->
       <div class="row items-center q-mb-md">
-        <q-btn
-          flat
-          round
-          icon="arrow_back"
-          @click="$router.push(`/activities/${activityId}`)"
-        />
+        <q-btn flat round icon="arrow_back" @click="$router.push(`/activities/${activityId}`)" />
         <div class="col q-ml-md">
           <div class="text-h4 text-weight-bold">Activity Timeline</div>
           <div class="text-subtitle1 text-grey-7">{{ activity.title }}</div>
@@ -38,9 +33,7 @@
               icon="send"
               color="blue"
             >
-              <div class="text-body2 q-mt-sm">
-                Activity was submitted for review and approval
-              </div>
+              <div class="text-body2 q-mt-sm">Activity was submitted for review and approval</div>
             </q-timeline-entry>
 
             <q-timeline-entry
@@ -50,9 +43,7 @@
               icon="check_circle"
               color="green"
             >
-              <div class="text-body2 q-mt-sm">
-                Activity was approved and is now active
-              </div>
+              <div class="text-body2 q-mt-sm">Activity was approved and is now active</div>
             </q-timeline-entry>
 
             <q-timeline-entry
@@ -62,9 +53,7 @@
               icon="cancel"
               color="red"
             >
-              <div class="text-body2 q-mt-sm">
-                Activity was rejected and requires revision
-              </div>
+              <div class="text-body2 q-mt-sm">Activity was rejected and requires revision</div>
             </q-timeline-entry>
 
             <q-timeline-entry
@@ -74,9 +63,7 @@
               icon="edit"
               color="orange"
             >
-              <div class="text-body2 q-mt-sm">
-                Activity details were last updated
-              </div>
+              <div class="text-body2 q-mt-sm">Activity details were last updated</div>
             </q-timeline-entry>
           </q-timeline>
         </q-card-section>

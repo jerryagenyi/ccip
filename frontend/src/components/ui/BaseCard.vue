@@ -70,4 +70,3 @@ const sectionClass = computed(() => {
   border: none;
 }
 </style>
-

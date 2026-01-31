@@ -214,7 +214,7 @@ const columns: TableColumn[] = [
   {
     name: 'parent',
     label: 'Parent',
-    field: (row: any) => row.parent_id ? { name: 'Parent Org' } : null,
+    field: (row: any) => (row.parent_id ? { name: 'Parent Org' } : null),
     align: 'left',
     sortable: false,
   },
@@ -224,7 +224,7 @@ const columns: TableColumn[] = [
     field: 'description',
     align: 'left',
     sortable: false,
-    format: (val: string) => val ? (val.length > 50 ? val.substring(0, 50) + '...' : val) : '-',
+    format: (val: string) => (val ? (val.length > 50 ? val.substring(0, 50) + '...' : val) : '-'),
   },
   {
     name: 'actions',
@@ -242,20 +242,19 @@ const tableRows = computed(() => {
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase();
     filtered = filtered.filter(
-      (org) =>
-        org.name?.toLowerCase().includes(query) ||
-        org.description?.toLowerCase().includes(query)
+      org =>
+        org.name?.toLowerCase().includes(query) || org.description?.toLowerCase().includes(query)
     );
   }
 
   // Apply type filter
   if (typeFilter.value) {
-    filtered = filtered.filter((org) => org.type === typeFilter.value);
+    filtered = filtered.filter(org => org.type === typeFilter.value);
   }
 
   // Apply level filter
   if (levelFilter.value) {
-    filtered = filtered.filter((org) => org.type === levelFilter.value);
+    filtered = filtered.filter(org => org.type === levelFilter.value);
   }
 
   return filtered;

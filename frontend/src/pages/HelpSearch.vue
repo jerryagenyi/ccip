@@ -25,13 +25,7 @@
               <q-icon name="search" />
             </template>
             <template #append>
-              <q-btn
-                flat
-                dense
-                round
-                icon="search"
-                @click="performSearch"
-              />
+              <q-btn flat dense round icon="search" @click="performSearch" />
             </template>
           </q-input>
         </q-card-section>
@@ -73,7 +67,11 @@
         <q-card-section>
           <div class="row items-center justify-between q-mb-md">
             <div class="text-h6">
-              {{ searchQuery ? `Search Results (${searchResults.length})` : `Articles (${articles.length})` }}
+              {{
+                searchQuery
+                  ? `Search Results (${searchResults.length})`
+                  : `Articles (${articles.length})`
+              }}
             </div>
             <q-chip
               v-if="selectedCategory"
@@ -101,12 +99,7 @@
                   {{ article.excerpt || article.content.substring(0, 150) + '...' }}
                 </q-item-label>
                 <q-item-label caption class="q-mt-xs">
-                  <q-chip
-                    size="sm"
-                    :label="article.category"
-                    color="grey-3"
-                    text-color="grey-8"
-                  />
+                  <q-chip size="sm" :label="article.category" color="grey-3" text-color="grey-8" />
                 </q-item-label>
               </q-item-section>
               <q-item-section side>
@@ -198,10 +191,7 @@ async function performSearch() {
   }
 
   try {
-    await helpStore.searchArticles(
-      searchQuery.value,
-      selectedCategory.value || undefined
-    );
+    await helpStore.searchArticles(searchQuery.value, selectedCategory.value || undefined);
   } catch (error) {
     $q.notify({
       type: 'negative',

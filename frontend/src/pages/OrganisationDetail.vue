@@ -11,23 +11,15 @@
       <div v-else>
         <!-- Header -->
         <div class="row items-center q-mb-md">
-          <q-btn
-            flat
-            round
-            icon="arrow_back"
-            @click="$router.push('/organisations')"
-          />
+          <q-btn flat round icon="arrow_back" @click="$router.push('/organisations')" />
           <div class="col q-ml-md">
             <div class="text-h4 text-weight-bold">{{ organisation.name }}</div>
-            <div class="text-subtitle1 text-grey-7">{{ organisation.description || 'No description' }}</div>
+            <div class="text-subtitle1 text-grey-7">
+              {{ organisation.description || 'No description' }}
+            </div>
           </div>
           <div class="col-auto">
-            <q-btn
-              color="primary"
-              label="Edit"
-              icon="edit"
-              @click="editOrganisation"
-            />
+            <q-btn color="primary" label="Edit" icon="edit" @click="editOrganisation" />
           </div>
         </div>
 
@@ -55,20 +47,27 @@
                         <q-item-section>
                           <q-item-label caption>Type</q-item-label>
                           <q-item-label>
-                            <q-badge :color="getTypeColor(organisation.type)" :label="organisation.type" />
+                            <q-badge
+                              :color="getTypeColor(organisation.type)"
+                              :label="organisation.type"
+                            />
                           </q-item-label>
                         </q-item-section>
                       </q-item>
                       <q-item v-if="organisation.parent_id">
                         <q-item-section>
                           <q-item-label caption>Parent Organisation</q-item-label>
-                          <q-item-label>{{ parentOrganisation?.name || 'Loading...' }}</q-item-label>
+                          <q-item-label>{{
+                            parentOrganisation?.name || 'Loading...'
+                          }}</q-item-label>
                         </q-item-section>
                       </q-item>
                       <q-item>
                         <q-item-section>
                           <q-item-label caption>Description</q-item-label>
-                          <q-item-label>{{ organisation.description || 'No description provided' }}</q-item-label>
+                          <q-item-label>{{
+                            organisation.description || 'No description provided'
+                          }}</q-item-label>
                         </q-item-section>
                       </q-item>
                     </q-list>
@@ -159,12 +158,7 @@
                       />
                     </q-item-section>
                     <q-item-section side>
-                      <q-btn
-                        flat
-                        dense
-                        round
-                        icon="more_vert"
-                      >
+                      <q-btn flat dense round icon="more_vert">
                         <q-menu>
                           <q-list>
                             <q-item clickable @click="editMember(member)">
@@ -249,7 +243,10 @@
           type="email"
           outlined
           dense
-          :rules="[val => !!val || 'Email is required', val => /.+@.+\..+/.test(val) || 'Invalid email']"
+          :rules="[
+            val => !!val || 'Email is required',
+            val => /.+@.+\..+/.test(val) || 'Invalid email',
+          ]"
           class="q-mb-md"
         />
         <q-select
@@ -313,9 +310,8 @@ const filteredMembers = computed(() => {
   if (!memberSearch.value) return members.value;
   const query = memberSearch.value.toLowerCase();
   return members.value.filter(
-    (member) =>
-      member.name?.toLowerCase().includes(query) ||
-      member.email?.toLowerCase().includes(query)
+    member =>
+      member.name?.toLowerCase().includes(query) || member.email?.toLowerCase().includes(query)
   );
 });
 

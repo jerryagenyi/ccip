@@ -86,4 +86,3 @@ const actionsClass = computed(() => {
   min-width: 300px;
 }
 </style>
-

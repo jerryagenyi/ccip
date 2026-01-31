@@ -1,30 +1,17 @@
 <template>
   <div>
-    <q-btn
-      flat
-      round
-      dense
-      :icon="user?.profile_picture ? undefined : 'account_circle'"
-    >
+    <q-btn flat round dense :icon="user?.profile_picture ? undefined : 'account_circle'">
       <q-avatar v-if="user?.profile_picture" size="32px">
         <img :src="user.profile_picture" :alt="user.name" />
       </q-avatar>
     </q-btn>
 
-    <q-menu
-      v-model="showMenu"
-      anchor="bottom right"
-      self="top right"
-      :offset="[0, 8]"
-    >
+    <q-menu v-model="showMenu" anchor="bottom right" self="top right" :offset="[0, 8]">
       <q-list style="min-width: 200px">
         <!-- User Info -->
         <q-item>
           <q-item-section avatar>
-            <q-avatar
-              v-if="user?.profile_picture"
-              size="48px"
-            >
+            <q-avatar v-if="user?.profile_picture" size="48px">
               <img :src="user.profile_picture" :alt="user.name" />
             </q-avatar>
             <q-avatar v-else color="primary" text-color="white" size="48px">
@@ -138,4 +125,3 @@ async function handleLogout() {
   showMenu.value = false;
 }
 </script>
-

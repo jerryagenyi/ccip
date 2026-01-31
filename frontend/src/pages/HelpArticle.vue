@@ -11,21 +11,11 @@
       <div v-else-if="article">
         <!-- Header -->
         <div class="row items-center q-mb-md">
-          <q-btn
-            flat
-            round
-            icon="arrow_back"
-            @click="$router.push('/help')"
-          />
+          <q-btn flat round icon="arrow_back" @click="$router.push('/help')" />
           <div class="col q-ml-md">
             <div class="text-h4 text-weight-bold">{{ article.title }}</div>
             <div class="text-subtitle2 text-grey-7 q-mt-xs">
-              <q-chip
-                size="sm"
-                :label="article.category"
-                color="primary"
-                text-color="white"
-              />
+              <q-chip size="sm" :label="article.category" color="primary" text-color="white" />
             </div>
           </div>
         </div>
@@ -67,18 +57,8 @@
 
         <!-- Actions -->
         <div class="row justify-center q-mt-md q-gutter-sm">
-          <q-btn
-            flat
-            label="Back to Help"
-            icon="arrow_back"
-            @click="$router.push('/help')"
-          />
-          <q-btn
-            flat
-            label="Search Help"
-            icon="search"
-            @click="$router.push('/help')"
-          />
+          <q-btn flat label="Back to Help" icon="arrow_back" @click="$router.push('/help')" />
+          <q-btn flat label="Search Help" icon="search" @click="$router.push('/help')" />
         </div>
       </div>
 
@@ -116,7 +96,7 @@ const loading = computed(() => helpStore.loading);
 const relatedArticles = computed(() => {
   if (!article.value) return [];
   return helpStore.articles
-    .filter((a) => a.id !== article.value?.id && a.category === article.value?.category)
+    .filter(a => a.id !== article.value?.id && a.category === article.value?.category)
     .slice(0, 3);
 });
 
@@ -137,7 +117,7 @@ onMounted(async () => {
     if (isNaN(id)) {
       // Try to find by slug
       await helpStore.fetchArticles();
-      const found = helpStore.articles.find((a) => a.slug === articleId.value);
+      const found = helpStore.articles.find(a => a.slug === articleId.value);
       if (found) {
         await helpStore.fetchArticle(found.id);
       } else {
@@ -167,28 +147,31 @@ onMounted(async () => {
 
 .help-article-content {
   line-height: 1.8;
-  
-  :deep(h1), :deep(h2), :deep(h3) {
+
+  :deep(h1),
+  :deep(h2),
+  :deep(h3) {
     margin-top: 1.5em;
     margin-bottom: 0.5em;
   }
-  
+
   :deep(p) {
     margin-bottom: 1em;
   }
-  
-  :deep(ul), :deep(ol) {
+
+  :deep(ul),
+  :deep(ol) {
     margin-left: 2em;
     margin-bottom: 1em;
   }
-  
+
   :deep(code) {
     background-color: #f5f5f5;
     padding: 2px 6px;
     border-radius: 3px;
     font-family: monospace;
   }
-  
+
   :deep(pre) {
     background-color: #f5f5f5;
     padding: 1em;

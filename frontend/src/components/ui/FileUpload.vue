@@ -44,11 +44,7 @@
 
       <div v-if="files.length > 0" class="file-list q-mt-md">
         <q-list bordered separator>
-          <q-item
-            v-for="(file, index) in files"
-            :key="index"
-            class="file-item"
-          >
+          <q-item v-for="(file, index) in files" :key="index" class="file-item">
             <q-item-section avatar>
               <q-icon :name="getFileIcon(file.type || '')" />
             </q-item-section>
@@ -57,13 +53,7 @@
               <q-item-label caption>{{ formatFileSize(file.size) }}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-btn
-                icon="close"
-                flat
-                round
-                dense
-                @click="removeFile(index)"
-              />
+              <q-btn icon="close" flat round dense @click="removeFile(index)" />
             </q-item-section>
           </q-item>
         </q-list>
@@ -142,7 +132,7 @@ const files = ref<FileItem[]>([]);
 const uploading = ref(false);
 
 function onAdded(files: File[]) {
-  const fileItems = files.map((file) => ({
+  const fileItems = files.map(file => ({
     name: file.name,
     size: file.size,
     type: file.type,
@@ -172,7 +162,7 @@ function onFileChange(newFiles: File[] | null) {
   }
 
   const fileArray = Array.isArray(newFiles) ? newFiles : [newFiles];
-  files.value = fileArray.map((file) => ({
+  files.value = fileArray.map(file => ({
     name: file.name,
     size: file.size,
     type: file.type,
@@ -192,7 +182,7 @@ function formatFileSize(bytes: number): string {
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+  return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
 }
 
 function getFileIcon(type: string): string {
@@ -210,7 +200,7 @@ async function handleUpload() {
 
   uploading.value = true;
   try {
-    const fileArray = files.value.map((item) => item.file!).filter(Boolean);
+    const fileArray = files.value.map(item => item.file!).filter(Boolean);
     const result = await props.factory(fileArray);
     emit('uploaded', { files: fileArray, xhr: result });
   } catch (error) {
@@ -239,4 +229,3 @@ async function handleUpload() {
   padding: 8px 16px;
 }
 </style>
-

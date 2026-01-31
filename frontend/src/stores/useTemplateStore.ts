@@ -53,4 +53,3 @@ export const useTemplateStore = defineStore('template', () => {
     fetchTemplate,
   };
 });
-

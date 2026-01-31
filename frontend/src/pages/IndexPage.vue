@@ -3,11 +3,11 @@
     <!-- Hero Section -->
     <section id="home" class="hero-section">
       <div class="hero-content">
-        <h1 class="hero-title">
-          Predictive Intelligence for Crisis Communication
-        </h1>
+        <h1 class="hero-title">Predictive Intelligence for Crisis Communication</h1>
         <p class="hero-subtitle">
-          Move from reactive to predictive communication. With CCIP, you gain foresight into risks and a panoramic view of your crisis outreach, ensuring culturally‑intelligent communication that protects communities.
+          Move from reactive to predictive communication. With CCIP, you gain foresight into risks
+          and a panoramic view of your crisis outreach, ensuring culturally‑intelligent
+          communication that protects communities.
         </p>
         <div class="row q-gutter-md justify-center q-mt-lg">
           <q-btn
@@ -48,15 +48,12 @@
         <div class="text-center q-mb-xl">
           <h2 class="section-title">A New Level of Coordination</h2>
           <p class="section-subtitle">
-            From national strategy to community outreach, CCIP unifies every layer of your organisation.
+            From national strategy to community outreach, CCIP unifies every layer of your
+            organisation.
           </p>
         </div>
         <div class="row q-col-gutter-lg">
-          <div
-            v-for="feature in features"
-            :key="feature.name"
-            class="col-12 col-sm-6 col-md-4"
-          >
+          <div v-for="feature in features" :key="feature.name" class="col-12 col-sm-6 col-md-4">
             <q-card class="feature-card" flat bordered>
               <q-card-section class="text-center">
                 <q-icon :name="feature.icon" size="48px" color="primary" class="q-mb-md" />
@@ -76,9 +73,7 @@
       <div class="container">
         <div class="text-center q-mb-xl">
           <h2 class="section-title">Frequently Asked Questions</h2>
-          <p class="section-subtitle">
-            Find answers to common questions about CCIP.
-          </p>
+          <p class="section-subtitle">Find answers to common questions about CCIP.</p>
         </div>
         <div class="row justify-center">
           <div class="col-12 col-md-10 col-lg-8">
@@ -134,7 +129,7 @@
                         outlined
                         :rules="[
                           val => !!val || 'Email is required',
-                          val => /.+@.+\..+/.test(val) || 'Please enter a valid email'
+                          val => /.+@.+\..+/.test(val) || 'Please enter a valid email',
                         ]"
                       />
                     </div>
@@ -175,9 +170,7 @@
     <!-- CTA Section -->
     <section v-if="!isAuthenticated" class="cta-section q-pa-xl text-center">
       <div class="container">
-        <h3 class="text-h5 text-weight-bold q-mb-md">
-          Ready to get started?
-        </h3>
+        <h3 class="text-h5 text-weight-bold q-mb-md">Ready to get started?</h3>
         <p class="text-body1 text-grey-7 q-mb-lg">
           Join organisations worldwide using CCIP to improve their risk communication activities
         </p>
@@ -241,23 +234,28 @@ const features = [
 const faqs = [
   {
     question: 'What is CCIP?',
-    answer: 'CCIP (Crisis Communication Intelligence Platform) is a comprehensive platform designed to coordinate, track, and optimize public health risk communication activities globally. It helps organizations move from reactive to predictive communication strategies.',
+    answer:
+      'CCIP (Crisis Communication Intelligence Platform) is a comprehensive platform designed to coordinate, track, and optimize public health risk communication activities globally. It helps organizations move from reactive to predictive communication strategies.',
   },
   {
     question: 'Who can use CCIP?',
-    answer: 'CCIP is designed for public health organizations, government agencies, NGOs, and any organization involved in crisis communication and public health risk management. It supports multi-tier organizational structures from national to community levels.',
+    answer:
+      'CCIP is designed for public health organizations, government agencies, NGOs, and any organization involved in crisis communication and public health risk management. It supports multi-tier organizational structures from national to community levels.',
   },
   {
     question: 'How does semiotic analysis work?',
-    answer: 'Our AI-powered semiotic analysis evaluates communication messages for cultural appropriateness and effectiveness before deployment. It identifies potential cultural missteps, provides recommendations, and helps ensure your messages resonate with target audiences.',
+    answer:
+      'Our AI-powered semiotic analysis evaluates communication messages for cultural appropriateness and effectiveness before deployment. It identifies potential cultural missteps, provides recommendations, and helps ensure your messages resonate with target audiences.',
   },
   {
     question: 'Is CCIP available globally?',
-    answer: 'Yes, CCIP is designed as a global platform with configurable administrative hierarchies. It supports multiple languages and can be adapted to different regional structures and requirements.',
+    answer:
+      'Yes, CCIP is designed as a global platform with configurable administrative hierarchies. It supports multiple languages and can be adapted to different regional structures and requirements.',
   },
   {
     question: 'How do I get started?',
-    answer: 'Simply create an account using the "Get Started" button. You can register your organization and start managing risk communication activities immediately. For enterprise needs or custom requirements, please contact us through the contact form.',
+    answer:
+      'Simply create an account using the "Get Started" button. You can register your organization and start managing risk communication activities immediately. For enterprise needs or custom requirements, please contact us through the contact form.',
   },
 ];
 
@@ -272,16 +270,16 @@ const contactSubmitting = ref(false);
 
 const handleContactSubmit = async () => {
   contactSubmitting.value = true;
-  
+
   try {
     const response = await api.post('/contact', contactForm.value);
-    
+
     $q.notify({
       type: 'positive',
-      message: response.data?.message || 'Thank you for your message! We\'ll get back to you soon.',
+      message: response.data?.message || "Thank you for your message! We'll get back to you soon.",
       position: 'top',
     });
-    
+
     // Reset form
     contactForm.value = {
       name: '',
@@ -375,7 +373,7 @@ const handleContactSubmit = async () => {
 }
 
 body.body--dark .section-title {
-  color: #FAFAFA !important;
+  color: #fafafa !important;
 }
 
 .section-subtitle {
@@ -386,7 +384,7 @@ body.body--dark .section-title {
 }
 
 body.body--dark .section-subtitle {
-  color: #A0AEC0 !important;
+  color: #a0aec0 !important;
 }
 
 // Features Section
@@ -395,12 +393,14 @@ body.body--dark .section-subtitle {
 }
 
 body.body--dark .features-section {
-  background-color: #1D283A !important;
+  background-color: #1d283a !important;
 }
 
 .feature-card {
   height: 100%;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 
   &:hover {
     transform: translateY(-4px);
@@ -409,7 +409,7 @@ body.body--dark .features-section {
 }
 
 body.body--dark .feature-card {
-  background-color: #1D283A !important;
+  background-color: #1d283a !important;
   border-color: #374151 !important;
 }
 
@@ -428,7 +428,7 @@ body.body--dark .faq-section {
 }
 
 body.body--dark .contact-section {
-  background-color: #1D283A !important;
+  background-color: #1d283a !important;
 }
 
 // CTA Section
@@ -440,4 +440,3 @@ body.body--dark .cta-section {
   background-color: #111827 !important;
 }
 </style>
-

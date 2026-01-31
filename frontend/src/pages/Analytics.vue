@@ -22,22 +22,10 @@
         <q-card-section>
           <div class="row q-col-gutter-md">
             <div class="col-12 col-md-4">
-              <q-input
-                v-model="dateRange.start"
-                label="Start Date"
-                type="date"
-                outlined
-                dense
-              />
+              <q-input v-model="dateRange.start" label="Start Date" type="date" outlined dense />
             </div>
             <div class="col-12 col-md-4">
-              <q-input
-                v-model="dateRange.end"
-                label="End Date"
-                type="date"
-                outlined
-                dense
-              />
+              <q-input v-model="dateRange.end" label="End Date" type="date" outlined dense />
             </div>
             <div class="col-12 col-md-4">
               <q-btn
@@ -86,9 +74,7 @@
                   </div>
                 </div>
               </div>
-              <div v-else class="text-center q-py-lg text-grey-6">
-                No status data available
-              </div>
+              <div v-else class="text-center q-py-lg text-grey-6">No status data available</div>
             </q-card-section>
           </q-card>
         </div>
@@ -106,7 +92,9 @@
                 >
                   <div class="row items-center justify-between">
                     <div class="text-body2">Activity #{{ metric.activity_id }}</div>
-                    <div class="text-h6 text-primary">{{ metric.value }} {{ metric.unit || '' }}</div>
+                    <div class="text-h6 text-primary">
+                      {{ metric.value }} {{ metric.unit || '' }}
+                    </div>
                   </div>
                   <div class="text-caption text-grey-6">{{ formatDate(metric.recorded_at) }}</div>
                 </div>
@@ -124,11 +112,7 @@
             <q-card-section>
               <div class="text-h6 q-mb-md">Engagement Trends</div>
               <div v-if="engagementTrends.length > 0" class="trend-chart">
-                <div
-                  v-for="trend in engagementTrends"
-                  :key="trend.date"
-                  class="trend-item q-mb-sm"
-                >
+                <div v-for="trend in engagementTrends" :key="trend.date" class="trend-item q-mb-sm">
                   <div class="row items-center">
                     <div class="col-3 text-caption">{{ formatDate(trend.date) }}</div>
                     <div class="col-9">
@@ -148,9 +132,7 @@
                   </div>
                 </div>
               </div>
-              <div v-else class="text-center q-py-lg text-grey-6">
-                No trend data available
-              </div>
+              <div v-else class="text-center q-py-lg text-grey-6">No trend data available</div>
             </q-card-section>
           </q-card>
         </div>
@@ -309,4 +291,3 @@ onMounted(() => {
   min-height: 40px;
 }
 </style>
-

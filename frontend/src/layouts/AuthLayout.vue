@@ -15,19 +15,17 @@
                 xmlns="http://www.w3.org/2000/svg"
                 class="q-mx-auto"
               >
-                <circle cx="30" cy="30" r="28" stroke="#7151B3" stroke-width="2" fill="none"/>
-                <path d="M30 15 L40 25 L40 40 L30 50 L20 40 L20 25 Z" fill="#7151B3"/>
-                <path d="M30 25 L35 30 L30 35 L25 30 Z" fill="white"/>
-                <path d="M30 5 L40 15 L30 20 L20 15 Z" fill="#53A7EA" opacity="0.8"/>
-                <path d="M30 40 L40 45 L30 55 L20 45 Z" fill="#53A7EA" opacity="0.8"/>
+                <circle cx="30" cy="30" r="28" stroke="#7151B3" stroke-width="2" fill="none" />
+                <path d="M30 15 L40 25 L40 40 L30 50 L20 40 L20 25 Z" fill="#7151B3" />
+                <path d="M30 25 L35 30 L30 35 L25 30 Z" fill="white" />
+                <path d="M30 5 L40 15 L30 20 L20 15 Z" fill="#53A7EA" opacity="0.8" />
+                <path d="M30 40 L40 45 L30 55 L20 45 Z" fill="#53A7EA" opacity="0.8" />
               </svg>
             </div>
             <h1 class="text-h4 text-weight-medium q-ma-none">
               <span class="text-gradient">CCIP</span>
             </h1>
-            <p class="text-body2 q-mt-sm text-grey-7">
-              Risk Communication & Assessment Platform
-            </p>
+            <p class="text-body2 q-mt-sm text-grey-7">Risk Communication & Assessment Platform</p>
           </div>
 
           <!-- Main Content -->
@@ -37,9 +35,7 @@
 
           <!-- Footer -->
           <div class="auth-footer text-center q-mt-xl">
-            <p class="text-caption text-grey-6">
-              © 2025 CCIP. All rights reserved.
-            </p>
+            <p class="text-caption text-grey-6">© 2025 CCIP. All rights reserved.</p>
             <div class="footer-links q-mt-sm">
               <q-btn
                 flat
@@ -59,15 +55,7 @@
                 size="sm"
                 class="q-mx-sm"
               />
-              <q-btn
-                flat
-                dense
-                no-caps
-                label="Help"
-                color="grey-6"
-                size="sm"
-                class="q-mx-sm"
-              />
+              <q-btn flat dense no-caps label="Help" color="grey-6" size="sm" class="q-mx-sm" />
             </div>
           </div>
         </div>
@@ -201,4 +189,3 @@
   }
 }
 </style>
-

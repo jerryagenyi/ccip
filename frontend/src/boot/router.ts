@@ -6,4 +6,3 @@ export default boot(({ router }: { router: Router }) => {
   // Apply global guard which handles all routing logic
   router.beforeEach(globalGuard);
 });
-

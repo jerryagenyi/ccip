@@ -2,12 +2,8 @@
   <div class="auth-login">
     <!-- Login Header -->
     <div class="text-center q-mb-lg">
-      <h2 class="text-h4 text-weight-medium q-ma-none">
-        Welcome Back
-      </h2>
-      <p class="text-body1 text-grey-6 q-mt-sm">
-        Sign in to your CCIP account
-      </p>
+      <h2 class="text-h4 text-weight-medium q-ma-none">Welcome Back</h2>
+      <p class="text-body1 text-grey-6 q-mt-sm">Sign in to your CCIP account</p>
     </div>
 
     <!-- Login Form -->
@@ -97,41 +93,17 @@
     <div class="text-center">
       <p class="text-body2 text-grey-7">
         Don't have an account?
-        <q-btn
-          flat
-          dense
-          no-caps
-          label="Sign up"
-          color="primary"
-          @click="goToRegister"
-        />
+        <q-btn flat dense no-caps label="Sign up" color="primary" @click="goToRegister" />
       </p>
     </div>
 
     <!-- Demo Account Notice -->
-    <q-card
-      flat
-      bordered
-      class="q-mt-lg bg-grey-1"
-    >
+    <q-card flat bordered class="q-mt-lg bg-grey-1">
       <q-card-section class="q-pa-md">
         <div class="flex items-center q-gutter-sm">
-          <q-icon
-            name="info"
-            color="info"
-            size="sm"
-          />
-          <span class="text-caption text-grey-7">
-            Demo account: demo@ccip.com / demo123
-          </span>
-          <q-btn
-            flat
-            dense
-            size="sm"
-            label="Use"
-            color="info"
-            @click="fillDemoCredentials"
-          />
+          <q-icon name="info" color="info" size="sm" />
+          <span class="text-caption text-grey-7"> Demo account: demo@ccip.com / demo123 </span>
+          <q-btn flat dense size="sm" label="Use" color="info" @click="fillDemoCredentials" />
         </div>
       </q-card-section>
     </q-card>
@@ -154,7 +126,7 @@ const authStore = useAuthStore();
 const form = reactive<LoginCredentials & { remember?: boolean }>({
   email: '',
   password: '',
-  remember: false
+  remember: false,
 });
 
 // UI state
@@ -164,19 +136,17 @@ const loading = computed(() => authStore.loading);
 // Validation rules
 const emailRules = [
   (val: string) => !!val || 'Email is required',
-  (val: string) => /.+@.+\..+/.test(val) || 'Please enter a valid email address'
+  (val: string) => /.+@.+\..+/.test(val) || 'Please enter a valid email address',
 ];
 
 const passwordRules = [
   (val: string) => !!val || 'Password is required',
-  (val: string) => val.length >= 6 || 'Password must be at least 6 characters'
+  (val: string) => val.length >= 6 || 'Password must be at least 6 characters',
 ];
 
 // Computed
 const isValid = computed(() => {
-  return form.email && form.password &&
-         /.+@.+\..+/.test(form.email) &&
-         form.password.length >= 6;
+  return form.email && form.password && /.+@.+\..+/.test(form.email) && form.password.length >= 6;
 });
 
 // Methods
@@ -185,18 +155,18 @@ const handleLogin = async () => {
     await authStore.login({
       email: form.email,
       password: form.password,
-      remember: form.remember
+      remember: form.remember,
     });
 
     // Show success notification
     $q.notify({
       type: 'positive',
       message: 'Login successful!',
-      position: 'top'
+      position: 'top',
     });
 
     // Redirect to intended page or dashboard
-    const redirect = route.query.redirect as string || '/dashboard';
+    const redirect = (route.query.redirect as string) || '/dashboard';
     router.push(redirect);
   } catch (error) {
     // Error is handled by the store

@@ -9,7 +9,12 @@ export function authGuard(
   next: NavigationGuardNext
 ) {
   // Public routes that don't require authentication
-  const publicRoutes = ['auth-login', 'auth-register', 'auth-forgot-password', 'auth-reset-password'];
+  const publicRoutes = [
+    'auth-login',
+    'auth-register',
+    'auth-forgot-password',
+    'auth-reset-password',
+  ];
 
   // Check localStorage for auth token
   const isAuthenticated = !!localStorage.getItem('auth_token');
@@ -19,7 +24,7 @@ export function authGuard(
     const redirect = !to.fullPath.includes('/auth/login') ? to.fullPath : undefined;
     next({
       name: 'auth-login',
-      query: redirect ? { redirect } : undefined
+      query: redirect ? { redirect } : undefined,
     });
     return;
   }
@@ -73,29 +78,29 @@ export function globalGuard(
 ) {
   // Check if user is authenticated
   const isAuthenticated = !!localStorage.getItem('auth_token');
-  
+
   // Debug logging (remove in production)
   if (process.env.NODE_ENV === 'development') {
     console.log('Route navigation:', {
       to: to.name,
       path: to.path,
       authenticated: isAuthenticated,
-      requiresAuth: to.meta.requiresAuth
+      requiresAuth: to.meta.requiresAuth,
     });
   }
-  
+
   // If authenticated user visits landing page, redirect to dashboard
   if (to.name === 'home' && isAuthenticated) {
     next({ name: 'dashboard' });
     return;
   }
-  
+
   // Allow landing page for unauthenticated users - bypass auth guard
   if (to.name === 'home' && !isAuthenticated) {
     next();
     return;
   }
-  
+
   // Run auth guard - it handles authentication and redirects
   authGuard(to, from, next);
 }

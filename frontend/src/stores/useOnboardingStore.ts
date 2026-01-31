@@ -85,4 +85,3 @@ export const useOnboardingStore = defineStore('onboarding', () => {
     resetProgress,
   };
 });
-

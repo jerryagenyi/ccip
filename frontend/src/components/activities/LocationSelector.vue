@@ -16,9 +16,7 @@
       >
         <template #no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No countries found
-            </q-item-section>
+            <q-item-section class="text-grey"> No countries found </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -41,9 +39,7 @@
       >
         <template #no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No options found
-            </q-item-section>
+            <q-item-section class="text-grey"> No options found </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -60,15 +56,17 @@
         input-debounce="300"
         :disable="!level1"
         :rules="level2Required ? [val => !!val || `${level2Label} is required`] : []"
-        :hint="level1 ? `Select ${level2Label.toLowerCase()}` : `Select ${level1Label.toLowerCase()} first`"
+        :hint="
+          level1
+            ? `Select ${level2Label.toLowerCase()}`
+            : `Select ${level1Label.toLowerCase()} first`
+        "
         @filter="filterLevel2"
         @update:model-value="$emit('update:level2', $event)"
       >
         <template #no-option>
           <q-item>
-            <q-item-section class="text-grey">
-              No options found
-            </q-item-section>
+            <q-item-section class="text-grey"> No options found </q-item-section>
           </q-item>
         </template>
       </q-select>
@@ -79,7 +77,10 @@
         label="City/Town"
         outlined
         dense
-        :rules="[val => !!val || 'City/Town is required', val => val.length >= 2 || 'City name must be at least 2 characters']"
+        :rules="[
+          val => !!val || 'City/Town is required',
+          val => val.length >= 2 || 'City name must be at least 2 characters',
+        ]"
         hint="Enter the city or town name"
         @update:model-value="$emit('update:city', $event)"
       />
@@ -122,22 +123,22 @@ const emit = defineEmits<{
 
 const country = computed({
   get: () => props.country,
-  set: (value) => emit('update:country', value),
+  set: value => emit('update:country', value),
 });
 
 const level1 = computed({
   get: () => props.level1,
-  set: (value) => emit('update:level1', value),
+  set: value => emit('update:level1', value),
 });
 
 const level2 = computed({
   get: () => props.level2,
-  set: (value) => emit('update:level2', value),
+  set: value => emit('update:level2', value),
 });
 
 const city = computed({
   get: () => props.city,
-  set: (value) => emit('update:city', value),
+  set: value => emit('update:city', value),
 });
 
 // Options
@@ -159,12 +160,31 @@ async function loadCountries() {
   } catch (error) {
     // Fallback to common countries list
     allCountries.value = [
-      'Nigeria', 'Kenya', 'Ghana', 'South Africa', 'Tanzania', 'Uganda',
-      'Ethiopia', 'Senegal', 'Cameroon', 'Zimbabwe', 'Malawi', 'Zambia',
-      'United States', 'United Kingdom', 'Canada', 'Australia', 'India',
-      'Brazil', 'Mexico', 'France', 'Germany', 'Italy', 'Spain',
+      'Nigeria',
+      'Kenya',
+      'Ghana',
+      'South Africa',
+      'Tanzania',
+      'Uganda',
+      'Ethiopia',
+      'Senegal',
+      'Cameroon',
+      'Zimbabwe',
+      'Malawi',
+      'Zambia',
+      'United States',
+      'United Kingdom',
+      'Canada',
+      'Australia',
+      'India',
+      'Brazil',
+      'Mexico',
+      'France',
+      'Germany',
+      'Italy',
+      'Spain',
     ];
-    countryOptions.value = allCountries.value.map((c) => ({
+    countryOptions.value = allCountries.value.map(c => ({
       label: c,
       value: c,
     }));
@@ -203,19 +223,19 @@ function filterCountries(val: string, update: (callback: () => void) => void) {
   update(() => {
     if (val === '') {
       countryOptions.value = allCountries.value.map((c: any) => ({
-        label: typeof c === 'string' ? c : (c.name || c),
-        value: typeof c === 'string' ? c : (c.code || c),
+        label: typeof c === 'string' ? c : c.name || c,
+        value: typeof c === 'string' ? c : c.code || c,
       }));
     } else {
       const needle = val.toLowerCase();
       countryOptions.value = allCountries.value
         .filter((c: any) => {
-          const name = typeof c === 'string' ? c : (c.name || c);
+          const name = typeof c === 'string' ? c : c.name || c;
           return name.toLowerCase().includes(needle);
         })
         .map((c: any) => ({
-          label: typeof c === 'string' ? c : (c.name || c),
-          value: typeof c === 'string' ? c : (c.code || c),
+          label: typeof c === 'string' ? c : c.name || c,
+          value: typeof c === 'string' ? c : c.code || c,
         }));
     }
   });
@@ -252,18 +272,24 @@ function onLevel1Change(value: string | null) {
 loadCountries();
 
 // Watch for country changes
-watch(() => props.country, (newCountry) => {
-  if (newCountry) {
-    loadLevel1(newCountry);
+watch(
+  () => props.country,
+  newCountry => {
+    if (newCountry) {
+      loadLevel1(newCountry);
+    }
   }
-});
+);
 
 // Watch for level1 changes
-watch(() => props.level1, (newLevel1) => {
-  if (newLevel1 && props.country) {
-    loadLevel2(props.country, newLevel1);
+watch(
+  () => props.level1,
+  newLevel1 => {
+    if (newLevel1 && props.country) {
+      loadLevel2(props.country, newLevel1);
+    }
   }
-});
+);
 </script>
 
 <style scoped lang="scss">
@@ -271,4 +297,3 @@ watch(() => props.level1, (newLevel1) => {
   width: 100%;
 }
 </style>
-

@@ -85,4 +85,3 @@ export const useHelpStore = defineStore('help', () => {
     fetchCategories,
   };
 });
-

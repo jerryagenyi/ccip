@@ -13,4 +13,3 @@ onMounted(() => {
   themeStore.setupListeners();
 });
 </script>
-

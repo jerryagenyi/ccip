@@ -3,12 +3,7 @@
     <div class="q-pa-md">
       <!-- Page Header -->
       <div class="row items-center q-mb-md">
-        <q-btn
-          flat
-          round
-          icon="arrow_back"
-          @click="$router.push('/activities')"
-        />
+        <q-btn flat round icon="arrow_back" @click="$router.push('/activities')" />
         <div class="col q-ml-md">
           <div class="text-h4 text-weight-bold">Create Activity</div>
           <div class="text-subtitle1 text-grey-7">Fill in the details to create a new activity</div>
@@ -33,7 +28,10 @@
                   label="Activity Title"
                   outlined
                   dense
-                  :rules="[val => !!val || 'Title is required', val => val.length >= 5 || 'Title must be at least 5 characters']"
+                  :rules="[
+                    val => !!val || 'Title is required',
+                    val => val.length >= 5 || 'Title must be at least 5 characters',
+                  ]"
                   hint="Enter a descriptive title for the activity"
                 />
 
@@ -54,10 +52,12 @@
                   type="textarea"
                   outlined
                   rows="5"
-                  :rules="[val => !!val || 'Description is required', val => val.length >= 10 || 'Description must be at least 10 characters']"
+                  :rules="[
+                    val => !!val || 'Description is required',
+                    val => val.length >= 10 || 'Description must be at least 10 characters',
+                  ]"
                   hint="Provide a detailed description of the activity"
                 />
-
               </div>
             </template>
 
@@ -93,7 +93,10 @@
                       type="date"
                       :rules="[
                         val => !!val || 'End date is required',
-                        val => !formData.startDate || val >= formData.startDate || 'End date cannot be before start date'
+                        val =>
+                          !formData.startDate ||
+                          val >= formData.startDate ||
+                          'End date cannot be before start date',
                       ]"
                     />
                   </div>
@@ -194,11 +197,7 @@
               @click="saveDraft"
             />
             <div class="q-gutter-sm">
-              <q-btn
-                flat
-                label="Cancel"
-                @click="$router.push('/activities')"
-              />
+              <q-btn flat label="Cancel" @click="$router.push('/activities')" />
             </div>
           </div>
         </q-card-section>
@@ -342,7 +341,7 @@ async function handleSubmit() {
       formData.value.administrativeLevel1,
       formData.value.country,
     ].filter(Boolean);
-    
+
     const activityData = {
       title: formData.value.title,
       type: formData.value.type,
@@ -357,7 +356,7 @@ async function handleSubmit() {
     };
 
     await activityStore.createActivity(activityData);
-    
+
     $q.notify({
       type: 'positive',
       message: 'Activity created successfully',
@@ -384,7 +383,7 @@ async function saveDraft() {
       formData.value.administrativeLevel1,
       formData.value.country,
     ].filter(Boolean);
-    
+
     const activityData = {
       title: formData.value.title || 'Untitled Activity',
       type: formData.value.type || 'other',
@@ -399,7 +398,7 @@ async function saveDraft() {
     };
 
     await activityStore.createActivity(activityData);
-    
+
     $q.notify({
       type: 'positive',
       message: 'Activity saved as draft',

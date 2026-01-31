@@ -14,7 +14,13 @@
             outlined
           />
           <div>
-            <q-btn type="submit" color="primary" label="Send Reset Link" class="full-width" :loading="authStore.loading" />
+            <q-btn
+              type="submit"
+              color="primary"
+              label="Send Reset Link"
+              class="full-width"
+              :loading="authStore.loading"
+            />
             <q-btn flat label="Back to Login" to="/auth/login" class="full-width q-mt-sm" />
           </div>
         </q-form>
@@ -43,4 +49,3 @@ const onSubmit = async () => {
   }
 };
 </script>
-

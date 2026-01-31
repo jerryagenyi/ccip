@@ -83,4 +83,3 @@ const computedRules = computed(() => {
   return rules;
 });
 </script>
-

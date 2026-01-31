@@ -3,12 +3,7 @@
     <div class="q-pa-md">
       <!-- Page Header -->
       <div class="row items-center q-mb-md">
-        <q-btn
-          flat
-          round
-          icon="arrow_back"
-          @click="$router.push('/organisations')"
-        />
+        <q-btn flat round icon="arrow_back" @click="$router.push('/organisations')" />
         <div class="col q-ml-md">
           <div class="text-h4 text-weight-bold">Create Organisation</div>
           <div class="text-subtitle1 text-grey-7">Add a new organisation to the system</div>
@@ -25,7 +20,10 @@
               label="Organisation Name"
               outlined
               dense
-              :rules="[val => !!val || 'Organisation name is required', val => val.length >= 3 || 'Name must be at least 3 characters']"
+              :rules="[
+                val => !!val || 'Organisation name is required',
+                val => val.length >= 3 || 'Name must be at least 3 characters',
+              ]"
               hint="Enter the full name of the organisation"
             />
 
@@ -52,7 +50,11 @@
               dense
               emit-value
               map-options
-              :rules="formData.category === 'Government' ? [val => !!val || 'Administrative level is required'] : []"
+              :rules="
+                formData.category === 'Government'
+                  ? [val => !!val || 'Administrative level is required']
+                  : []
+              "
               hint="Select the administrative hierarchy level (required for government organisations)"
             />
 
@@ -67,15 +69,17 @@
               clearable
               emit-value
               map-options
-              :rules="formData.administrativeLevel && !isTopLevel(formData.administrativeLevel) ? [val => !!val || 'Parent organisation is required'] : []"
+              :rules="
+                formData.administrativeLevel && !isTopLevel(formData.administrativeLevel)
+                  ? [val => !!val || 'Parent organisation is required']
+                  : []
+              "
               hint="Select the parent organisation (required for sub-national levels)"
               @filter="filterParentOrganisations"
             >
               <template #no-option>
                 <q-item>
-                  <q-item-section class="text-grey">
-                    No parent organisations found
-                  </q-item-section>
+                  <q-item-section class="text-grey"> No parent organisations found </q-item-section>
                 </q-item>
               </template>
             </q-select>
@@ -92,11 +96,7 @@
 
             <!-- Actions -->
             <div class="row justify-end q-mt-lg">
-              <q-btn
-                flat
-                label="Cancel"
-                @click="$router.push('/organisations')"
-              />
+              <q-btn flat label="Cancel" @click="$router.push('/organisations')" />
               <q-btn
                 color="primary"
                 label="Create Organisation"
@@ -152,7 +152,7 @@ const parentOrganisationOptions = ref<any[]>([]);
 // Watch for administrative level changes to update parent organisation options
 watch(
   () => formData.value.administrativeLevel,
-  async (newLevel) => {
+  async newLevel => {
     if (newLevel && !isTopLevel(newLevel)) {
       await loadParentOrganisations(newLevel);
     } else {
@@ -173,8 +173,8 @@ function filterParentOrganisations(val: string, update: (callback: () => void) =
       // Show all available parent organisations
     } else {
       const needle = val.toLowerCase();
-      parentOrganisationOptions.value = parentOrganisationOptions.value.filter(
-        (org) => org.label.toLowerCase().includes(needle)
+      parentOrganisationOptions.value = parentOrganisationOptions.value.filter(org =>
+        org.label.toLowerCase().includes(needle)
       );
     }
   });
@@ -186,14 +186,14 @@ async function loadParentOrganisations(level: string) {
     let parentLevel: string | undefined;
     const levelHierarchy = ['national', 'regional', 'district', 'local', 'community'];
     const currentIndex = levelHierarchy.indexOf(level);
-    
+
     if (currentIndex > 0) {
       parentLevel = levelHierarchy[currentIndex - 1];
     }
 
     if (parentLevel) {
       await organisationStore.fetchOrganisations({ type: parentLevel });
-      parentOrganisationOptions.value = organisationStore.organisations.map((org) => ({
+      parentOrganisationOptions.value = organisationStore.organisations.map(org => ({
         label: org.name,
         value: org.id,
       }));
@@ -223,7 +223,11 @@ async function createOrganisation() {
   }
 
   // Validate parent for sub-national levels
-  if (formData.value.administrativeLevel && !isTopLevel(formData.value.administrativeLevel) && !formData.value.parent_id) {
+  if (
+    formData.value.administrativeLevel &&
+    !isTopLevel(formData.value.administrativeLevel) &&
+    !formData.value.parent_id
+  ) {
     $q.notify({
       type: 'negative',
       message: 'Parent organisation is required for sub-national administrative levels',

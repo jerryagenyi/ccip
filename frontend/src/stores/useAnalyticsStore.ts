@@ -82,10 +82,7 @@ export const useAnalyticsStore = defineStore('analytics', () => {
     }
   }
 
-  async function fetchEngagementTrends(filters: {
-    start_date: string;
-    end_date: string;
-  }) {
+  async function fetchEngagementTrends(filters: { start_date: string; end_date: string }) {
     loading.value = true;
     try {
       const response = await api.get('/analytics/engagement/trends', { params: filters });
@@ -110,4 +107,3 @@ export const useAnalyticsStore = defineStore('analytics', () => {
     fetchEngagementTrends,
   };
 });
-

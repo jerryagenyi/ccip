@@ -56,4 +56,3 @@ export const useDashboardStore = defineStore('dashboard', () => {
     fetchSummary,
   };
 });
-

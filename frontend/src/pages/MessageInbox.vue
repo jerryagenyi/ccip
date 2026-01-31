@@ -40,7 +40,7 @@
                 toggle-color="primary"
                 :options="[
                   { label: 'All', value: false },
-                  { label: 'Unread', value: true }
+                  { label: 'Unread', value: true },
                 ]"
                 @update:model-value="loadMessages"
               />
@@ -86,12 +86,7 @@
               <q-item-section>
                 <q-item-label>
                   <span class="text-weight-bold">{{ message.sender.name }}</span>
-                  <q-badge
-                    v-if="message.is_urgent"
-                    color="red"
-                    label="Urgent"
-                    class="q-ml-sm"
-                  />
+                  <q-badge v-if="message.is_urgent" color="red" label="Urgent" class="q-ml-sm" />
                 </q-item-label>
                 <q-item-label caption lines="2">
                   {{ message.subject }}
@@ -147,7 +142,7 @@ const filteredMessages = computed(() => {
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase();
     filtered = filtered.filter(
-      (message) =>
+      message =>
         message.subject?.toLowerCase().includes(query) ||
         message.body?.toLowerCase().includes(query) ||
         message.sender.name?.toLowerCase().includes(query)
@@ -156,7 +151,7 @@ const filteredMessages = computed(() => {
 
   // Apply unread filter
   if (filterUnread.value) {
-    filtered = filtered.filter((message) => !isRead(message));
+    filtered = filtered.filter(message => !isRead(message));
   }
 
   // Sort by date (newest first)

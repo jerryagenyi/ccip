@@ -103,4 +103,3 @@ function onFilter(val: string, update: (callback: () => void) => void) {
   // Emit filter event for parent to handle
 }
 </script>
-

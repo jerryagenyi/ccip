@@ -79,7 +79,7 @@ const props = withDefaults(defineProps<Props>(), {
   label: 'Export PDF',
   icon: 'download',
   color: 'primary',
-  defaultFormat: 'summary'
+  defaultFormat: 'summary',
 });
 
 const $q = useQuasar();
@@ -101,8 +101,8 @@ const defaultReportOptions: ExportOption[] = [
     options: {
       includeExecutiveSummary: true,
       includeVisualizations: true,
-      includeRawData: false
-    }
+      includeRawData: false,
+    },
   },
   {
     value: 'summary',
@@ -112,8 +112,8 @@ const defaultReportOptions: ExportOption[] = [
     options: {
       includeExecutiveSummary: true,
       includeVisualizations: false,
-      includeRawData: false
-    }
+      includeRawData: false,
+    },
   },
   {
     value: 'with-visualizations',
@@ -123,8 +123,8 @@ const defaultReportOptions: ExportOption[] = [
     options: {
       includeExecutiveSummary: true,
       includeVisualizations: true,
-      includeRawData: true
-    }
+      includeRawData: true,
+    },
   },
   {
     value: 'raw-data',
@@ -134,9 +134,9 @@ const defaultReportOptions: ExportOption[] = [
     options: {
       includeExecutiveSummary: true,
       includeVisualizations: true,
-      includeRawData: true
-    }
-  }
+      includeRawData: true,
+    },
+  },
 ];
 
 const defaultActivityOptions: ExportOption[] = [
@@ -148,8 +148,8 @@ const defaultActivityOptions: ExportOption[] = [
     options: {
       format: 'summary',
       includeSemioticAnalysis: false,
-      includeAttachments: false
-    }
+      includeAttachments: false,
+    },
   },
   {
     value: 'detailed',
@@ -159,8 +159,8 @@ const defaultActivityOptions: ExportOption[] = [
     options: {
       format: 'detailed',
       includeSemioticAnalysis: true,
-      includeAttachments: false
-    }
+      includeAttachments: false,
+    },
   },
   {
     value: 'with-attachments',
@@ -170,9 +170,9 @@ const defaultActivityOptions: ExportOption[] = [
     options: {
       format: 'detailed',
       includeSemioticAnalysis: true,
-      includeAttachments: true
-    }
-  }
+      includeAttachments: true,
+    },
+  },
 ];
 
 const exportOptions = computed(() => {
@@ -206,10 +206,12 @@ function generateActivityFilename(activity: Activity, format: string = 'pdf'): s
 }
 
 async function handleDefaultExport() {
-  const defaultOption = exportOptions.value.find(opt =>
-    opt.value === props.defaultFormat ||
-    (props.defaultFormat === 'detailed' && opt.value === 'detailed')
-  ) || exportOptions.value[0];
+  const defaultOption =
+    exportOptions.value.find(
+      opt =>
+        opt.value === props.defaultFormat ||
+        (props.defaultFormat === 'detailed' && opt.value === 'detailed')
+    ) || exportOptions.value[0];
 
   await handleExport(defaultOption);
 }
@@ -255,14 +257,14 @@ async function handleExport(option: ExportOption) {
     $q.notify({
       type: 'positive',
       message: `${option.label} exported successfully`,
-      position: 'top'
+      position: 'top',
     });
   } catch (error) {
     console.error('PDF export error:', error);
     $q.notify({
       type: 'negative',
       message: 'Failed to export PDF',
-      position: 'top'
+      position: 'top',
     });
   } finally {
     loading.value = false;
@@ -273,7 +275,7 @@ async function handleExport(option: ExportOption) {
 
 // Expose methods for parent components
 defineExpose({
-  exportPDF: handleExport
+  exportPDF: handleExport,
 });
 </script>
 

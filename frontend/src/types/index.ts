@@ -249,7 +249,13 @@ export interface ActivityFilters {
 // Notification Types
 // =================================
 
-export type NotificationType = 'Approval' | 'Assignment' | 'Alert' | 'System' | 'Comment' | 'Invitation';
+export type NotificationType =
+  | 'Approval'
+  | 'Assignment'
+  | 'Alert'
+  | 'System'
+  | 'Comment'
+  | 'Invitation';
 
 export interface Notification {
   id: string;

@@ -92,4 +92,3 @@ import ThemeToggle from '@/components/ui/ThemeToggle.vue';
 
 const leftDrawerOpen = ref(false);
 </script>
-

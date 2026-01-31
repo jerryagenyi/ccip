@@ -15,7 +15,7 @@ export const useThemeStore = defineStore('theme', () => {
     }
     return 'dark';
   };
-  
+
   // Use computed/lazy initialization to avoid accessing Dark.isActive during store definition
   const themeMode = ref<ThemeMode>(getStoredTheme());
   const isDark = ref(false); // Initialize to false, will be set by initTheme()
@@ -38,7 +38,7 @@ export const useThemeStore = defineStore('theme', () => {
   // This function only handles custom documentElement classes for CSS variables
   const updateDocumentClass = () => {
     if (typeof document === 'undefined') return;
-    
+
     // Update documentElement for custom CSS variables (if needed in future)
     if (Dark.isActive) {
       document.documentElement.classList.add('dark-theme');
@@ -55,7 +55,7 @@ export const useThemeStore = defineStore('theme', () => {
     if (typeof window !== 'undefined' && localStorage) {
       localStorage.setItem('theme-mode', mode);
     }
-    
+
     if (mode === 'auto') {
       if (typeof window !== 'undefined') {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -64,7 +64,7 @@ export const useThemeStore = defineStore('theme', () => {
     } else {
       Dark.set(mode === 'dark');
     }
-    
+
     isDark.value = Dark.isActive;
     updateDocumentClass();
   };
@@ -85,7 +85,7 @@ export const useThemeStore = defineStore('theme', () => {
   const setupMediaQueryListener = () => {
     if (typeof window !== 'undefined') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      mediaQuery.addEventListener('change', (e) => {
+      mediaQuery.addEventListener('change', e => {
         if (themeMode.value === 'auto') {
           Dark.set(e.matches);
           isDark.value = Dark.isActive;
@@ -94,7 +94,7 @@ export const useThemeStore = defineStore('theme', () => {
       });
     }
   };
-  
+
   // Expose setup function to be called after Pinia is ready
   const setupListeners = () => {
     setupMediaQueryListener();
@@ -112,4 +112,3 @@ export const useThemeStore = defineStore('theme', () => {
     setupListeners,
   };
 });
-

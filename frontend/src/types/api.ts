@@ -254,8 +254,8 @@ export interface UpdateNotificationSettingsRequest {
 // HTTP Header Types
 export interface RequestHeaders {
   'Content-Type'?: string;
-  'Accept'?: string;
-  'Authorization'?: string;
+  Accept?: string;
+  Authorization?: string;
   'X-Requested-With'?: string;
 }
 

@@ -22,7 +22,7 @@ class PDFExportService {
     // TODO: Implement actual PDF generation
     // For now, return a mock blob
     // In production, this would call the backend API or use a client-side library
-    
+
     const content = this.formatReportContent(report, options);
     return this.generatePDFBlob(content);
   }
@@ -40,7 +40,7 @@ class PDFExportService {
    */
   private formatReportContent(report: Report, options: PDFExportOptions): string {
     let content = `# ${report.title}\n\n`;
-    
+
     if (report.description) {
       content += `${report.description}\n\n`;
     }
