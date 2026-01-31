@@ -54,6 +54,6 @@ USER www-data
 # Expose port
 EXPOSE 8000
 
-# Start PHP development server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Start PHP development server (ensure cache directories exist)
+CMD ["sh", "-c", "mkdir -p /var/www/html/bootstrap/cache /var/www/html/storage && chmod -R 755 /var/www/html/bootstrap/cache /var/www/html/storage && exec php artisan serve --host=0.0.0.0 --port=8000"]
 
