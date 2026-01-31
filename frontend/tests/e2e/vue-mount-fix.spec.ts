@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 
 test.describe('Fix Vue Mounting Issue', () => {
   test('wait for Vue app to properly initialize', async ({ page }) => {

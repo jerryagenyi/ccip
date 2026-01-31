@@ -15,7 +15,7 @@ concurrency:
 
 env:
   PHP_VERSION: '8.4'
-  NODE_VERSION: '20'
+  NODE_VERSION: '21'
 
 jobs:
   # ============================================

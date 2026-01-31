@@ -97,6 +97,8 @@ test.describe('Vue App Mounting Debug', () => {
     const requests = await page.evaluate(() => {
       return (window as any).__playwright_requests || [];
     });
+    console.log('\n=== REQUESTS ===');
+    console.log(`Captured ${requests.length} requests`);
 
     // Log console messages
     console.log('\n=== CONSOLE MESSAGES ===');

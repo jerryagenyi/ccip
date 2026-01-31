@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 
 test.describe('Manual Auth Check', () => {
   test('check login page and take screenshot', async ({ page }) => {
@@ -11,7 +11,6 @@ test.describe('Manual Auth Check', () => {
     await page.screenshot({ path: 'test-results/manual-login-page.png', fullPage: true });
 
     // Check page content
-    const bodyText = await page.locator('body').textContent();
     console.log('Page HTML length:', (await page.content()).length);
 
     // Check for login form elements

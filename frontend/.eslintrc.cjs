@@ -12,9 +12,12 @@ module.exports = {
     'plugin:vue/vue3-recommended',
     '@vue/prettier',
   ],
+  parser: 'vue-eslint-parser',
   parserOptions: {
+    parser: '@typescript-eslint/parser',
     ecmaVersion: 'latest',
     sourceType: 'module',
+    extraFileExtensions: ['.vue'],
   },
   plugins: ['vue'],
   ignorePatterns: ['test-results/**', 'playwright-report/**', 'dist/**', 'node_modules/**'],
