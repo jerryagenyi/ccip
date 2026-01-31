@@ -28,7 +28,7 @@ export function usePDFExport() {
     title: '',
     message: '',
     value: 0,
-    show: false
+    show: false,
   });
 
   // Export a report to PDF
@@ -42,7 +42,7 @@ export function usePDFExport() {
       title: 'Exporting Report',
       message: 'Preparing your report document...',
       value: 0,
-      show: true
+      show: true,
     };
 
     try {
@@ -68,14 +68,14 @@ export function usePDFExport() {
       $q.notify({
         type: 'positive',
         message: 'Report exported successfully',
-        position: 'top'
+        position: 'top',
       });
     } catch (error) {
       console.error('Report export error:', error);
       $q.notify({
         type: 'negative',
         message: 'Failed to export report',
-        position: 'top'
+        position: 'top',
       });
       throw error;
     } finally {
@@ -96,7 +96,7 @@ export function usePDFExport() {
       title: 'Exporting Activity',
       message: 'Preparing your activity document...',
       value: 0,
-      show: true
+      show: true,
     };
 
     try {
@@ -122,14 +122,14 @@ export function usePDFExport() {
       $q.notify({
         type: 'positive',
         message: 'Activity exported successfully',
-        position: 'top'
+        position: 'top',
       });
     } catch (error) {
       console.error('Activity export error:', error);
       $q.notify({
         type: 'negative',
         message: 'Failed to export activity',
-        position: 'top'
+        position: 'top',
       });
       throw error;
     } finally {
@@ -150,7 +150,7 @@ export function usePDFExport() {
       title: 'Exporting Batch',
       message: `Processing ${items.length} items...`,
       value: 0,
-      show: true
+      show: true,
     };
 
     try {
@@ -182,14 +182,14 @@ export function usePDFExport() {
       $q.notify({
         type: 'positive',
         message: `Successfully exported ${items.length} documents`,
-        position: 'top'
+        position: 'top',
       });
     } catch (error) {
       console.error('Batch export error:', error);
       $q.notify({
         type: 'negative',
         message: 'Failed to export some items',
-        position: 'top'
+        position: 'top',
       });
       throw error;
     } finally {
@@ -210,7 +210,7 @@ export function usePDFExport() {
       title: 'Exporting Charts',
       message: 'Rendering charts to PDF...',
       value: 0,
-      show: true
+      show: true,
     };
 
     try {
@@ -236,14 +236,14 @@ export function usePDFExport() {
       $q.notify({
         type: 'positive',
         message: 'Charts exported successfully',
-        position: 'top'
+        position: 'top',
       });
     } catch (error) {
       console.error('Charts export error:', error);
       $q.notify({
         type: 'negative',
         message: 'Failed to export charts',
-        position: 'top'
+        position: 'top',
       });
       throw error;
     } finally {
@@ -282,7 +282,7 @@ export function usePDFExport() {
           includeRawData: false,
           includeSemioticAnalysis: false,
           includeAttachments: false,
-          format: 'summary'
+          format: 'summary',
         };
 
       case 'standard':
@@ -292,7 +292,7 @@ export function usePDFExport() {
           includeRawData: false,
           includeSemioticAnalysis: true,
           includeAttachments: false,
-          format: 'detailed'
+          format: 'detailed',
         };
 
       case 'comprehensive':
@@ -302,7 +302,7 @@ export function usePDFExport() {
           includeRawData: true,
           includeSemioticAnalysis: true,
           includeAttachments: true,
-          format: 'detailed'
+          format: 'detailed',
         };
 
       default:
@@ -318,12 +318,7 @@ export function usePDFExport() {
 
   // Utility: Check if browser supports PDF export
   function checkPDFSupport(): boolean {
-    return (
-      typeof window !== 'undefined' &&
-      window.Blob &&
-      window.URL &&
-      window.URL.createObjectURL
-    );
+    return typeof window !== 'undefined' && window.Blob && window.URL && window.URL.createObjectURL;
   }
 
   return {
@@ -342,6 +337,6 @@ export function usePDFExport() {
     generateActivityFilename,
     createExportConfig,
     validateExportOptions,
-    checkPDFSupport
+    checkPDFSupport,
   };
 }

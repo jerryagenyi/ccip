@@ -105,10 +105,12 @@ const emit = defineEmits<{
 const selected = ref(props.selected || []);
 
 const pagination = computed(() => {
-  return props.pagination || {
-    page: 1,
-    rowsPerPage: 10,
-  };
+  return (
+    props.pagination || {
+      page: 1,
+      rowsPerPage: 10,
+    }
+  );
 });
 
 function onRequest(requestProps: { pagination: any; filter?: string }) {
@@ -130,4 +132,3 @@ function onRowClick(evt: Event, row: any, index: number) {
   width: 100%;
 }
 </style>
-

@@ -78,4 +78,3 @@ export const useUserStore = defineStore('user', () => {
     changePassword,
   };
 });
-

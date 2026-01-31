@@ -1,12 +1,6 @@
 <template>
   <div>
-    <q-btn
-      flat
-      round
-      dense
-      icon="notifications"
-      class="notification-btn"
-    >
+    <q-btn flat round dense icon="notifications" class="notification-btn">
       <q-badge
         v-if="unreadCount > 0"
         color="red"
@@ -212,4 +206,3 @@ onUnmounted(() => {
   border-left: 3px solid #7b2cbf;
 }
 </style>
-

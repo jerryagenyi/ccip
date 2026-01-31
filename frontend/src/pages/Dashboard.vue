@@ -160,7 +160,10 @@
                     <q-badge :color="getTypeColor(type)" :label="count" />
                   </div>
                 </div>
-                <div v-if="!summary?.by_type || Object.keys(summary.by_type).length === 0" class="text-grey-6 text-center q-py-md">
+                <div
+                  v-if="!summary?.by_type || Object.keys(summary.by_type).length === 0"
+                  class="text-grey-6 text-center q-py-md"
+                >
                   No activity types yet
                 </div>
               </div>
@@ -193,7 +196,11 @@
                   @click="$router.push(`/activities/${activity.id}`)"
                 >
                   <q-item-section avatar>
-                    <q-avatar :color="getStatusColor(activity.status)" text-color="white" size="40px">
+                    <q-avatar
+                      :color="getStatusColor(activity.status)"
+                      text-color="white"
+                      size="40px"
+                    >
                       {{ activity.title.charAt(0).toUpperCase() }}
                     </q-avatar>
                   </q-item-section>
@@ -299,7 +306,9 @@ onMounted(async () => {
 }
 
 .metric-card {
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   cursor: pointer;
 
   &:hover {

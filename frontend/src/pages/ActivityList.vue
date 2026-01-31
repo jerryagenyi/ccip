@@ -249,7 +249,7 @@ const tableRows = computed(() => {
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase();
     filtered = filtered.filter(
-      (activity) =>
+      activity =>
         activity.title?.toLowerCase().includes(query) ||
         activity.description?.toLowerCase().includes(query) ||
         activity.location?.toLowerCase().includes(query)
@@ -258,12 +258,12 @@ const tableRows = computed(() => {
 
   // Apply status filter
   if (statusFilter.value) {
-    filtered = filtered.filter((activity) => activity.status === statusFilter.value);
+    filtered = filtered.filter(activity => activity.status === statusFilter.value);
   }
 
   // Apply type filter
   if (typeFilter.value) {
-    filtered = filtered.filter((activity) => activity.type === typeFilter.value);
+    filtered = filtered.filter(activity => activity.type === typeFilter.value);
   }
 
   return filtered;
@@ -327,7 +327,7 @@ function bulkDelete() {
     persistent: true,
   }).onOk(async () => {
     try {
-      await Promise.all(selected.value.map((activity) => activityStore.deleteActivity(activity.id)));
+      await Promise.all(selected.value.map(activity => activityStore.deleteActivity(activity.id)));
       selected.value = [];
       $q.notify({
         type: 'positive',

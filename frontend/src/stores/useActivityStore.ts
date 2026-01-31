@@ -11,7 +11,7 @@ import type {
   CreateActivityRequest,
   UpdateActivityRequest,
   SemioticAssessment,
-  ActivityAttachment
+  ActivityAttachment,
 } from '@/types';
 
 export const useActivityStore = defineStore('activity', () => {
@@ -34,11 +34,12 @@ export const useActivityStore = defineStore('activity', () => {
     if (!filters.value.search) return activities.value;
 
     const search = filters.value.search.toLowerCase();
-    return activities.value.filter(activity =>
-      activity.title.toLowerCase().includes(search) ||
-      activity.description.toLowerCase().includes(search) ||
-      activity.organization.toLowerCase().includes(search) ||
-      activity.location.toLowerCase().includes(search)
+    return activities.value.filter(
+      activity =>
+        activity.title.toLowerCase().includes(search) ||
+        activity.description.toLowerCase().includes(search) ||
+        activity.organization.toLowerCase().includes(search) ||
+        activity.location.toLowerCase().includes(search)
     );
   });
 
@@ -68,7 +69,7 @@ export const useActivityStore = defineStore('activity', () => {
       const queryParams: any = {
         page: currentPage.value,
         perPage: perPage.value,
-        ...filters.value
+        ...filters.value,
       };
 
       // Convert arrays to strings
@@ -79,10 +80,9 @@ export const useActivityStore = defineStore('activity', () => {
       if (queryParams.assignee) queryParams.assignee = queryParams.assignee.join(',');
       if (queryParams.tags) queryParams.tags = queryParams.tags.join(',');
 
-      const response = await api.get<PaginatedResponse<Activity>>(
-        API_ENDPOINTS.ACTIVITIES.LIST,
-        { params: queryParams }
-      );
+      const response = await api.get<PaginatedResponse<Activity>>(API_ENDPOINTS.ACTIVITIES.LIST, {
+        params: queryParams,
+      });
 
       activities.value = response.data.data;
       total.value = response.data.meta.total;
@@ -106,9 +106,7 @@ export const useActivityStore = defineStore('activity', () => {
     error.value = null;
 
     try {
-      const response = await api.get<ApiResponse<Activity>>(
-        API_ENDPOINTS.ACTIVITIES.DETAIL(id)
-      );
+      const response = await api.get<ApiResponse<Activity>>(API_ENDPOINTS.ACTIVITIES.DETAIL(id));
 
       currentActivity.value = response.data.data;
       return response.data.data;
@@ -125,10 +123,7 @@ export const useActivityStore = defineStore('activity', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<Activity>>(
-        API_ENDPOINTS.ACTIVITIES.CREATE,
-        data
-      );
+      const response = await api.post<ApiResponse<Activity>>(API_ENDPOINTS.ACTIVITIES.CREATE, data);
 
       const newActivity = response.data.data;
       activities.value.unshift(newActivity);
@@ -156,7 +151,7 @@ export const useActivityStore = defineStore('activity', () => {
       const updatedActivity = response.data.data;
 
       // Update in activities list
-      const index = activities.value.findIndex((activity) => activity.id === id);
+      const index = activities.value.findIndex(activity => activity.id === id);
       if (index !== -1) {
         activities.value[index] = updatedActivity;
       }
@@ -183,7 +178,7 @@ export const useActivityStore = defineStore('activity', () => {
       await api.delete(API_ENDPOINTS.ACTIVITIES.DELETE(id));
 
       // Remove from activities list
-      activities.value = activities.value.filter((activity) => activity.id !== id);
+      activities.value = activities.value.filter(activity => activity.id !== id);
       total.value -= 1;
 
       // Clear current activity if it matches
@@ -192,9 +187,7 @@ export const useActivityStore = defineStore('activity', () => {
       }
 
       // Remove from selection
-      selectedActivities.value = selectedActivities.value.filter(
-        (selectedId) => selectedId !== id
-      );
+      selectedActivities.value = selectedActivities.value.filter(selectedId => selectedId !== id);
 
       return true;
     } catch (err: any) {
@@ -210,14 +203,12 @@ export const useActivityStore = defineStore('activity', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<Activity>>(
-        API_ENDPOINTS.ACTIVITIES.SUBMIT(id)
-      );
+      const response = await api.post<ApiResponse<Activity>>(API_ENDPOINTS.ACTIVITIES.SUBMIT(id));
 
       const updatedActivity = response.data.data;
 
       // Update in activities list
-      const index = activities.value.findIndex((activity) => activity.id === id);
+      const index = activities.value.findIndex(activity => activity.id === id);
       if (index !== -1) {
         activities.value[index] = updatedActivity;
       }
@@ -241,14 +232,12 @@ export const useActivityStore = defineStore('activity', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<Activity>>(
-        API_ENDPOINTS.ACTIVITIES.APPROVE(id)
-      );
+      const response = await api.post<ApiResponse<Activity>>(API_ENDPOINTS.ACTIVITIES.APPROVE(id));
 
       const updatedActivity = response.data.data;
 
       // Update in activities list
-      const index = activities.value.findIndex((activity) => activity.id === id);
+      const index = activities.value.findIndex(activity => activity.id === id);
       if (index !== -1) {
         activities.value[index] = updatedActivity;
       }
@@ -272,15 +261,14 @@ export const useActivityStore = defineStore('activity', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<Activity>>(
-        API_ENDPOINTS.ACTIVITIES.REJECT(id),
-        { reason }
-      );
+      const response = await api.post<ApiResponse<Activity>>(API_ENDPOINTS.ACTIVITIES.REJECT(id), {
+        reason,
+      });
 
       const updatedActivity = response.data.data;
 
       // Update in activities list
-      const index = activities.value.findIndex((activity) => activity.id === id);
+      const index = activities.value.findIndex(activity => activity.id === id);
       if (index !== -1) {
         activities.value[index] = updatedActivity;
       }
@@ -304,14 +292,12 @@ export const useActivityStore = defineStore('activity', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<Activity>>(
-        API_ENDPOINTS.ACTIVITIES.COMPLETE(id)
-      );
+      const response = await api.post<ApiResponse<Activity>>(API_ENDPOINTS.ACTIVITIES.COMPLETE(id));
 
       const updatedActivity = response.data.data;
 
       // Update in activities list
-      const index = activities.value.findIndex((activity) => activity.id === id);
+      const index = activities.value.findIndex(activity => activity.id === id);
       if (index !== -1) {
         activities.value[index] = updatedActivity;
       }
@@ -359,7 +345,7 @@ export const useActivityStore = defineStore('activity', () => {
 
     try {
       const formData = new FormData();
-      files.forEach((file) => {
+      files.forEach(file => {
         formData.append('files[]', file);
       });
 
@@ -379,7 +365,7 @@ export const useActivityStore = defineStore('activity', () => {
       if (currentActivity.value?.id === id) {
         currentActivity.value.attachments = [
           ...(currentActivity.value.attachments || []),
-          ...uploadedFiles
+          ...uploadedFiles,
         ];
       }
 
@@ -402,7 +388,7 @@ export const useActivityStore = defineStore('activity', () => {
       // Update current activity by removing the deleted file
       if (currentActivity.value?.id === activityId) {
         currentActivity.value.attachments = currentActivity.value.attachments?.filter(
-          (file) => file.id !== fileId
+          file => file.id !== fileId
         );
       }
 
@@ -454,7 +440,7 @@ export const useActivityStore = defineStore('activity', () => {
   }
 
   function selectAllActivities() {
-    selectedActivities.value = activities.value.map((activity) => activity.id);
+    selectedActivities.value = activities.value.map(activity => activity.id);
   }
 
   function clearSelection() {
@@ -462,9 +448,7 @@ export const useActivityStore = defineStore('activity', () => {
   }
 
   function deleteSelectedActivities() {
-    return Promise.all(
-      selectedActivities.value.map((id) => deleteActivity(id))
-    );
+    return Promise.all(selectedActivities.value.map(id => deleteActivity(id)));
   }
 
   // Pagination
@@ -490,7 +474,7 @@ export const useActivityStore = defineStore('activity', () => {
   function setFilters(newFilters: Partial<ActivityFilters>) {
     fetchActivities({
       page: 1,
-      filters: { ...filters.value, ...newFilters }
+      filters: { ...filters.value, ...newFilters },
     });
   }
 
@@ -563,4 +547,3 @@ export const useActivityStore = defineStore('activity', () => {
     setTypeFilter,
   };
 });
-

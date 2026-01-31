@@ -11,20 +11,11 @@
       <div v-else>
         <!-- Header -->
         <div class="row items-center q-mb-md">
-          <q-btn
-            flat
-            round
-            icon="arrow_back"
-            @click="$router.push('/messages')"
-          />
+          <q-btn flat round icon="arrow_back" @click="$router.push('/messages')" />
           <div class="col q-ml-md">
             <div class="row items-center q-gutter-sm">
               <div class="text-h5 text-weight-bold">{{ message.subject }}</div>
-              <q-badge
-                v-if="message.is_urgent"
-                color="red"
-                label="Urgent"
-              />
+              <q-badge v-if="message.is_urgent" color="red" label="Urgent" />
             </div>
             <div class="text-subtitle2 text-grey-7 q-mt-xs">
               From: {{ message.sender.name }} ({{ message.sender.email }})
@@ -34,12 +25,7 @@
             </div>
           </div>
           <div class="col-auto">
-            <q-btn
-              color="primary"
-              label="Reply"
-              icon="reply"
-              @click="showReplyDialog = true"
-            />
+            <q-btn color="primary" label="Reply" icon="reply" @click="showReplyDialog = true" />
           </div>
         </div>
 
@@ -55,10 +41,7 @@
           <q-card-section>
             <div class="text-h6 q-mb-md">Recipients</div>
             <q-list>
-              <q-item
-                v-for="recipient in message.recipients"
-                :key="recipient.user_id"
-              >
+              <q-item v-for="recipient in message.recipients" :key="recipient.user_id">
                 <q-item-section avatar>
                   <q-avatar color="primary" text-color="white">
                     {{ recipient.user_name?.charAt(0).toUpperCase() || 'U' }}
@@ -73,9 +56,7 @@
                       color="green"
                       size="16px"
                     />
-                    <span v-if="recipient.read_at">
-                      Read {{ formatDate(recipient.read_at) }}
-                    </span>
+                    <span v-if="recipient.read_at"> Read {{ formatDate(recipient.read_at) }} </span>
                     <span v-else class="text-orange">Unread</span>
                   </q-item-label>
                 </q-item-section>
@@ -99,11 +80,7 @@
                 class="q-mb-md"
               />
               <div class="row justify-end">
-                <q-btn
-                  flat
-                  label="Cancel"
-                  @click="showReplySection = false"
-                />
+                <q-btn flat label="Cancel" @click="showReplySection = false" />
                 <q-btn
                   color="primary"
                   label="Send Reply"

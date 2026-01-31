@@ -3,9 +3,7 @@
     <!-- Minimal header for landing page (theme-aware) -->
     <q-header elevated class="header-theme">
       <q-toolbar class="toolbar-theme">
-        <q-toolbar-title class="text-weight-bold header-title">
-          CCIP
-        </q-toolbar-title>
+        <q-toolbar-title class="text-weight-bold header-title"> CCIP </q-toolbar-title>
         <q-space />
         <ThemeToggle />
         <q-btn
@@ -37,22 +35,8 @@
         <q-toolbar-title class="text-caption footer-text">
           © 2025 CCIP. All rights reserved.
         </q-toolbar-title>
-        <q-btn
-          flat
-          dense
-          no-caps
-          label="Privacy Policy"
-          size="sm"
-          class="q-mx-xs footer-link"
-        />
-        <q-btn
-          flat
-          dense
-          no-caps
-          label="Terms"
-          size="sm"
-          class="q-mx-xs footer-link"
-        />
+        <q-btn flat dense no-caps label="Privacy Policy" size="sm" class="q-mx-xs footer-link" />
+        <q-btn flat dense no-caps label="Terms" size="sm" class="q-mx-xs footer-link" />
       </q-toolbar>
     </q-footer>
   </q-layout>
@@ -75,12 +59,12 @@ onMounted(() => {
 // Landing layout styles - minimal and clean (using global styles for body class targeting)
 
 .header-theme {
-  background-color: #1D283A !important;
+  background-color: #1d283a !important;
 }
 
 body.body--light .header-theme {
-  background-color: #FFFFFF !important;
-  border-bottom: 1px solid #E5E7EB;
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .toolbar-theme {
@@ -88,19 +72,19 @@ body.body--light .header-theme {
 }
 
 .header-title {
-  color: #FAFAFA !important;
+  color: #fafafa !important;
 }
 
 body.body--light .header-title {
-  color: #1D283A !important;
+  color: #1d283a !important;
 }
 
 .sign-in-btn {
-  color: #FAFAFA !important;
+  color: #fafafa !important;
 }
 
 body.body--light .sign-in-btn {
-  color: #7151B3 !important;
+  color: #7151b3 !important;
 }
 
 .sign-in-btn:hover {
@@ -112,28 +96,28 @@ body.body--light .sign-in-btn:hover {
 }
 
 .footer-theme {
-  background-color: #1D283A !important;
+  background-color: #1d283a !important;
 }
 
 body.body--light .footer-theme {
-  background-color: #FFFFFF !important;
-  border-top: 1px solid #E5E7EB;
+  background-color: #ffffff !important;
+  border-top: 1px solid #e5e7eb;
 }
 
 .footer-text {
-  color: #FAFAFA !important;
+  color: #fafafa !important;
 }
 
 body.body--light .footer-text {
-  color: #6B7280 !important;
+  color: #6b7280 !important;
 }
 
 .footer-link {
-  color: #FAFAFA !important;
+  color: #fafafa !important;
 }
 
 body.body--light .footer-link {
-  color: #6B7280 !important;
+  color: #6b7280 !important;
 }
 
 .footer-link:hover {
@@ -142,7 +126,6 @@ body.body--light .footer-link {
 
 body.body--light .footer-link:hover {
   background-color: rgba(113, 81, 179, 0.1) !important;
-  color: #7151B3 !important;
+  color: #7151b3 !important;
 }
 </style>
-

@@ -2,12 +2,8 @@
   <div class="auth-register">
     <!-- Register Header -->
     <div class="text-center q-mb-lg">
-      <h2 class="text-h4 text-weight-medium q-ma-none">
-        Create Account
-      </h2>
-      <p class="text-body1 text-grey-6 q-mt-sm">
-        Join CCIP to start managing risk communications
-      </p>
+      <h2 class="text-h4 text-weight-medium q-ma-none">Create Account</h2>
+      <p class="text-body1 text-grey-6 q-mt-sm">Join CCIP to start managing risk communications</p>
     </div>
 
     <!-- Step Indicator -->
@@ -23,13 +19,7 @@
         flat
       >
         <!-- Step 1: Personal Information -->
-        <q-step
-          :name="1"
-          title="Personal Info"
-          icon="person"
-          :done="step > 1"
-          :header-nav="false"
-        >
+        <q-step :name="1" title="Personal Info" icon="person" :done="step > 1" :header-nav="false">
           <q-form ref="step1Form" @submit="goToStep(2)" class="q-gutter-md">
             <q-input
               v-model="form.name"
@@ -84,13 +74,7 @@
         </q-step>
 
         <!-- Step 2: Organisation Details -->
-        <q-step
-          :name="2"
-          title="Organisation"
-          icon="business"
-          :done="step > 2"
-          :header-nav="false"
-        >
+        <q-step :name="2" title="Organisation" icon="business" :done="step > 2" :header-nav="false">
           <q-form ref="step2Form" @submit="goToStep(3)" class="q-gutter-md">
             <div class="q-mb-md">
               <p class="text-body2 text-grey-7">
@@ -117,7 +101,7 @@
                 map-options
                 use-chips
                 clearable
-                :rules="[(val) => form.orgType === 'new' || !!val || 'Please select an organisation']"
+                :rules="[val => form.orgType === 'new' || !!val || 'Please select an organisation']"
                 :loading="loadingOrgs"
                 :disable="authStore.loading"
               >
@@ -135,7 +119,9 @@
                 outlined
                 dense
                 no-error-icon
-                :rules="[(val) => form.orgType === 'existing' || !!val || 'Organisation name is required']"
+                :rules="[
+                  val => form.orgType === 'existing' || !!val || 'Organisation name is required',
+                ]"
                 :loading="authStore.loading"
                 :disable="authStore.loading"
               >
@@ -152,7 +138,7 @@
                 dense
                 emit-value
                 map-options
-                :rules="[(val) => form.orgType === 'existing' || !!val || 'Please select a category']"
+                :rules="[val => form.orgType === 'existing' || !!val || 'Please select a category']"
                 :loading="authStore.loading"
                 :disable="authStore.loading"
               >
@@ -169,7 +155,7 @@
                 dense
                 emit-value
                 map-options
-                :rules="[(val) => form.orgType === 'existing' || !!val || 'Please select a level']"
+                :rules="[val => form.orgType === 'existing' || !!val || 'Please select a level']"
                 :loading="authStore.loading"
                 :disable="authStore.loading"
               >
@@ -182,13 +168,7 @@
         </q-step>
 
         <!-- Step 3: Account Setup -->
-        <q-step
-          :name="3"
-          title="Account Setup"
-          icon="lock"
-          :done="step > 3"
-          :header-nav="false"
-        >
+        <q-step :name="3" title="Account Setup" icon="lock" :done="step > 3" :header-nav="false">
           <q-form ref="step3Form" @submit="goToStep(4)" class="q-gutter-md">
             <q-input
               v-model="form.password"
@@ -255,13 +235,7 @@
         </q-step>
 
         <!-- Step 4: Review & Submit -->
-        <q-step
-          :name="4"
-          title="Review"
-          icon="check_circle"
-          :done="step > 4"
-          :header-nav="false"
-        >
+        <q-step :name="4" title="Review" icon="check_circle" :done="step > 4" :header-nav="false">
           <div class="review-section q-gutter-md">
             <!-- Personal Info Review -->
             <q-card flat bordered class="q-pa-md">
@@ -294,7 +268,9 @@
               <div class="q-gutter-sm">
                 <div class="row">
                   <div class="col-4 text-caption text-grey-6">Type:</div>
-                  <div class="col-8">{{ form.orgType === 'existing' ? 'Existing Organisation' : 'New Organisation' }}</div>
+                  <div class="col-8">
+                    {{ form.orgType === 'existing' ? 'Existing Organisation' : 'New Organisation' }}
+                  </div>
                 </div>
                 <div v-if="form.orgType === 'existing' && form.organisation_id" class="row">
                   <div class="col-4 text-caption text-grey-6">Organisation:</div>
@@ -322,7 +298,7 @@
               v-model="form.acceptTerms"
               label="I agree to the Terms of Service and Privacy Policy"
               color="primary"
-              :rules="[(val) => !!val || 'You must accept the terms to continue']"
+              :rules="[val => !!val || 'You must accept the terms to continue']"
               :disable="authStore.loading"
             />
           </div>
@@ -361,12 +337,7 @@
     </div>
 
     <!-- Error Message -->
-    <q-banner
-      v-if="authStore.error"
-      class="bg-negative text-white q-mt-md"
-      dense
-      rounded
-    >
+    <q-banner v-if="authStore.error" class="bg-negative text-white q-mt-md" dense rounded>
       <template v-slot:avatar>
         <q-icon name="error" />
       </template>
@@ -377,14 +348,7 @@
     <div class="text-center q-mt-xl">
       <p class="text-body2 text-grey-7">
         Already have an account?
-        <q-btn
-          flat
-          dense
-          no-caps
-          label="Sign in"
-          color="primary"
-          @click="goToLogin"
-        />
+        <q-btn flat dense no-caps label="Sign in" color="primary" @click="goToLogin" />
       </p>
     </div>
   </div>
@@ -411,12 +375,14 @@ const step2Form = ref();
 const step3Form = ref();
 
 // Form data
-const form = reactive<RegisterData & {
-  phoneNumber?: string;
-  orgType: 'existing' | 'new';
-  organisation_id?: string;
-  acceptTerms: boolean;
-}>({
+const form = reactive<
+  RegisterData & {
+    phoneNumber?: string;
+    orgType: 'existing' | 'new';
+    organisation_id?: string;
+    acceptTerms: boolean;
+  }
+>({
   name: '',
   email: '',
   password: '',
@@ -424,14 +390,14 @@ const form = reactive<RegisterData & {
   phoneNumber: '',
   orgType: 'existing',
   organisation_id: undefined,
-  acceptTerms: false
+  acceptTerms: false,
 });
 
 // New organisation data
 const newOrg = reactive({
   name: '',
   category: '' as OrganisationCategory,
-  level: '' as OrganisationLevel
+  level: '' as OrganisationLevel,
 });
 
 // UI state
@@ -442,20 +408,20 @@ const loadingOrgs = ref(false);
 // Options
 const orgTypeOptions = [
   { label: 'Join existing organisation', value: 'existing' },
-  { label: 'Create new organisation', value: 'new' }
+  { label: 'Create new organisation', value: 'new' },
 ];
 
 const orgCategoryOptions = [
   { label: 'Government', value: 'Government' },
   { label: 'NGO', value: 'NGO' },
   { label: 'CSO', value: 'CSO' },
-  { label: 'Private', value: 'Private' }
+  { label: 'Private', value: 'Private' },
 ];
 
 const orgLevelOptions = [
   { label: 'Federal', value: 'Federal' },
   { label: 'State', value: 'State' },
-  { label: 'LGA', value: 'LGA' }
+  { label: 'LGA', value: 'LGA' },
 ];
 
 // Mock organisation options
@@ -463,22 +429,22 @@ const organisationOptions = ref([
   { label: 'Federal Ministry of Health', value: '1' },
   { label: 'State Emergency Management Agency', value: '2' },
   { label: 'Red Cross Society', value: '3' },
-  { label: 'WHO Nigeria', value: '4' }
+  { label: 'WHO Nigeria', value: '4' },
 ]);
 
 // Validation rules
 const nameRules = [
   (val: string) => !!val || 'Name is required',
-  (val: string) => val.length >= 2 || 'Name must be at least 2 characters'
+  (val: string) => val.length >= 2 || 'Name must be at least 2 characters',
 ];
 
 const emailRules = [
   (val: string) => !!val || 'Email is required',
-  (val: string) => /.+@.+\..+/.test(val) || 'Please enter a valid email address'
+  (val: string) => /.+@.+\..+/.test(val) || 'Please enter a valid email address',
 ];
 
 const phoneRules = [
-  (val: string) => !val || /^\+?[\d\s\-()]+$/.test(val) || 'Please enter a valid phone number'
+  (val: string) => !val || /^\+?[\d\s\-()]+$/.test(val) || 'Please enter a valid phone number',
 ];
 
 const passwordRules = [
@@ -486,12 +452,12 @@ const passwordRules = [
   (val: string) => val.length >= 8 || 'Password must be at least 8 characters',
   (val: string) => /[A-Z]/.test(val) || 'Password must contain at least one uppercase letter',
   (val: string) => /[a-z]/.test(val) || 'Password must contain at least one lowercase letter',
-  (val: string) => /\d/.test(val) || 'Password must contain at least one number'
+  (val: string) => /\d/.test(val) || 'Password must contain at least one number',
 ];
 
 const confirmPasswordRules = [
   (val: string) => !!val || 'Please confirm password',
-  (val: string) => val === form.password || 'Passwords do not match'
+  (val: string) => val === form.password || 'Passwords do not match',
 ];
 
 // Password strength calculation
@@ -524,8 +490,12 @@ const canProceed = computed(() => {
         return newOrg.name && newOrg.category && newOrg.level;
       }
     case 3:
-      return form.password && form.password_confirmation &&
-             form.password.length >= 8 && form.password === form.password_confirmation;
+      return (
+        form.password &&
+        form.password_confirmation &&
+        form.password.length >= 8 &&
+        form.password === form.password_confirmation
+      );
     default:
       return false;
   }
@@ -551,7 +521,7 @@ const handleSubmit = async () => {
   if (!form.acceptTerms) {
     $q.notify({
       type: 'negative',
-      message: 'Please accept the terms and conditions'
+      message: 'Please accept the terms and conditions',
     });
     return;
   }
@@ -562,7 +532,7 @@ const handleSubmit = async () => {
       email: form.email,
       password: form.password,
       password_confirmation: form.password_confirmation,
-      organisation_id: form.orgType === 'existing' ? form.organisation_id : undefined
+      organisation_id: form.orgType === 'existing' ? form.organisation_id : undefined,
     };
 
     await authStore.register(registerData);
@@ -570,7 +540,7 @@ const handleSubmit = async () => {
     $q.notify({
       type: 'positive',
       message: 'Account created successfully!',
-      position: 'top'
+      position: 'top',
     });
 
     router.push('/dashboard');
@@ -654,4 +624,3 @@ onMounted(() => {
   }
 }
 </style>
-

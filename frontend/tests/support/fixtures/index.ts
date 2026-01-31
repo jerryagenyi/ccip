@@ -8,7 +8,7 @@ type TestFixtures = {
 
 // Extend base test with custom fixtures
 export const test = base.extend<TestFixtures>({
-  userFactory: async ({}, use) => {
+  userFactory: async (_ctx, use) => {
     const factory = new UserFactory();
     await use(factory);
     // Cleanup will be called automatically

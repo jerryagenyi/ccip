@@ -125,12 +125,7 @@
                   icon="delete"
                   @click="confirmDeleteSelected"
                 />
-                <q-btn
-                  flat
-                  color="primary"
-                  icon="refresh"
-                  @click="refreshReports"
-                />
+                <q-btn flat color="primary" icon="refresh" @click="refreshReports" />
               </div>
             </div>
           </template>
@@ -186,14 +181,7 @@
                 >
                   <q-tooltip>Download</q-tooltip>
                 </q-btn>
-                <q-btn
-                  flat
-                  dense
-                  round
-                  color="info"
-                  icon="edit"
-                  @click="editReport(props.row)"
-                >
+                <q-btn flat dense round color="info" icon="edit" @click="editReport(props.row)">
                   <q-tooltip>Edit</q-tooltip>
                 </q-btn>
                 <q-btn
@@ -215,9 +203,7 @@
             <div class="full-width text-center q-pa-lg">
               <q-icon name="description" size="3rem" color="grey-5" />
               <p class="text-h6 q-mt-md">No reports found</p>
-              <p class="text-grey-6">
-                Create your first report to get started
-              </p>
+              <p class="text-grey-6">Create your first report to get started</p>
               <q-btn
                 color="primary"
                 label="Create Report"
@@ -333,7 +319,7 @@ const showAIGenerator = ref(false);
 const newReport = ref({
   title: '',
   description: '',
-  templateId: ''
+  templateId: '',
 });
 
 // Pagination
@@ -341,7 +327,7 @@ const pagination = ref({
   sortBy: 'createdAt',
   descending: true,
   page: 1,
-  rowsPerPage: 10
+  rowsPerPage: 10,
 });
 
 // Table columns
@@ -352,36 +338,36 @@ const columns = [
     label: 'Title',
     align: 'left' as const,
     field: 'title',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'type',
     align: 'left' as const,
     label: 'Type',
     field: 'type',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'status',
     align: 'center' as const,
     label: 'Status',
     field: 'status',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'createdAt',
     align: 'left' as const,
     label: 'Created',
     field: 'createdAt',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'actions',
     align: 'center' as const,
     label: 'Actions',
     field: 'actions',
-    sortable: false
-  }
+    sortable: false,
+  },
 ];
 
 // Filter options
@@ -389,7 +375,7 @@ const statusOptions = [
   { label: 'Draft', value: 'draft' },
   { label: 'Generating', value: 'generating' },
   { label: 'Completed', value: 'completed' },
-  { label: 'Failed', value: 'failed' }
+  { label: 'Failed', value: 'failed' },
 ];
 
 const typeOptions = [
@@ -399,7 +385,7 @@ const typeOptions = [
   { label: 'Semiotic Analysis', value: 'semiotic-analysis' },
   { label: 'Stakeholder Update', value: 'stakeholder-update' },
   { label: 'Research Findings', value: 'research-findings' },
-  { label: 'Incident Report', value: 'incident-report' }
+  { label: 'Incident Report', value: 'incident-report' },
 ];
 
 const periodOptions = [
@@ -407,13 +393,13 @@ const periodOptions = [
   { label: 'Last 30 days', value: '30d' },
   { label: 'Last 3 months', value: '3m' },
   { label: 'Last 6 months', value: '6m' },
-  { label: 'Last year', value: '1y' }
+  { label: 'Last year', value: '1y' },
 ];
 
 const templateOptions = computed(() =>
   DEFAULT_REPORT_TEMPLATES.map(template => ({
     label: template.name,
-    value: template.id
+    value: template.id,
   }))
 );
 
@@ -427,8 +413,8 @@ async function loadReports() {
         search: searchQuery.value,
         status: statusFilter.value ? [statusFilter.value] : undefined,
         type: typeFilter.value ? [typeFilter.value] : undefined,
-        period: periodFilter.value ? [periodFilter.value] : undefined
-      }
+        period: periodFilter.value ? [periodFilter.value] : undefined,
+      },
     });
   } catch (error) {
     console.error('Failed to load reports:', error);
@@ -480,7 +466,7 @@ async function refreshReports() {
   $q.notify({
     type: 'positive',
     message: 'Reports refreshed',
-    position: 'top'
+    position: 'top',
   });
 }
 
@@ -489,7 +475,7 @@ function getStatusColor(status: string): string {
     draft: 'grey',
     generating: 'info',
     completed: 'positive',
-    failed: 'negative'
+    failed: 'negative',
   };
   return colors[status as keyof typeof colors] || 'grey';
 }
@@ -503,13 +489,13 @@ async function createReport() {
     const report = await reportStore.createReport({
       title: newReport.value.title,
       description: newReport.value.description,
-      templateId: newReport.value.templateId
+      templateId: newReport.value.templateId,
     });
 
     $q.notify({
       type: 'positive',
       message: 'Report created successfully',
-      position: 'top'
+      position: 'top',
     });
 
     showCreateDialog.value = false;
@@ -518,7 +504,7 @@ async function createReport() {
     $q.notify({
       type: 'negative',
       message: 'Failed to create report',
-      position: 'top'
+      position: 'top',
     });
   }
 }
@@ -533,13 +519,13 @@ async function downloadReport(report: Report) {
     $q.notify({
       type: 'positive',
       message: 'Report downloaded successfully',
-      position: 'top'
+      position: 'top',
     });
   } catch (error) {
     $q.notify({
       type: 'negative',
       message: 'Failed to download report',
-      position: 'top'
+      position: 'top',
     });
   }
 }
@@ -554,25 +540,25 @@ function confirmDelete(report: Report) {
     message: `Are you sure you want to delete "${report.title}"?`,
     ok: {
       label: 'Delete',
-      color: 'negative'
+      color: 'negative',
     },
     cancel: {
       label: 'Cancel',
-      color: 'primary'
-    }
+      color: 'primary',
+    },
   }).onOk(async () => {
     try {
       await reportStore.deleteReport(report.id);
       $q.notify({
         type: 'positive',
         message: 'Report deleted successfully',
-        position: 'top'
+        position: 'top',
       });
     } catch (error) {
       $q.notify({
         type: 'negative',
         message: 'Failed to delete report',
-        position: 'top'
+        position: 'top',
       });
     }
   });
@@ -585,12 +571,12 @@ function confirmDeleteSelected() {
     message: `Are you sure you want to delete ${count} selected report${count > 1 ? 's' : ''}?`,
     ok: {
       label: 'Delete',
-      color: 'negative'
+      color: 'negative',
     },
     cancel: {
       label: 'Cancel',
-      color: 'primary'
-    }
+      color: 'primary',
+    },
   }).onOk(async () => {
     try {
       await reportStore.deleteSelectedReports();
@@ -598,13 +584,13 @@ function confirmDeleteSelected() {
       $q.notify({
         type: 'positive',
         message: 'Reports deleted successfully',
-        position: 'top'
+        position: 'top',
       });
     } catch (error) {
       $q.notify({
         type: 'negative',
         message: 'Failed to delete reports',
-        position: 'top'
+        position: 'top',
       });
     }
   });

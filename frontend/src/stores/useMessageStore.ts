@@ -71,14 +71,10 @@ export const useMessageStore = defineStore('message', () => {
   }
 
   async function markAsRead(id: number) {
-    try {
-      await api.put(`/messages/${id}/read`);
-      const message = messages.value.find((m) => m.id === id);
-      if (message) {
-        // Update read status
-      }
-    } catch (error) {
-      throw error;
+    await api.put(`/messages/${id}/read`);
+    const message = messages.value.find(m => m.id === id);
+    if (message) {
+      // Update read status
     }
   }
 
@@ -105,4 +101,3 @@ export const useMessageStore = defineStore('message', () => {
     replyToMessage,
   };
 });
-

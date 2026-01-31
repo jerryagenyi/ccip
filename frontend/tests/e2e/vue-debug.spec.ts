@@ -78,14 +78,15 @@ test.describe('Vue App Mounting Debug', () => {
       );
 
       const components = [];
-      let node;
-      while (node = walker.nextNode()) {
+      let node = walker.nextNode();
+      while (node) {
         components.push({
           tagName: node.tagName,
           id: node.id,
           classes: node.className,
           attributes: Array.from(node.attributes).map(a => a.name)
         });
+        node = walker.nextNode();
       }
       return components;
     });
@@ -97,6 +98,8 @@ test.describe('Vue App Mounting Debug', () => {
     const requests = await page.evaluate(() => {
       return (window as any).__playwright_requests || [];
     });
+    console.log('\n=== REQUESTS ===');
+    console.log(`Captured ${requests.length} requests`);
 
     // Log console messages
     console.log('\n=== CONSOLE MESSAGES ===');

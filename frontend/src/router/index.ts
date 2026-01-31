@@ -22,7 +22,9 @@ import { globalGuard } from './guards';
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
-    : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory);
+    : process.env.VUE_ROUTER_MODE === 'history'
+      ? createWebHistory
+      : createWebHashHistory;
 
   const Router = createRouter({
     scrollBehavior: (to, from, savedPosition) => {
@@ -47,30 +49,32 @@ export default route(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.config.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(
-      process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
-    ),
+    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE),
   });
 
   // Note: Guards are applied in boot/router.ts to avoid double application
   // Router.beforeEach(globalGuard);
 
   // Add navigation tracking for analytics (optional)
-  Router.afterEach((to) => {
+  Router.afterEach(to => {
     // Track page view in analytics
-    if (process.env.CLIENT && typeof gtag !== 'undefined') {
-      gtag('config', 'GA_MEASUREMENT_ID', {
-        page_path: to.fullPath,
-      });
+    if (process.env.CLIENT && typeof window !== 'undefined') {
+      const { gtag } = window as Window & { gtag?: (...args: any[]) => void };
+      if (typeof gtag === 'function') {
+        gtag('config', 'GA_MEASUREMENT_ID', {
+          page_path: to.fullPath,
+        });
+      }
     }
 
     // Update page title
     const appName = 'CCIP';
-    const pageTitle = typeof to.meta.title === 'string'
-      ? to.meta.title
-      : to.meta.title instanceof Function
-        ? to.meta.title(to)
-        : to.name?.replace(/-/g, ' ')?.replace(/\b\w/g, l => l.toUpperCase());
+    const pageTitle =
+      typeof to.meta.title === 'string'
+        ? to.meta.title
+        : to.meta.title instanceof Function
+          ? to.meta.title(to)
+          : to.name?.replace(/-/g, ' ')?.replace(/\b\w/g, l => l.toUpperCase());
 
     if (pageTitle) {
       document.title = `${pageTitle} - ${appName}`;
@@ -81,4 +85,3 @@ export default route(function (/* { store, ssrContext } */) {
 
   return Router;
 });
-

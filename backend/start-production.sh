@@ -46,6 +46,7 @@ fi
 
 # Set proper permissions
 echo "Setting storage permissions..."
+mkdir -p /var/www/html/storage /var/www/html/storage/logs /var/www/html/bootstrap/cache
 chmod -R 755 /var/www/html/storage
 chmod -R 755 /var/www/html/bootstrap/cache
 echo "✅ Permissions set"

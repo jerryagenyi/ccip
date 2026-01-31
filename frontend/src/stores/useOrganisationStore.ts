@@ -62,7 +62,7 @@ export const useOrganisationStore = defineStore('organisation', () => {
     loading.value = true;
     try {
       const response = await api.put(`/organisations/${id}`, data);
-      const index = organisations.value.findIndex((org) => org.id === id);
+      const index = organisations.value.findIndex(org => org.id === id);
       if (index !== -1) {
         organisations.value[index] = response.data;
       }
@@ -95,4 +95,3 @@ export const useOrganisationStore = defineStore('organisation', () => {
     fetchOrganisationUsers,
   };
 });
-

@@ -23,18 +23,30 @@
             v-model="password"
             label="New Password"
             type="password"
-            :rules="[val => !!val || 'Password is required', val => val.length >= 8 || 'Password must be at least 8 characters']"
+            :rules="[
+              val => !!val || 'Password is required',
+              val => val.length >= 8 || 'Password must be at least 8 characters',
+            ]"
             outlined
           />
           <q-input
             v-model="passwordConfirmation"
             label="Confirm Password"
             type="password"
-            :rules="[val => !!val || 'Please confirm password', val => val === password || 'Passwords do not match']"
+            :rules="[
+              val => !!val || 'Please confirm password',
+              val => val === password || 'Passwords do not match',
+            ]"
             outlined
           />
           <div>
-            <q-btn type="submit" color="primary" label="Reset Password" class="full-width" :loading="authStore.loading" />
+            <q-btn
+              type="submit"
+              color="primary"
+              label="Reset Password"
+              class="full-width"
+              :loading="authStore.loading"
+            />
             <q-btn flat label="Back to Login" to="/auth/login" class="full-width q-mt-sm" />
           </div>
         </q-form>
@@ -53,7 +65,7 @@ const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 
-const token = ref(route.query.token as string || '');
+const token = ref((route.query.token as string) || '');
 const email = ref('');
 const password = ref('');
 const passwordConfirmation = ref('');
@@ -83,4 +95,3 @@ const onSubmit = async () => {
   }
 };
 </script>
-

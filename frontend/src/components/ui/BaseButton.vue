@@ -69,4 +69,3 @@ const buttonClass = computed(() => {
   font-weight: 500;
 }
 </style>
-

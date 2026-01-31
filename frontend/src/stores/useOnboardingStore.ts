@@ -39,19 +39,15 @@ export const useOnboardingStore = defineStore('onboarding', () => {
   }
 
   async function completeStep(stepId: number, skipped: boolean = false) {
-    try {
-      await api.put(`/onboarding/steps/${stepId}/complete`, { skipped });
-      if (progress.value) {
-        if (skipped) {
-          progress.value.skipped_steps.push(stepId);
-        } else {
-          progress.value.completed_steps.push(stepId);
-        }
-        progress.value.progress_percentage =
-          (progress.value.completed_steps.length / progress.value.total_steps) * 100;
+    await api.put(`/onboarding/steps/${stepId}/complete`, { skipped });
+    if (progress.value) {
+      if (skipped) {
+        progress.value.skipped_steps.push(stepId);
+      } else {
+        progress.value.completed_steps.push(stepId);
       }
-    } catch (error) {
-      throw error;
+      progress.value.progress_percentage =
+        (progress.value.completed_steps.length / progress.value.total_steps) * 100;
     }
   }
 
@@ -89,4 +85,3 @@ export const useOnboardingStore = defineStore('onboarding', () => {
     resetProgress,
   };
 });
-

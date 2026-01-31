@@ -7,27 +7,27 @@ const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1',
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    Accept: 'application/json',
   },
 });
 
 // Request interceptor - Add auth token
 api.interceptors.request.use(
-  (config) => {
+  config => {
     const token = localStorage.getItem('auth_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
   }
 );
 
 // Response interceptor - Handle errors
 api.interceptors.response.use(
-  (response) => {
+  response => {
     return response;
   },
   (error: AxiosError) => {
@@ -52,7 +52,7 @@ api.interceptors.response.use(
           });
           break;
 
-        case 422:
+        case 422: {
           // Validation error
           const errors = data.errors || {};
           const firstError = Object.values(errors)[0] as string[];
@@ -61,6 +61,7 @@ api.interceptors.response.use(
             message: firstError?.[0] || data.message || 'Validation error',
           });
           break;
+        }
 
         case 500:
           // Server error
@@ -92,4 +93,3 @@ api.interceptors.response.use(
 // Export API utilities
 export { api, API_ENDPOINTS };
 export default api;
-

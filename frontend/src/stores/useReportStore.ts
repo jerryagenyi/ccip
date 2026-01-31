@@ -13,7 +13,7 @@ import type {
   UpdateReportRequest,
   ReportSection,
   ReportGeneration,
-  ReportSchedule
+  ReportSchedule,
 } from '@/types';
 
 export const useReportStore = defineStore('report', () => {
@@ -39,11 +39,12 @@ export const useReportStore = defineStore('report', () => {
     if (!filters.value.search) return reports.value;
 
     const search = filters.value.search.toLowerCase();
-    return reports.value.filter(report =>
-      report.title.toLowerCase().includes(search) ||
-      report.description.toLowerCase().includes(search) ||
-      report.type.toLowerCase().includes(search) ||
-      report.status.toLowerCase().includes(search)
+    return reports.value.filter(
+      report =>
+        report.title.toLowerCase().includes(search) ||
+        report.description.toLowerCase().includes(search) ||
+        report.type.toLowerCase().includes(search) ||
+        report.status.toLowerCase().includes(search)
     );
   });
 
@@ -73,7 +74,7 @@ export const useReportStore = defineStore('report', () => {
       const queryParams: any = {
         page: currentPage.value,
         perPage: perPage.value,
-        ...filters.value
+        ...filters.value,
       };
 
       // Convert arrays to strings
@@ -82,10 +83,9 @@ export const useReportStore = defineStore('report', () => {
       if (queryParams.period) queryParams.period = queryParams.period.join(',');
       if (queryParams.tags) queryParams.tags = queryParams.tags.join(',');
 
-      const response = await api.get<PaginatedResponse<Report>>(
-        API_ENDPOINTS.REPORTS.LIST,
-        { params: queryParams }
-      );
+      const response = await api.get<PaginatedResponse<Report>>(API_ENDPOINTS.REPORTS.LIST, {
+        params: queryParams,
+      });
 
       reports.value = response.data.data;
       total.value = response.data.meta.total;
@@ -109,9 +109,7 @@ export const useReportStore = defineStore('report', () => {
     error.value = null;
 
     try {
-      const response = await api.get<ApiResponse<Report>>(
-        API_ENDPOINTS.REPORTS.DETAIL(id)
-      );
+      const response = await api.get<ApiResponse<Report>>(API_ENDPOINTS.REPORTS.DETAIL(id));
 
       currentReport.value = response.data.data;
       return response.data.data;
@@ -128,10 +126,7 @@ export const useReportStore = defineStore('report', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<Report>>(
-        API_ENDPOINTS.REPORTS.CREATE,
-        data
-      );
+      const response = await api.post<ApiResponse<Report>>(API_ENDPOINTS.REPORTS.CREATE, data);
 
       const newReport = response.data.data;
       reports.value.unshift(newReport);
@@ -151,15 +146,12 @@ export const useReportStore = defineStore('report', () => {
     error.value = null;
 
     try {
-      const response = await api.put<ApiResponse<Report>>(
-        API_ENDPOINTS.REPORTS.UPDATE(id),
-        data
-      );
+      const response = await api.put<ApiResponse<Report>>(API_ENDPOINTS.REPORTS.UPDATE(id), data);
 
       const updatedReport = response.data.data;
 
       // Update in reports list
-      const index = reports.value.findIndex((report) => report.id === id);
+      const index = reports.value.findIndex(report => report.id === id);
       if (index !== -1) {
         reports.value[index] = updatedReport;
       }
@@ -186,7 +178,7 @@ export const useReportStore = defineStore('report', () => {
       await api.delete(API_ENDPOINTS.REPORTS.DELETE(id));
 
       // Remove from reports list
-      reports.value = reports.value.filter((report) => report.id !== id);
+      reports.value = reports.value.filter(report => report.id !== id);
       total.value -= 1;
 
       // Clear current report if it matches
@@ -195,9 +187,7 @@ export const useReportStore = defineStore('report', () => {
       }
 
       // Remove from selection
-      selectedReports.value = selectedReports.value.filter(
-        (selectedId) => selectedId !== id
-      );
+      selectedReports.value = selectedReports.value.filter(selectedId => selectedId !== id);
 
       return true;
     } catch (err: any) {
@@ -238,19 +228,19 @@ export const useReportStore = defineStore('report', () => {
     error.value = null;
 
     try {
-      const response = await api.get(
-        API_ENDPOINTS.REPORTS.DOWNLOAD(id),
-        {
-          params: { format },
-          responseType: 'blob'
-        }
-      );
+      const response = await api.get(API_ENDPOINTS.REPORTS.DOWNLOAD(id), {
+        params: { format },
+        responseType: 'blob',
+      });
 
       // Create download link
       const blob = new Blob([response.data], {
-        type: format === 'pdf' ? 'application/pdf' :
-              format === 'docx' ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
-              'text/html'
+        type:
+          format === 'pdf'
+            ? 'application/pdf'
+            : format === 'docx'
+              ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+              : 'text/html',
       });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -323,7 +313,7 @@ export const useReportStore = defineStore('report', () => {
       const updatedTemplate = response.data.data;
 
       // Update in templates list
-      const index = templates.value.findIndex((template) => template.id === id);
+      const index = templates.value.findIndex(template => template.id === id);
       if (index !== -1) {
         templates.value[index] = updatedTemplate;
       }
@@ -345,7 +335,7 @@ export const useReportStore = defineStore('report', () => {
       await api.delete(API_ENDPOINTS.REPORTS.DELETE_TEMPLATE(id));
 
       // Remove from templates list
-      templates.value = templates.value.filter((template) => template.id !== id);
+      templates.value = templates.value.filter(template => template.id !== id);
 
       return true;
     } catch (err: any) {
@@ -392,10 +382,7 @@ export const useReportStore = defineStore('report', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<Report>>(
-        API_ENDPOINTS.REPORTS.GENERATE_AI,
-        data
-      );
+      const response = await api.post<ApiResponse<Report>>(API_ENDPOINTS.REPORTS.GENERATE_AI, data);
 
       const aiReport = response.data.data;
       reports.value.unshift(aiReport);
@@ -421,7 +408,7 @@ export const useReportStore = defineStore('report', () => {
   }
 
   function selectAllReports() {
-    selectedReports.value = reports.value.map((report) => report.id);
+    selectedReports.value = reports.value.map(report => report.id);
   }
 
   function clearSelection() {
@@ -429,9 +416,7 @@ export const useReportStore = defineStore('report', () => {
   }
 
   function deleteSelectedReports() {
-    return Promise.all(
-      selectedReports.value.map((id) => deleteReport(id))
-    );
+    return Promise.all(selectedReports.value.map(id => deleteReport(id)));
   }
 
   // Bulk operations
@@ -440,16 +425,16 @@ export const useReportStore = defineStore('report', () => {
     error.value = null;
 
     try {
-      const response = await api.post<ApiResponse<Report[]>>(
-        API_ENDPOINTS.REPORTS.BULK_UPDATE,
-        { ids, data }
-      );
+      const response = await api.post<ApiResponse<Report[]>>(API_ENDPOINTS.REPORTS.BULK_UPDATE, {
+        ids,
+        data,
+      });
 
       const updatedReports = response.data.data;
 
       // Update in reports list
-      updatedReports.forEach((updatedReport) => {
-        const index = reports.value.findIndex((report) => report.id === updatedReport.id);
+      updatedReports.forEach(updatedReport => {
+        const index = reports.value.findIndex(report => report.id === updatedReport.id);
         if (index !== -1) {
           reports.value[index] = updatedReport;
         }
@@ -487,7 +472,7 @@ export const useReportStore = defineStore('report', () => {
   function setFilters(newFilters: Partial<ReportFilters>) {
     fetchReports({
       page: 1,
-      filters: { ...filters.value, ...newFilters }
+      filters: { ...filters.value, ...newFilters },
     });
   }
 

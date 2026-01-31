@@ -5,16 +5,15 @@
         <q-icon name="psychology" class="q-mr-sm" />
         AI Semiotic Analysis
       </div>
-      <div class="text-caption">
-        Analyze the semiotic effectiveness of your activity message
-      </div>
+      <div class="text-caption">Analyze the semiotic effectiveness of your activity message</div>
     </q-card-section>
 
     <q-card-section v-if="!loading && !analysis">
       <div class="text-center q-pa-lg">
         <q-icon name="psychology" size="4rem" color="primary" class="q-mb-md" />
         <p class="text-body1">
-          Run an AI-powered semiotic analysis to evaluate your message's effectiveness across different cultural contexts, languages, and demographic groups.
+          Run an AI-powered semiotic analysis to evaluate your message's effectiveness across
+          different cultural contexts, languages, and demographic groups.
         </p>
         <q-btn
           color="primary"
@@ -29,11 +28,10 @@
     <q-card-section v-if="loading" class="q-pa-lg">
       <div class="text-center">
         <q-spinner-dots size="3rem" color="primary" />
-        <p class="text-body1 q-mt-md">
-          Analyzing semiotic patterns...
-        </p>
+        <p class="text-body1 q-mt-md">Analyzing semiotic patterns...</p>
         <div class="text-caption text-grey-6">
-          This may take a few moments as our AI evaluates cultural appropriateness, linguistic effectiveness, and visual communication strategies.
+          This may take a few moments as our AI evaluates cultural appropriateness, linguistic
+          effectiveness, and visual communication strategies.
         </div>
       </div>
     </q-card-section>
@@ -42,9 +40,7 @@
       <!-- Overall Risk Score -->
       <q-card flat bordered class="q-mb-md">
         <q-card-section class="bg-grey-2">
-          <div class="text-h6 text-weight-medium">
-            Overall Risk Score
-          </div>
+          <div class="text-h6 text-weight-medium">Overall Risk Score</div>
         </q-card-section>
         <q-card-section>
           <div class="row items-center q-gutter-md">
@@ -65,7 +61,8 @@
             </div>
             <div class="col">
               <div class="text-subtitle2 q-mt-sm">
-                Risk Level: <span class="text-weight-bold" :class="`text-${getRiskColor(analysis.riskScore)}`">
+                Risk Level:
+                <span class="text-weight-bold" :class="`text-${getRiskColor(analysis.riskScore)}`">
                   {{ getRiskLevel(analysis.riskScore) }}
                 </span>
               </div>
@@ -99,8 +96,22 @@
           <q-list>
             <q-item v-for="(item, index) in analysis.culturalAppropriateness.issues" :key="index">
               <q-item-section avatar>
-                <q-icon :name="item.severity === 'high' ? 'warning' : item.severity === 'medium' ? 'error' : 'info'"
-                         :color="item.severity === 'high' ? 'negative' : item.severity === 'medium' ? 'warning' : 'info'" />
+                <q-icon
+                  :name="
+                    item.severity === 'high'
+                      ? 'warning'
+                      : item.severity === 'medium'
+                        ? 'error'
+                        : 'info'
+                  "
+                  :color="
+                    item.severity === 'high'
+                      ? 'negative'
+                      : item.severity === 'medium'
+                        ? 'warning'
+                        : 'info'
+                  "
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{ item.message }}</q-item-label>
@@ -187,21 +198,9 @@
           icon="download"
           @click="downloadReport"
         />
-        <q-btn
-          flat
-          color="primary"
-          label="Re-run Analysis"
-          icon="refresh"
-          @click="runAnalysis"
-        />
+        <q-btn flat color="primary" label="Re-run Analysis" icon="refresh" @click="runAnalysis" />
         <q-space />
-        <q-btn
-          flat
-          color="negative"
-          label="Clear Results"
-          icon="clear"
-          @click="clearAnalysis"
-        />
+        <q-btn flat color="negative" label="Clear Results" icon="clear" @click="clearAnalysis" />
       </div>
     </q-card-section>
   </q-card>
@@ -245,13 +244,13 @@ async function runAnalysis() {
     $q.notify({
       type: 'positive',
       message: 'Analysis completed successfully',
-      position: 'top'
+      position: 'top',
     });
   } catch (error) {
     $q.notify({
       type: 'negative',
       message: 'Failed to run analysis',
-      position: 'top'
+      position: 'top',
     });
     console.error('Semiotic analysis error:', error);
   } finally {
@@ -271,42 +270,44 @@ function generateMockAnalysis(activityData: any): SemioticAssessment {
         {
           severity: 'medium',
           message: 'Message may need adaptation for rural audiences',
-          recommendation: 'Consider using local proverbs or examples to improve resonance'
+          recommendation: 'Consider using local proverbs or examples to improve resonance',
         },
         {
           severity: 'low',
           message: 'Language is generally appropriate',
-          recommendation: 'Minor adjustments may improve clarity'
-        }
-      ]
+          recommendation: 'Minor adjustments may improve clarity',
+        },
+      ],
     },
     linguisticEffectiveness: {
       score: baseScore + Math.floor(Math.random() * 15),
       suggestions: [
         'Use simpler vocabulary for broader audience comprehension',
         'Consider adding visual aids to reinforce key messages',
-        'Incorporate local idioms or phrases for better engagement'
-      ]
+        'Incorporate local idioms or phrases for better engagement',
+      ],
     },
     visualCommunication: {
       score: baseScore + Math.floor(Math.random() * 10),
       recommendations: [
         {
           category: 'Color Psychology',
-          description: 'Consider using colors that resonate with local cultural significance. Avoid colors that may have negative connotations in target regions.'
+          description:
+            'Consider using colors that resonate with local cultural significance. Avoid colors that may have negative connotations in target regions.',
         },
         {
           category: 'Symbol Selection',
-          description: 'Ensure symbols and imagery are culturally appropriate and easily recognizable by the target demographic.'
-        }
-      ]
+          description:
+            'Ensure symbols and imagery are culturally appropriate and easily recognizable by the target demographic.',
+        },
+      ],
     },
     recommendations: [
       'Conduct pilot testing with sample audience',
       'Include feedback mechanisms for continuous improvement',
-      'Consider multiple language versions for diverse audiences'
+      'Consider multiple language versions for diverse audiences',
     ],
-    generatedAt: new Date().toISOString()
+    generatedAt: new Date().toISOString(),
   };
 }
 
@@ -342,7 +343,7 @@ function downloadReport() {
   const reportData = {
     activity: props.activityData,
     analysis: analysis.value,
-    generatedAt: new Date().toISOString()
+    generatedAt: new Date().toISOString(),
   };
 
   // Create a blob and download
@@ -357,7 +358,7 @@ function downloadReport() {
   $q.notify({
     type: 'positive',
     message: 'Analysis report downloaded',
-    position: 'top'
+    position: 'top',
   });
 }
 

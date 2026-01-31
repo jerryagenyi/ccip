@@ -5,9 +5,7 @@
         <q-icon name="auto_awesome" class="q-mr-sm" />
         AI Report Generator
       </div>
-      <div class="text-caption">
-        Generate comprehensive reports powered by AI analysis
-      </div>
+      <div class="text-caption">Generate comprehensive reports powered by AI analysis</div>
     </q-card-section>
 
     <q-card-section v-if="!report && !generating">
@@ -60,7 +58,7 @@
             map-options
             use-chips
             clearable
-            :rules="[val => val && val.length > 0 || 'At least one activity must be selected']"
+            :rules="[val => (val && val.length > 0) || 'At least one activity must be selected']"
             hint="Choose activities to include in the report"
           />
         </div>
@@ -155,51 +153,28 @@
     <q-card-section v-if="generating" class="q-pa-lg">
       <div class="text-center">
         <q-spinner-dots size="3rem" color="primary" />
-        <p class="text-h6 q-mt-md">
-          Generating Report...
-        </p>
+        <p class="text-h6 q-mt-md">Generating Report...</p>
         <div class="text-body2 text-grey-6 q-mb-lg">
           Our AI is analyzing the selected activities and creating a comprehensive report
         </div>
 
         <!-- Progress Steps -->
-        <q-stepper
-          v-model="generationStep"
-          vertical
-          color="primary"
-          animated
-          flat
-        >
+        <q-stepper v-model="generationStep" vertical color="primary" animated flat>
           <q-step
             :name="1"
             title="Analyzing Activities"
             icon="analytics"
             :done="generationStep > 1"
           />
-          <q-step
-            :name="2"
-            title="Processing Data"
-            icon="data_usage"
-            :done="generationStep > 2"
-          />
+          <q-step :name="2" title="Processing Data" icon="data_usage" :done="generationStep > 2" />
           <q-step
             :name="3"
             title="Generating Insights"
             icon="psychology"
             :done="generationStep > 3"
           />
-          <q-step
-            :name="4"
-            title="Creating Report"
-            icon="description"
-            :done="generationStep > 4"
-          />
-          <q-step
-            :name="5"
-            title="Finalizing"
-            icon="check_circle"
-            :done="generationStep > 5"
-          />
+          <q-step :name="4" title="Creating Report" icon="description" :done="generationStep > 4" />
+          <q-step :name="5" title="Finalizing" icon="check_circle" :done="generationStep > 5" />
         </q-stepper>
 
         <!-- Estimated Time -->
@@ -214,17 +189,10 @@
       <div class="row items-center q-mb-md">
         <div class="col">
           <div class="text-h6">Report Generated Successfully</div>
-          <div class="text-caption text-grey-6">
-            Created on {{ formatDate(report.createdAt) }}
-          </div>
+          <div class="text-caption text-grey-6">Created on {{ formatDate(report.createdAt) }}</div>
         </div>
         <div class="col-auto">
-          <q-btn
-            flat
-            round
-            icon="close"
-            @click="clearReport"
-          />
+          <q-btn flat round icon="close" @click="clearReport" />
         </div>
       </div>
 
@@ -241,11 +209,7 @@
         <q-card-section>
           <div class="text-subtitle2 q-mb-sm">Key Insights</div>
           <q-list>
-            <q-item
-              v-for="(insight, index) in report.insights"
-              :key="index"
-              dense
-            >
+            <q-item v-for="(insight, index) in report.insights" :key="index" dense>
               <q-item-section avatar>
                 <q-icon name="lightbulb" color="info" />
               </q-item-section>
@@ -259,32 +223,11 @@
 
       <!-- Action Buttons -->
       <div class="row q-mt-lg q-gutter-sm">
-        <q-btn
-          color="primary"
-          label="View Full Report"
-          icon="visibility"
-          @click="viewReport"
-        />
-        <q-btn
-          color="secondary"
-          label="Download PDF"
-          icon="download"
-          @click="downloadReport"
-        />
-        <q-btn
-          color="info"
-          label="Edit Report"
-          icon="edit"
-          @click="editReport"
-        />
+        <q-btn color="primary" label="View Full Report" icon="visibility" @click="viewReport" />
+        <q-btn color="secondary" label="Download PDF" icon="download" @click="downloadReport" />
+        <q-btn color="info" label="Edit Report" icon="edit" @click="editReport" />
         <q-space />
-        <q-btn
-          flat
-          color="primary"
-          label="Generate Another"
-          icon="refresh"
-          @click="resetForm"
-        />
+        <q-btn flat color="primary" label="Generate Another" icon="refresh" @click="resetForm" />
       </div>
     </q-card-section>
   </q-card>
@@ -320,14 +263,14 @@ const formData = ref({
   audience: '',
   includeRecommendations: true,
   includeVisualizations: true,
-  customInstructions: ''
+  customInstructions: '',
 });
 
 const generationOptions = ref([
   'executive-summary',
   'data-visualization',
   'comparative-analysis',
-  'trend-analysis'
+  'trend-analysis',
 ]);
 
 const reportTypeOptions = [
@@ -337,39 +280,39 @@ const reportTypeOptions = [
   { label: 'Semiotic Analysis', value: 'semiotic-analysis' },
   { label: 'Stakeholder Update', value: 'stakeholder-update' },
   { label: 'Research Findings', value: 'research-findings' },
-  { label: 'Incident Report', value: 'incident-report' }
+  { label: 'Incident Report', value: 'incident-report' },
 ];
 
 const toneOptions = [
   { label: 'Professional', value: 'professional' },
   { label: 'Casual', value: 'casual' },
-  { label: 'Academic', value: 'academic' }
+  { label: 'Academic', value: 'academic' },
 ];
 
 const generationOptionList = [
   {
     label: 'Include executive summary',
-    value: 'executive-summary'
+    value: 'executive-summary',
   },
   {
     label: 'Generate data visualizations',
-    value: 'data-visualization'
+    value: 'data-visualization',
   },
   {
     label: 'Perform comparative analysis',
-    value: 'comparative-analysis'
+    value: 'comparative-analysis',
   },
   {
     label: 'Include trend analysis',
-    value: 'trend-analysis'
-  }
+    value: 'trend-analysis',
+  },
 ];
 
 const activityOptions = computed(() =>
   activities.value.map(activity => ({
     label: `${activity.title} (${activity.type})`,
     value: activity.id,
-    caption: activity.description
+    caption: activity.description,
   }))
 );
 
@@ -410,7 +353,7 @@ async function generateReport() {
       audience: formData.value.audience,
       includeRecommendations: formData.value.includeRecommendations,
       includeVisualizations: formData.value.includeVisualizations,
-      customInstructions: formData.value.customInstructions
+      customInstructions: formData.value.customInstructions,
     });
 
     // Simulate delay for demo
@@ -422,13 +365,13 @@ async function generateReport() {
     $q.notify({
       type: 'positive',
       message: 'Report generated successfully',
-      position: 'top'
+      position: 'top',
     });
   } catch (error) {
     $q.notify({
       type: 'negative',
       message: 'Failed to generate report',
-      position: 'top'
+      position: 'top',
     });
     console.error('Report generation error:', error);
   } finally {
@@ -449,13 +392,13 @@ async function downloadReport() {
       $q.notify({
         type: 'positive',
         message: 'Report downloaded successfully',
-        position: 'top'
+        position: 'top',
       });
     } catch (error) {
       $q.notify({
         type: 'negative',
         message: 'Failed to download report',
-        position: 'top'
+        position: 'top',
       });
     }
   }
@@ -482,7 +425,7 @@ function resetForm() {
     audience: '',
     includeRecommendations: true,
     includeVisualizations: true,
-    customInstructions: ''
+    customInstructions: '',
   };
   generationStep.value = 1;
 }

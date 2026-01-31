@@ -64,12 +64,7 @@
                   hint="Email cannot be changed"
                 />
                 <div class="row justify-end q-mt-md">
-                  <q-btn
-                    color="primary"
-                    label="Save Changes"
-                    type="submit"
-                    :loading="saving"
-                  />
+                  <q-btn color="primary" label="Save Changes" type="submit" :loading="saving" />
                 </div>
               </q-form>
             </q-card-section>
@@ -135,12 +130,7 @@
                 />
 
                 <div class="row justify-end q-mt-md">
-                  <q-btn
-                    color="primary"
-                    label="Save Preferences"
-                    type="submit"
-                    :loading="saving"
-                  />
+                  <q-btn color="primary" label="Save Preferences" type="submit" :loading="saving" />
                 </div>
               </q-form>
             </q-card-section>
@@ -349,4 +339,3 @@ onMounted(async () => {
   background-color: #f5f5f5;
 }
 </style>
-

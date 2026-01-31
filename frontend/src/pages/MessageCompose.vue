@@ -3,12 +3,7 @@
     <div class="q-pa-md">
       <!-- Page Header -->
       <div class="row items-center q-mb-md">
-        <q-btn
-          flat
-          round
-          icon="arrow_back"
-          @click="$router.push('/messages')"
-        />
+        <q-btn flat round icon="arrow_back" @click="$router.push('/messages')" />
         <div class="col q-ml-md">
           <div class="text-h4 text-weight-bold">Compose Message</div>
           <div class="text-subtitle1 text-grey-7">Send a message to team members</div>
@@ -36,9 +31,7 @@
                 >
                   <template #no-option>
                     <q-item>
-                      <q-item-section class="text-grey">
-                        No users found
-                      </q-item-section>
+                      <q-item-section class="text-grey"> No users found </q-item-section>
                     </q-item>
                   </template>
                 </q-select>
@@ -93,19 +86,11 @@
             />
 
             <!-- Urgent Toggle -->
-            <q-checkbox
-              v-model="formData.is_urgent"
-              label="Mark as urgent"
-              color="red"
-            />
+            <q-checkbox v-model="formData.is_urgent" label="Mark as urgent" color="red" />
 
             <!-- Actions -->
             <div class="row justify-end q-mt-lg">
-              <q-btn
-                flat
-                label="Cancel"
-                @click="$router.push('/messages')"
-              />
+              <q-btn flat label="Cancel" @click="$router.push('/messages')" />
               <q-btn
                 color="primary"
                 label="Send Message"
@@ -160,18 +145,18 @@ const roleOptions = [
 function filterUsers(val: string, update: (callback: () => void) => void) {
   update(() => {
     if (val === '') {
-      userOptions.value = allUsers.value.map((user) => ({
+      userOptions.value = allUsers.value.map(user => ({
         label: `${user.name} (${user.email})`,
         value: user.id,
       }));
     } else {
       const needle = val.toLowerCase();
       userOptions.value = allUsers.value
-        .filter((user) =>
-          user.name?.toLowerCase().includes(needle) ||
-          user.email?.toLowerCase().includes(needle)
+        .filter(
+          user =>
+            user.name?.toLowerCase().includes(needle) || user.email?.toLowerCase().includes(needle)
         )
-        .map((user) => ({
+        .map(user => ({
           label: `${user.name} (${user.email})`,
           value: user.id,
         }));
@@ -220,7 +205,7 @@ async function loadUsers() {
   try {
     // Assuming there's a fetchUsers method in userStore
     // If not, this would need to be implemented
-    const users = await userStore.fetchUsers?.() || [];
+    const users = (await userStore.fetchUsers?.()) || [];
     allUsers.value = users;
     userOptions.value = users.map((user: any) => ({
       label: `${user.name} (${user.email})`,
@@ -234,7 +219,7 @@ async function loadUsers() {
 async function loadOrganisations() {
   try {
     await organisationStore.fetchOrganisations();
-    organisationOptions.value = organisationStore.organisations.map((org) => ({
+    organisationOptions.value = organisationStore.organisations.map(org => ({
       label: org.name,
       value: org.id,
     }));

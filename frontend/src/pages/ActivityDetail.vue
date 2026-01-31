@@ -11,12 +11,7 @@
       <div v-else>
         <!-- Header -->
         <div class="row items-center q-mb-md">
-          <q-btn
-            flat
-            round
-            icon="arrow_back"
-            @click="$router.push('/activities')"
-          />
+          <q-btn flat round icon="arrow_back" @click="$router.push('/activities')" />
           <div class="col q-ml-md">
             <div class="row items-center q-gutter-sm">
               <div class="text-h4 text-weight-bold">{{ activity.title }}</div>
@@ -45,11 +40,7 @@
               icon="send"
               @click="submitActivity"
             />
-            <q-btn
-              flat
-              round
-              icon="more_vert"
-            >
+            <q-btn flat round icon="more_vert">
               <q-menu>
                 <q-list>
                   <q-item clickable @click="editActivity">
@@ -229,11 +220,7 @@
               <q-card-section>
                 <div class="text-h6 q-mb-md">Evidence Files</div>
                 <q-list v-if="activity.evidence && activity.evidence.length > 0" separator>
-                  <q-item
-                    v-for="file in activity.evidence"
-                    :key="file.id"
-                    clickable
-                  >
+                  <q-item v-for="file in activity.evidence" :key="file.id" clickable>
                     <q-item-section avatar>
                       <q-icon :name="getFileIcon(file.file_type)" size="32px" />
                     </q-item-section>
@@ -242,13 +229,7 @@
                       <q-item-label caption>{{ file.file_type }}</q-item-label>
                     </q-item-section>
                     <q-item-section side>
-                      <q-btn
-                        flat
-                        round
-                        dense
-                        icon="download"
-                        @click="downloadFile(file)"
-                      />
+                      <q-btn flat round dense icon="download" @click="downloadFile(file)" />
                     </q-item-section>
                   </q-item>
                 </q-list>

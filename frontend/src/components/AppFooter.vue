@@ -5,9 +5,7 @@
       <template v-if="organisationName">
         {{ organisationName }} • Powered by CCIP v{{ appVersion }}
       </template>
-      <template v-else>
-        Powered by CCIP v{{ appVersion }}
-      </template>
+      <template v-else> Powered by CCIP v{{ appVersion }} </template>
     </p>
   </footer>
 </template>
@@ -57,4 +55,3 @@ const appVersion = '1.0.0';
   color: #9ca3af;
 }
 </style>
-
