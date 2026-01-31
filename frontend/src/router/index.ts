@@ -58,10 +58,13 @@ export default route(function (/* { store, ssrContext } */) {
   // Add navigation tracking for analytics (optional)
   Router.afterEach((to) => {
     // Track page view in analytics
-    if (process.env.CLIENT && typeof gtag !== 'undefined') {
-      gtag('config', 'GA_MEASUREMENT_ID', {
-        page_path: to.fullPath,
-      });
+    if (process.env.CLIENT && typeof window !== 'undefined') {
+      const { gtag } = window as Window & { gtag?: (...args: any[]) => void };
+      if (typeof gtag === 'function') {
+        gtag('config', 'GA_MEASUREMENT_ID', {
+          page_path: to.fullPath,
+        });
+      }
     }
 
     // Update page title

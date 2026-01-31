@@ -61,28 +61,20 @@ export const useNotificationStore = defineStore('notification', () => {
   }
 
   async function markAsRead(id: number) {
-    try {
-      await api.put(`/notifications/${id}/read`);
-      const notification = notifications.value.find((n) => n.id === id);
-      if (notification) {
-        notification.read_at = new Date().toISOString();
-        unreadCount.value = Math.max(0, unreadCount.value - 1);
-      }
-    } catch (error) {
-      throw error;
+    await api.put(`/notifications/${id}/read`);
+    const notification = notifications.value.find((n) => n.id === id);
+    if (notification) {
+      notification.read_at = new Date().toISOString();
+      unreadCount.value = Math.max(0, unreadCount.value - 1);
     }
   }
 
   async function markAllAsRead() {
-    try {
-      await api.put('/notifications/read-all');
-      notifications.value.forEach((n) => {
-        n.read_at = new Date().toISOString();
-      });
-      unreadCount.value = 0;
-    } catch (error) {
-      throw error;
-    }
+    await api.put('/notifications/read-all');
+    notifications.value.forEach((n) => {
+      n.read_at = new Date().toISOString();
+    });
+    unreadCount.value = 0;
   }
 
   async function fetchPreferences() {

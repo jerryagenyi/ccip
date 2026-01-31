@@ -78,14 +78,15 @@ test.describe('Vue App Mounting Debug', () => {
       );
 
       const components = [];
-      let node;
-      while (node = walker.nextNode()) {
+      let node = walker.nextNode();
+      while (node) {
         components.push({
           tagName: node.tagName,
           id: node.id,
           classes: node.className,
           attributes: Array.from(node.attributes).map(a => a.name)
         });
+        node = walker.nextNode();
       }
       return components;
     });

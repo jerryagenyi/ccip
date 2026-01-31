@@ -52,7 +52,7 @@ api.interceptors.response.use(
           });
           break;
 
-        case 422:
+        case 422: {
           // Validation error
           const errors = data.errors || {};
           const firstError = Object.values(errors)[0] as string[];
@@ -61,6 +61,7 @@ api.interceptors.response.use(
             message: firstError?.[0] || data.message || 'Validation error',
           });
           break;
+        }
 
         case 500:
           // Server error

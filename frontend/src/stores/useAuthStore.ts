@@ -18,7 +18,7 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(null);
   const loading = ref(false);
   const error = ref<string | null>(null);
-  const refreshTokenTimeout = ref<NodeJS.Timeout | null>(null);
+  const refreshTokenTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
   
   // Initialize token from localStorage lazily
   if (typeof window !== 'undefined' && localStorage) {
